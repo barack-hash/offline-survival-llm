@@ -1,0 +1,17 @@
+# Large model files — never committed
+models/
+
+# Regenerated index artifacts
+index.faiss
+chunks.pkl
+
+# Copyrighted scanned material — LOCAL ONLY, legal requirement
+corpus/own/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# macOS noise
+.DS_Store
