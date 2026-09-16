@@ -139,3 +139,19 @@ Template:
 - Requirement for remote sessions: Pi powered on at home; both devices signed into the tailnet.
 **Hardware/Tools used:** None physical.
 **Next:** Phase 5a keypad wiring (owner's hands) — or continued remote eval/tuning sessions (issue #4 retrieval robustness is the queued tuning work).
+
+## 2026-09-16 — Issue #4: hybrid BM25+vector retrieval, hit@4 94%→100%
+**Goal:** Fix query-phrasing-sensitive retrieval (issue #4) with ONE measured change.
+**Done:**
+- Built scripts/eval_retrieval.py: 16 queries with required-source labels (the 10-question battery's targets + 6 phrasing variants), runs in seconds with no LLM. This is the retrieval regression suite now.
+- **Baseline (vector-only): 15/16 = 94%** — sole miss is the issue #4 case ('harden the edge of a knife I forged' → blacksmithing book absent from top 4).
+- **Change: hybrid retrieval in main.py.** BM25 (rank_bm25) over chunk tokens + FAISS vectors, each contributing a top-20 candidate pool, merged by reciprocal rank fusion (RRF k=60). BM25 index builds in ~2 s at startup, cached. rank-bm25 added to setup.sh.
+- **After: 16/16 = 100%**, no regressions on the other 15 queries.
+- Full 10-question generation battery re-run (run 4): no regressions Q1–6, Q7 improved (now conveys the too-deep-beans caveat), Q10 still declines, Q9 critical still quotes grounded figures. Q8: blacksmithing source now retrieved, **but the 3B model still synthesizes from FM's wooden-knife chunk** — retrieval layer fixed, generation source-selection remains (noted on issue #4).
+**Mistakes/Challenges:**
+- None new this session; the probe-first discipline (measure whether TOP_K would even help before touching it — it wouldn't) paid off.
+**Improvements/Decisions:**
+- RRF over score-mixing: rank-based fusion needs no score normalization between L2 distances and BM25 scores.
+- Q9 observation: the critical answer alternates between two grounded passages (Green Pages dosage table vs fever chapter) across runs — both correct quotes; the on-device verbatim chunk display is the real safety net.
+**Hardware/Tools used:** Pi over Tailscale (`ssh pi`) — first tuning session through the new remote path.
+**Next:** Remaining issue #4 scope (generation prefers wrong retrieved chunk): candidate single changes are source-diversity ordering in the prompt, or a rerank step. Or proceed to Phase 5a when owner is home.

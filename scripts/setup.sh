@@ -34,7 +34,7 @@ cd ~/offline-survival-llm
 python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
-pip install sentence-transformers faiss-cpu pypdf llama-cpp-python pyserial
+pip install sentence-transformers faiss-cpu pypdf llama-cpp-python pyserial rank-bm25
 
 echo "== Quick test =="
 # -st (single-turn) is REQUIRED: without it, current llama.cpp builds drop

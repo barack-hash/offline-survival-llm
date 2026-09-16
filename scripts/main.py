@@ -19,6 +19,7 @@ import pickle
 import re
 
 import faiss
+from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer
 from llama_cpp import Llama
 
@@ -133,11 +134,50 @@ def load_index():
     return index, chunks
 
 
+# Hybrid retrieval (issue #4): pure vector search missed sources when the
+# query's *keywords* mattered more than its overall phrasing ("harden a
+# knife I forged" ranked the blacksmithing book 7th-10th). BM25 keyword
+# scores fused with vector ranks fix that without any per-query LLM cost.
+RRF_K = 60          # standard reciprocal-rank-fusion constant
+CANDIDATE_POOL = 20  # candidates taken from each retriever before fusion
+
+_bm25_cache = {}
+
+
+def _tokenize(text):
+    return re.findall(r"[a-z0-9]+", text.lower())
+
+
+def _get_bm25(chunks):
+    """Build (once per corpus) a BM25 index over the chunk texts.
+    ~2 s for 2801 chunks on the Pi, cached for the process lifetime."""
+    key = id(chunks)
+    if key not in _bm25_cache:
+        _bm25_cache.clear()
+        _bm25_cache[key] = BM25Okapi([_tokenize(c["text"]) for c in chunks])
+    return _bm25_cache[key]
+
+
 def retrieve(question, embedder, index, chunks, k=TOP_K):
+    # Dense (semantic) candidates
     q_emb = embedder.encode([question], convert_to_numpy=True)
-    distances, indices = index.search(q_emb, k)
-    results = [chunks[i] for i in indices[0] if i != -1]
-    return results
+    _, vec_ids = index.search(q_emb, CANDIDATE_POOL)
+
+    # Sparse (keyword) candidates
+    bm25 = _get_bm25(chunks)
+    kw_scores = bm25.get_scores(_tokenize(question))
+    kw_ids = sorted(range(len(chunks)), key=lambda i: -kw_scores[i])[:CANDIDATE_POOL]
+
+    # Reciprocal rank fusion
+    fused = {}
+    for rank, i in enumerate(vec_ids[0]):
+        if i != -1:
+            fused[i] = fused.get(i, 0.0) + 1.0 / (RRF_K + rank + 1)
+    for rank, i in enumerate(kw_ids):
+        fused[i] = fused.get(i, 0.0) + 1.0 / (RRF_K + rank + 1)
+
+    top = sorted(fused, key=fused.get, reverse=True)[:k]
+    return [chunks[i] for i in top]
 
 
 def build_messages(question, retrieved, critical=False):
