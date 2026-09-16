@@ -125,3 +125,17 @@ Template:
 - Known limitations logged rather than over-tuned at 1am: Q7 summarization garble, Q8 phrasing-sensitive retrieval (issue #4). One-change-at-a-time discipline held: n_ctx fix → model+template swap → nothing else.
 **Hardware/Tools used:** Raspberry Pi 5 over SSH all night. No physical hardware touched.
 **Next:** Phase 5a — Arduino keypad: owner wires the 4x4 keypad per keypad_serial.ino pin map, photographs wiring, flashes the sketch; then serial-mode test + multi-tap issue.
+
+## 2026-09-16 — Remote access: Tailscale, so tuning can continue from anywhere
+**Goal:** Owner wants to keep tuning/testing the Pi from work (different network) before the wiring phase.
+**Done:**
+- Installed Tailscale on the Pi (`curl -fsSL https://tailscale.com/install.sh | sh`, `sudo tailscale up`), owner authorized it; Pi is `raspberrypi` / 100.123.242.97 on the tailnet.
+- Owner installed the Tailscale macOS app and signed in (brew cask needed an admin password, so this step was theirs).
+- Verified SSH end-to-end over Tailscale; added `Host pi` alias to the Mac's ~/.ssh/config → `ssh pi` now works from any network where both machines are signed in.
+**Mistakes/Challenges:**
+- `brew install --cask tailscale` fails non-interactively (`installer -pkg` needs sudo) — Mac-side GUI installs need the owner.
+**Improvements/Decisions:**
+- Tailscale over port-forwarding/dynamic-DNS: no SSH exposed to the internet, no router config. Raspberry Pi Connect kept as an independent browser-based backup door.
+- Requirement for remote sessions: Pi powered on at home; both devices signed into the tailnet.
+**Hardware/Tools used:** None physical.
+**Next:** Phase 5a keypad wiring (owner's hands) — or continued remote eval/tuning sessions (issue #4 retrieval robustness is the queued tuning work).
