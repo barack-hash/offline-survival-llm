@@ -37,10 +37,13 @@ pip install --upgrade pip
 pip install sentence-transformers faiss-cpu pypdf llama-cpp-python pyserial
 
 echo "== Quick test =="
+# -st (single-turn) is REQUIRED: without it, current llama.cpp builds drop
+# into interactive chat mode and hang forever when run non-interactively
+# (learned the hard way — see BUILD_LOG 2026-09-15 Phase 2).
 ~/llama.cpp/build/bin/llama-cli \
   -m ~/offline-survival-llm/models/Phi-3-mini-4k-instruct-q4.gguf \
   -p "How do I start a fire with a bow drill?" \
-  -n 128
+  -n 128 -st
 
 echo ""
 echo "Setup complete. Model and llama.cpp binary are ready."

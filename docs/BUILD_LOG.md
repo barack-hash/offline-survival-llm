@@ -55,3 +55,26 @@ Template:
 - Repo not yet cloned on the Pi — docs are maintained in the Mac working copy and pushed. Phase 2 will clone the repo on the Pi.
 **Hardware/Tools used:** Raspberry Pi 5 (first hands-on session), active cooler fan (re-seated), owner's Mac as SSH client.
 **Next:** Phase 2 — clone repo on the Pi, run scripts/setup.sh (build llama.cpp, download Phi-3 Mini Q4 GGUF), benchmark tokens/sec and RAM.
+
+## 2026-09-15 — Phase 2: LLM engine built, model running, benchmarked
+**Goal:** llama.cpp built from source on the Pi, Phi-3 Mini Q4 downloaded, first answer generated, benchmarks recorded.
+**Done:**
+- Cloned barack-hash/offline-survival-llm to `~/offline-survival-llm` on the Pi.
+- `scripts/setup.sh` ran end-to-end: deps installed, llama.cpp built (build b10991-930e2fa59, -j4, ~15 min), Phi-3-mini-4k-instruct-q4.gguf downloaded (2.3GB, no URL 404), venv created with sentence-transformers/faiss-cpu/pypdf/llama-cpp-python/pyserial.
+- First on-device answer: bow-drill fire question → coherent, correct 3-step answer.
+- Benchmarks (llama-bench, CPU, 4 threads):
+  | Test | Result |
+  |---|---|
+  | pp512 (prompt processing) | 18.69 ± 0.34 t/s |
+  | tg128 (generation) | 4.74 ± 0.01 t/s |
+  | RAM during inference | 4.4GB used, **3.5GB available** (>3GB criterion met) |
+  | Temp during inference | 68.6°C, fan active, no throttling |
+- Fixed setup.sh quick-test to pass `-st` (single-turn); committed.
+**Mistakes/Challenges:**
+- **setup.sh hung forever at the quick test.** Current llama-cli defaults to interactive chat mode; run detached with no stdin it looped printing `> ` prompts. Symptom: log filled with blank prompts, and the log file eventually grew to **3.9GB**, eating SD space. Fix: killed it, trimmed the log, added `-st` to setup.sh. Lesson: never assume CLI flags/behavior are stable in fast-moving projects; run smoke tests with explicit non-interactive flags.
+- `-no-cnv` (the old non-interactive flag) is gone in build b10991: `error: invalid argument: -no-cnv`. Current flag is `-st, --single-turn`.
+- Self-inflicted: `pgrep -f "llama-cli|setup.sh"` over SSH matches the SSH session's *own* command line, and a `kill` based on it killed my own shell (ssh exit 255, looked like the Pi crashed). Lesson: use `pgrep -x` / `pgrep -fx` for exact matches.
+**Improvements/Decisions:**
+- Generation is 4.74 t/s — slightly under the 5–10 t/s expectation for Pi 5 + Q4 3.8B. Acceptable for now; potential later tunings (one at a time, per rules): Q4_0 quant with ARM dot-product kernels, `-t 4 --mlock`, or a smaller model if Phase 4 latency feels bad.
+**Hardware/Tools used:** Raspberry Pi 5 (all work over SSH). No new physical hardware.
+**Next:** Phase 3 — download public-domain corpus texts (FM 21-76 + one more), log them in CORPUS_SOURCES.md, build the RAG index, spot-check retrieval.
