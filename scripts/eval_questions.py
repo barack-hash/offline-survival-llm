@@ -41,7 +41,7 @@ def main():
     print("Loading models + index...")
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
     index, chunks = load_index()
-    llm = Llama(model_path=MODEL_PATH, n_ctx=2048, n_threads=4, verbose=False)
+    llm = Llama(model_path=MODEL_PATH, n_ctx=4096, n_threads=4, verbose=False)
 
     for i, (category, question) in enumerate(QUESTIONS, 1):
         critical = is_critical(question)

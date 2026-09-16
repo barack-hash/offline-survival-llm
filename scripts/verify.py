@@ -34,7 +34,7 @@ test_cases = [
 def main():
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
     index, chunks = load_index()
-    llm = Llama(model_path=MODEL_PATH, n_ctx=2048, n_threads=4)
+    llm = Llama(model_path=MODEL_PATH, n_ctx=4096, n_threads=4)
 
     for case in test_cases:
         question = case["question"]

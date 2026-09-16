@@ -179,7 +179,10 @@ def main():
     index, chunks = load_index()
 
     print("Loading LLM (this can take a moment on first load)...")
-    llm = Llama(model_path=MODEL_PATH, n_ctx=2048, n_threads=4)
+    # n_ctx=4096: the model is a 4k-context model, and critical mode's
+    # 8-chunk retrieval overflows 2048 (crashed with "Requested tokens
+    # (3470) exceed context window of 2048" in the Phase 4 eval).
+    llm = Llama(model_path=MODEL_PATH, n_ctx=4096, n_threads=4)
 
     input_source = get_input_source()
     print("\nOffline reference assistant ready. Type a question, or 'quit' to exit.\n")
