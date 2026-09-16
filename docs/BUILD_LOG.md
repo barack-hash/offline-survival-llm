@@ -101,3 +101,27 @@ Template:
 - Still missing, needs owner action (licensing — cannot be auto-downloaded): *Where There Is No Doctor* / *Where There Is No Dentist* (FREE, hesperian.org), *The Knowledge* (OWN — buy + scan, goes in corpus/own/, never committed).
 **Hardware/Tools used:** Raspberry Pi 5 over SSH. No new physical hardware.
 **Next:** Phase 4 — run main.py in keyboard mode, 10-question evaluation with verdicts, confirm critical mode + out-of-corpus refusal.
+
+## 2026-09-16 — Phase 4 (overnight): eval, engine swap, all criteria pass
+**Goal:** 10-question evaluation with verdicts; critical mode verified with verbatim sources; out-of-corpus refusal verified; verify.py with ≥5 real cases running clean. Owner asleep — full permission to test and fix.
+**Done:**
+- Added Hesperian books (owner-supplied PDFs): corpus/free/where-there-is-no-doctor.pdf + where-there-is-no-dentist.pdf. corpus/free/ gitignored (FREE license ≠ PD). Index rebuilt: **2801 chunks** total (Doctor 1150, FM 585, farming 415, dentist 341, blacksmithing 310), 4m53s.
+- Built scripts/eval_questions.py (fixed 10-question battery through main.py's exact pipeline) — 3 full runs + diagnostics.
+- **Run 1** (Phi-3, n_ctx 2048): 8/10 answered, template artifacts ('[Response]:', duplicated answers), then **crash** on the critical question.
+- **Run 2** (n_ctx 4096): critical question produced **complete gibberish** (word salad at temp 0); out-of-corpus rambled but didn't invent.
+- Diagnostics: gibberish reproduced with (a) chat template, (b) fresh Phi-3.1 GGUF, (c) the source-built llama-cli binary → NOT the runtime, NOT the file, NOT the prompt format. Root cause: **llama.cpp renders Phi-3's sliding-window attention (window 2047) as garbage past ~2k tokens** — exactly what critical mode's 8-chunk prompts hit.
+- **Engine swap: Qwen2.5-3B-Instruct Q4_K_M** (1.8GB, 32k native ctx) + all generation moved to main.generate_answer() using the model's chat template. Same 3.4k-token prompt now answers correctly, quoting "adults: 1 or 2 tablets (300 to 600 mg.)" verbatim from WTIND.
+- **Run 3 verdicts (Qwen):** Q1 fire/wet wood GOOD · Q2 water purification GOOD · Q3 cold shelter GOOD · Q4 edible plants GOOD · Q5 wound care GOOD · Q6 infected tooth GOOD · Q7 seed depth VAGUE (right chunks retrieved, model garbles the 1905 experiment's conclusion) · Q8 forged-knife hardening WRONG-TARGET (retrieval, see below) · Q9 aspirin dose **CRITICAL PASS** · Q10 car firmware **DECLINE PASS**.
+- End-to-end main.py keyboard-mode test (piped stdin): ⚠ safety-critical banner, all 8 raw chunks printed verbatim, corroboration = 2 sources (no warning, correct), summary quotes exact dose. **Acceptance criterion met.**
+- verify.py: 6 real test cases (incl. critical dose + out-of-corpus canary); full run clean, all sane.
+- Filed issue #4: retrieval query-phrasing sensitivity — probe showed 'harden a knife I forged' ranks blacksmithing chunks 7-10 (so TOP_K=6 wouldn't fix it), while 'harden and temper steel in a forge' ranks them 1-10. Deferred with concrete options (query expansion, hybrid BM25+vector, better embedder, header-aware chunking).
+**Mistakes/Challenges:**
+- The model swap ate the night: n_ctx crash → gibberish → 3 rounds of hypothesis elimination (template? GGUF? runtime?) before landing on the SWA/llama.cpp architecture issue. Each wrong hypothesis is logged above because the elimination order is the useful part.
+- Ran a diagnostic from /tmp: `ModuleNotFoundError: No module named 'main'` — scripts importing main.py must run with PYTHONPATH=scripts or from the scripts dir.
+- Repeated the pgrep self-match mistake from Phase 2 in a watcher (pattern matched the SSH session's own command line) — caught before it burned anything this time.
+**Improvements/Decisions:**
+- Qwen2.5-3B-Instruct is the device model now; both Phi-3 GGUFs kept in models/ (gitignored) as evidence/fallback. Qwen research license: fine for personal device use.
+- Timings (Qwen, Pi 5): normal answers 65–140s, critical (8-chunk) 160s. Prompt processing 22.3 t/s, generation ~3 t/s at long ctx.
+- Known limitations logged rather than over-tuned at 1am: Q7 summarization garble, Q8 phrasing-sensitive retrieval (issue #4). One-change-at-a-time discipline held: n_ctx fix → model+template swap → nothing else.
+**Hardware/Tools used:** Raspberry Pi 5 over SSH all night. No physical hardware touched.
+**Next:** Phase 5a — Arduino keypad: owner wires the 4x4 keypad per keypad_serial.ino pin map, photographs wiring, flashes the sketch; then serial-mode test + multi-tap issue.

@@ -1,7 +1,7 @@
 # Offline Survival LLM Device
 
 A portable, fully offline reference device: Raspberry Pi 5 running a
-local LLM (Phi-3 Mini via llama.cpp) grounded in a curated library of
+local LLM (Qwen2.5-3B-Instruct via llama.cpp) grounded in a curated library of
 public-domain survival and rebuilding manuals via RAG. Physical keypad
 input (Arduino), e-ink display, battery + solar power. Built for use
 during outages and disasters — no internet required after setup.
