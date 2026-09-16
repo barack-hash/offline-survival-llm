@@ -171,3 +171,22 @@ Template:
 - Corpus principle learned: for a reference device, coverage gaps masquerade as model stupidity. When an answer is off-subject, check what was retrievable before tuning anything.
 **Hardware/Tools used:** Pi over Tailscale.
 **Next:** Phase 5a keypad wiring (owner's hands), or further corpus expansion (knots, celestial navigation, basic chemistry per CORPUS_CHECKLIST).
+
+## 2026-09-16 — Corpus expansion: knots, navigation, chemistry (9 sources, 4310 chunks)
+**Goal:** Fill the knots / navigation / chemistry rows of CORPUS_CHECKLIST.md with PD texts.
+**Done:**
+- Added 3 Project Gutenberg texts (plain UTF-8, no OCR noise):
+  - Verrill, *Knots, Splices and Rope Work* 1912 (PG #13510) — 89 chunks
+  - Draper, *Lectures in Navigation* (US Navy course) 1917 (PG #27642) — 295 chunks
+  - McPherson & Henderson, *An Elementary Study of Chemistry* 1906 (PG #20848) — 769 chunks
+- Index rebuilt: **4310 chunks / 9 sources**. All logged in CORPUS_SOURCES.md.
+- eval_retrieval.py extended to 22 cases (2 per new source: rope joining/splicing, latitude by sun-stars, compass errors, soap from fat+lye, lime burning): **22/22 = 100%**, no regressions.
+- CORPUS_CHECKLIST.md brought up to date: 14 items now checked with what satisfied each.
+**Mistakes/Challenges:**
+- gutendex.com search API was flaky/slow (two searches returned nothing); archive.org's advancedsearch found the Gutenberg-mirrored navigation text (`lecturesinnaviga27642gut`) which gave the PG id.
+- scp brace-expansion `{a,b,c}.txt` failed against the remote path (quotes stopped local expansion) — looped single copies instead.
+**Improvements/Decisions:**
+- Checklist gaps remaining that are auto-fetchable later: solar/wind primer, food preservation/canning, carpentry/masonry, US military first-aid manual, mechanics primer, electricity primer, fiber/rope-making, radio theory. Herbal medicine deliberately deferred — needs the unverified-folk-knowledge framing decision first.
+- *The Knowledge* (Dartnell) remains the owner's OWN-license to-do.
+**Hardware/Tools used:** Pi over Tailscale.
+**Next:** Phase 5a keypad wiring, or the next corpus batch (first-aid manual + food preservation are highest-value).

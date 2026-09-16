@@ -37,6 +37,13 @@ CASES = [
     ("what should the soil be like before sowing seeds", "first-book-of-farming-1905.txt"),
     ("how to treat a snake bite", "where-there-is-no-doctor.pdf"),
     ("signs that a person is dehydrated and how to rehydrate them", "where-there-is-no-doctor.pdf"),
+    # 2026-09-16 corpus additions: knots, navigation, chemistry
+    ("what knot should I use to join two ropes of different sizes", "knots-splices-ropework-1912.txt"),
+    ("how do I splice the ends of a rope together so it holds", "knots-splices-ropework-1912.txt"),
+    ("how can I find my latitude using the sun or stars", "lectures-in-navigation-1917.txt"),
+    ("how do I use a compass and correct for its errors when navigating", "lectures-in-navigation-1917.txt"),
+    ("how is soap made from fat and lye", "elementary-chemistry-1906.txt"),
+    ("how can I make lime by burning limestone and what is it good for", "elementary-chemistry-1906.txt"),
 ]
 
 

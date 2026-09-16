@@ -10,38 +10,38 @@ use, but not public domain (check the license before wide redistribution).
 ---
 
 ## 1. Fire & Energy
-- [ ] U.S. Army Survival Manual, FM 21-76 — fire-starting methods (PD)
+- [x] U.S. Army Survival Manual, FM 21-76 — fire-starting methods (PD) — in corpus since Phase 3
 - [ ] Basic solar/wind power primer (any out-of-copyright physics/engineering text, PD)
 - [ ] Notes on your own generator/dynamo build once you've tested it (your own writing)
 
 ## 2. Water & Sanitation
-- [ ] FM 21-76 — water procurement and purification sections (PD)
-- [ ] Where There Is No Doctor (Hesperian) — sanitation chapters (FREE)
+- [x] FM 21-76 — water procurement and purification sections (PD) — in corpus since Phase 3
+- [x] Where There Is No Doctor (Hesperian) — sanitation chapters (FREE) — full book in corpus (owner-supplied PDF)
 - [ ] Basic water filtration / distillation reference (PD engineering text)
 
 ## 3. Food & Agriculture
-- [ ] FM 21-76 — edible/poisonous plants, trapping, fishing (PD)
-- [ ] Old public-domain farming/gardening manuals (pre-1929, archive.org) (PD)
+- [x] FM 21-76 — edible/poisonous plants, trapping, fishing (PD) — in corpus since Phase 3
+- [x] Old public-domain farming/gardening manuals (pre-1929, archive.org) (PD) — Goodrich, First Book of Farming 1905
 - [ ] Basic food preservation reference — canning, smoking, drying (PD or FREE)
 
 ## 4. Shelter & Construction
-- [ ] FM 21-76 — shelter building section (PD)
+- [x] FM 21-76 — shelter building section (PD) — in corpus since Phase 3
 - [ ] Basic carpentry/masonry primer, public domain edition (PD)
 - [ ] Your own notes once you test any shelter/heating builds (your own writing)
 
 ## 5. Medicine & First Aid
-- [ ] Where There Is No Doctor (Hesperian) (FREE)
-- [ ] Where There Is No Dentist (Hesperian) (FREE)
+- [x] Where There Is No Doctor (Hesperian) (FREE) — owner-supplied PDF, 2026-09-15
+- [x] Where There Is No Dentist (Hesperian) (FREE) — owner-supplied PDF, 2026-09-15
 - [ ] U.S. military first-aid field manual (PD)
 - [ ] Basic public-domain herbal medicine reference — flag clearly as unverified/folk knowledge, not medical advice
 
 ## 6. Tools & Metalworking
-- [ ] Public-domain blacksmithing/metalworking texts (pre-1929, archive.org) (PD)
+- [x] Public-domain blacksmithing/metalworking texts (pre-1929, archive.org) (PD) — Practical Blacksmithing 1889 + Woodworth 1903
 - [ ] Basic mechanics/machining primer (PD)
 - [ ] *The Knowledge* by Lewis Dartnell — metallurgy chapters (OWN)
 
 ## 7. Chemistry & Materials
-- [ ] Public-domain basic chemistry textbook (soap-making, basic acids/bases, PD)
+- [x] Public-domain basic chemistry textbook (soap-making, basic acids/bases, PD) — McPherson & Henderson 1906
 - [ ] *The Knowledge* — chemistry/materials chapters (OWN)
 
 ## 8. Electronics & Communication
@@ -50,16 +50,16 @@ use, but not public domain (check the license before wide redistribution).
 - [ ] Basic radio theory reference, if you want this covered eventually (PD)
 
 ## 9. Navigation & Orientation
-- [ ] FM 21-76 — land navigation section (PD)
-- [ ] Basic celestial navigation primer, public domain (PD)
+- [x] FM 21-76 — land navigation section (PD) — in corpus since Phase 3
+- [x] Basic celestial navigation primer, public domain (PD) — Draper, *Lectures in Navigation* 1917
 
 ## 10. Knots, Cordage & Textiles
-- [ ] Public-domain knot-tying reference (PD)
+- [x] Public-domain knot-tying reference (PD) — Verrill, *Knots, Splices and Rope Work* 1912
 - [ ] Basic fiber/rope-making and weaving primer (PD)
 
 ## 11. Foundational / Cross-Cutting References
 - [ ] *The Knowledge: How to Rebuild Civilization in the Aftermath of a Cataclysm* — Lewis Dartnell (OWN) — the single broadest reference; worth prioritizing
-- [ ] Full FM 21-76 U.S. Army Survival Manual, in case you only grab it in pieces above (PD)
+- [x] Full FM 21-76 U.S. Army Survival Manual, in case you only grab it in pieces above (PD) — full manual in corpus
 
 ---
 
