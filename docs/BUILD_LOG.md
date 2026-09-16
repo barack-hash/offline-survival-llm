@@ -78,3 +78,26 @@ Template:
 - Generation is 4.74 t/s — slightly under the 5–10 t/s expectation for Pi 5 + Q4 3.8B. Acceptable for now; potential later tunings (one at a time, per rules): Q4_0 quant with ARM dot-product kernels, `-t 4 --mlock`, or a smaller model if Phase 4 latency feels bad.
 **Hardware/Tools used:** Raspberry Pi 5 (all work over SSH). No new physical hardware.
 **Next:** Phase 3 — download public-domain corpus texts (FM 21-76 + one more), log them in CORPUS_SOURCES.md, build the RAG index, spot-check retrieval.
+
+## 2026-09-15 — Phase 3: corpus downloaded, RAG index built, retrieval verified
+**Goal:** At least 2 public-domain sources in corpus/pd/, indexed with rag_build.py, retrieval spot-checked on fire / water / shelter.
+**Done:**
+- Downloaded 3 PD texts straight onto the Pi (all as OCR/plain text, verified by reading headers — no 404s; archive.org metadata API used to find exact filenames instead of guessing URLs):
+  - fm21-76-survival-manual.txt (559KB) — FM 21-76 US Army Survival Manual
+  - first-book-of-farming-1905.txt (403KB) — Goodrich 1905, Project Gutenberg #16900
+  - practical-blacksmithing-1889.txt (315KB) — Richardson 1889, archive.org
+- All three logged in docs/CORPUS_SOURCES.md with URL/edition/license.
+- `rag_build.py`: **1310 chunks** (FM 585, farming 415, blacksmithing 310), index build **2m20s** on the Pi (embedding ~1.9s/batch of 32). index.faiss + chunks.pkl generated, correctly untracked by git.
+- Spot-checks (top-3 by L2 distance) — all **PASS**:
+  - "start a fire without matches" → FM fire-starting methods + char cloth chunks (dist 0.85–0.94)
+  - "purify water for drinking" → FM WATER PURIFICATION + seepage-basin filtration (dist 0.63–0.94)
+  - "build a shelter in the wilderness" → FM shelter-site/types + snow shelter (dist 0.62–0.72)
+**Mistakes/Challenges:**
+- Heredoc-over-SSH with escaped quotes inside an f-string broke (`SyntaxError: unexpected character after line continuation character`). Fix: write the spot-check script to a file and `scp` it — stop fighting three layers of shell quoting.
+- Gutenberg search for "blacksmithing" returned nothing; found *Practical Blacksmithing* via archive.org advanced-search API instead.
+**Improvements/Decisions:**
+- Preferred `_djvu.txt` OCR text over PDFs where available — cleaner input for chunking than pypdf extraction, and 5-10x smaller.
+- Corpus files copied back into the Mac working copy so corpus/pd/ is committed (PD texts are allowed in the public repo per .gitignore policy).
+- Still missing, needs owner action (licensing — cannot be auto-downloaded): *Where There Is No Doctor* / *Where There Is No Dentist* (FREE, hesperian.org), *The Knowledge* (OWN — buy + scan, goes in corpus/own/, never committed).
+**Hardware/Tools used:** Raspberry Pi 5 over SSH. No new physical hardware.
+**Next:** Phase 4 — run main.py in keyboard mode, 10-question evaluation with verdicts, confirm critical mode + out-of-corpus refusal.
