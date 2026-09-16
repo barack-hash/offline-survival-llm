@@ -8,6 +8,10 @@ chunks.pkl
 # Copyrighted scanned material — LOCAL ONLY, legal requirement
 corpus/own/
 
+# Freely-distributed but NOT public domain (e.g. Hesperian books) —
+# fine to use on the device, not ours to redistribute in a public repo
+corpus/free/
+
 # Python
 venv/
 __pycache__/
