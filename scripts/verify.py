@@ -18,6 +18,8 @@ from sentence_transformers import SentenceTransformer
 from llama_cpp import Llama
 
 # Add real test cases here. Keep expanding this list over time.
+# Cases below were validated against the corpus during the Phase 4
+# evaluation (2026-09-16) — known answers quote what the sources say.
 test_cases = [
     {
         "question": "What are the three things needed to start a fire?",
@@ -27,8 +29,30 @@ test_cases = [
         "question": "What temperature kills most waterborne pathogens when boiling water?",
         "known_correct_answer": "Water reaching a rolling boil (100C / 212F at sea level) for at least 1 minute.",
     },
-    # Add safety-critical examples specific to your corpus, e.g. dosages
-    # or structural figures, so you know exactly how the strict mode behaves.
+    {
+        # Safety-critical: must trigger strict mode (keyword 'dose'),
+        # show verbatim chunks, and quote the figure exactly.
+        "question": "What is the correct dose of aspirin for an adult with fever?",
+        "known_correct_answer": "Adults: 1 or 2 tablets (300 to 600 mg) every 4 to 6 hours "
+                                "(WTIND 2010 Green Pages; do not give to children under 12).",
+    },
+    {
+        "question": "How can I tell if a wild plant is safe to eat?",
+        "known_correct_answer": "FM 21-76 rules: avoid milky/discolored sap, beans/bulbs/seeds "
+                                "in pods, bitter or soapy taste, spines/fine hairs/thorns, almond "
+                                "scent; never eat mushrooms without positive identification.",
+    },
+    {
+        "question": "How do I take out a tooth that is badly infected?",
+        "known_correct_answer": "Clean the cavity, rinse with warm salt water, pain medicine, "
+                                "antibiotics if severe (penicillin/sulfonamide/tetracycline per "
+                                "WTIND); pull the tooth if pain/swelling persists or returns.",
+    },
+    {
+        # Out-of-corpus canary: the device must decline, not invent.
+        "question": "How do I update the firmware on a modern car's engine computer?",
+        "known_correct_answer": "NOT in corpus — device must say the sources don't cover this.",
+    },
 ]
 
 
