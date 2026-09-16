@@ -47,11 +47,26 @@ PLAIN_LANGUAGE_RULES = (
     "sentence."
 )
 
+# Retrieval can hand the model passages about a *different* subject than
+# the question (e.g. fire-hardening a WOODEN knife when asked about a
+# forged steel one — issue #4). The subject-match instruction below makes
+# the model filter those out instead of blending them in.
+SUBJECT_MATCH_RULE = (
+    "The reference text may contain passages about a different subject than "
+    "the question — for example a different material, tool, plant, or "
+    "ailment than the one asked about. First decide which passages are truly "
+    "about the question's subject, and answer ONLY from those. Ignore "
+    "passages about a different subject completely; do not mix their steps "
+    "or figures into the answer. If none of the passages match the "
+    "question's subject, say so plainly. "
+)
+
 SYSTEM_PROMPT = (
     "You are an offline reference assistant for survival and rebuilding basic "
     "technology after losing access to modern infrastructure. Answer ONLY using "
     "the reference text provided below. If the reference text doesn't contain "
-    "the answer, say so plainly instead of guessing. " + PLAIN_LANGUAGE_RULES
+    "the answer, say so plainly instead of guessing. "
+    + SUBJECT_MATCH_RULE + PLAIN_LANGUAGE_RULES
 )
 
 CRITICAL_SYSTEM_PROMPT = (
@@ -61,6 +76,7 @@ CRITICAL_SYSTEM_PROMPT = (
     "explicitly in the reference text below. If a number isn't stated "
     "verbatim in the text, say 'not stated in available sources' instead of "
     "guessing. Quote the exact figure and cite which source it came from. "
+    + SUBJECT_MATCH_RULE +
     "For any surrounding explanation (not the figure itself), still follow "
     "these rules: " + PLAIN_LANGUAGE_RULES
 )

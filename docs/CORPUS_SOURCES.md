@@ -7,3 +7,4 @@
 | corpus/pd/practical-blacksmithing-1889.txt | https://archive.org/download/gri_33125007986850/gri_33125007986850_djvu.txt | Richardson (ed.), *Practical Blacksmithing*, 1889 (OCR text) | PD (pre-1929) | 2026-09-15 |
 | corpus/free/where-there-is-no-doctor.pdf | hesperian.org (owner-downloaded, uploaded to project) | Werner, *Where There Is No Doctor* | FREE (Hesperian open license — device use OK, NOT committed to public repo) | 2026-09-15 |
 | corpus/free/where-there-is-no-dentist.pdf | hesperian.org (owner-downloaded, uploaded to project) | Dickson, *Where There Is No Dentist* | FREE (Hesperian open license — device use OK, NOT committed to public repo) | 2026-09-15 |
+| corpus/pd/hardening-tempering-steel-1903.txt | https://archive.org/download/hardeningtemper00woodgoog/hardeningtemper00woodgoog_djvu.txt | Woodworth, *Hardening, Tempering, Annealing and Forging of Steel*, 1903 (OCR text) | PD (pre-1929) | 2026-09-16 |

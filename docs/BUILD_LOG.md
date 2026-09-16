@@ -155,3 +155,19 @@ Template:
 - Q9 observation: the critical answer alternates between two grounded passages (Green Pages dosage table vs fever chapter) across runs — both correct quotes; the on-device verbatim chunk display is the real safety net.
 **Hardware/Tools used:** Pi over Tailscale (`ssh pi`) — first tuning session through the new remote path.
 **Next:** Remaining issue #4 scope (generation prefers wrong retrieved chunk): candidate single changes are source-diversity ordering in the prompt, or a rerank step. Or proceed to Phase 5a when owner is home.
+
+## 2026-09-16 — Issue #4 closed: the "generation bug" was a corpus gap
+**Goal:** Fix the generation side of issue #4 (model answered the forged-knife question from FM's wooden-knife passage even after retrieval was fixed).
+**Done:**
+- **Change 1 — subject-match prompt rule** (SUBJECT_MATCH_RULE in main.py, added to both system prompts): tells the model to answer only from passages about the question's actual subject and to say so if none match. Q8-only test: did NOT fix Q8. Full battery (run 5): kept anyway — zero regressions, Q6 (tooth extraction) markedly better, Q10 decline crisper.
+- **Diagnosis that mattered:** dumped Q8's retrieved chunks — FM's are stone/bone/wood knife content and the 1889 blacksmithing chunk is about re-entering angles. `grep -ci temper practical-blacksmithing-1889.txt` = 21, mostly anvils/dies. **The corpus never contained usable blade-hardening instructions.** No prompt or retriever can fix a missing book.
+- **Change 2 — fill the gap:** added Woodworth, *Hardening, Tempering, Annealing and Forging of Steel* (1903, PD, archive.org OCR text, 382 'temper' mentions). Index rebuilt: **3157 chunks / 6 sources** (Woodworth 356).
+- Results: eval_retrieval still **16/16** under a stricter expectation (Woodworth must now surface for both blade queries). Q8 retest: correct bladesmithing answer — heat edge to cherry red, oil-quench the edge then let it down into water, warp-straightening tip. Issue #4 closed.
+**Mistakes/Challenges:**
+- Spent one change chasing a prompt fix for what was actually missing data. The chunk-dump diagnosis should have come FIRST — 'look at what the model was actually given' is cheaper than any tuning run. Logged as the session's lesson.
+- Q9 (aspirin, runs 4-5): the model garbles "adults under 12 years old" when summarizing the fever-chapter table. The quoted figures stay correct and the device shows raw chunks in critical mode, but this is a standing reminder that the summary line is the weakest link — the verbatim display is the safety net.
+**Improvements/Decisions:**
+- eval_retrieval.py knife/temper cases now expect hardening-tempering-steel-1903.txt (the metric got stricter, intentionally).
+- Corpus principle learned: for a reference device, coverage gaps masquerade as model stupidity. When an answer is off-subject, check what was retrievable before tuning anything.
+**Hardware/Tools used:** Pi over Tailscale.
+**Next:** Phase 5a keypad wiring (owner's hands), or further corpus expansion (knots, celestial navigation, basic chemistry per CORPUS_CHECKLIST).

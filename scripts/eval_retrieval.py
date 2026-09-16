@@ -25,10 +25,12 @@ CASES = [
     ("How should I clean and cover a deep cut so it does not get infected?", "where-there-is-no-doctor.pdf"),
     ("How do I take out a tooth that is badly infected?", "where-there-is-no-dentist.pdf"),
     ("How deep should I plant large seeds like beans compared to small seeds?", "first-book-of-farming-1905.txt"),
-    ("How do I harden the edge of a knife I forged so it stays sharp?", "practical-blacksmithing-1889.txt"),  # issue #4 case
+    # issue #4 case — expected source upgraded to Woodworth 1903 once it
+    # was added to the corpus (the 1889 book has no blade-hardening how-to)
+    ("How do I harden the edge of a knife I forged so it stays sharp?", "hardening-tempering-steel-1903.txt"),
     ("What is the correct dose of aspirin for an adult with fever?", "where-there-is-no-doctor.pdf"),
     # Phrasing variants and additional single-source topics
-    ("how to temper a steel blade after forging it", "practical-blacksmithing-1889.txt"),
+    ("how to temper a steel blade after forging it", "hardening-tempering-steel-1903.txt"),
     ("how do I weld two pieces of iron together in a forge", "practical-blacksmithing-1889.txt"),
     ("my tooth hurts and my gums are swollen, what do I do", "where-there-is-no-dentist.pdf"),
     ("when should seedlings be moved from the seed bed to the field", "first-book-of-farming-1905.txt"),
