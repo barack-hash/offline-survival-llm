@@ -10,11 +10,12 @@ How to use:
      grading, it's a structured way to force yourself to actually check.
 """
 
-from main import load_index, retrieve, build_prompt, is_critical, CRITICAL_TOP_K, TOP_K
+from main import (
+    load_index, retrieve, generate_answer, is_critical,
+    CRITICAL_TOP_K, TOP_K, MODEL_PATH,
+)
 from sentence_transformers import SentenceTransformer
 from llama_cpp import Llama
-
-MODEL_PATH = "models/Phi-3-mini-4k-instruct-q4.gguf"
 
 # Add real test cases here. Keep expanding this list over time.
 test_cases = [
@@ -41,10 +42,8 @@ def main():
         critical = is_critical(question)
         k = CRITICAL_TOP_K if critical else TOP_K
         retrieved = retrieve(question, embedder, index, chunks, k=k)
-        prompt = build_prompt(question, retrieved, critical=critical)
-
-        output = llm(prompt, max_tokens=300, temperature=0.0 if critical else 0.3, stop=["QUESTION:"])
-        answer = output["choices"][0]["text"].strip()
+        answer = generate_answer(llm, question, retrieved, critical=critical,
+                                 max_tokens=300).strip()
 
         print("=" * 70)
         print(f"Q: {question}")

@@ -24,7 +24,11 @@ from llama_cpp import Llama
 
 INDEX_PATH = "index.faiss"
 CHUNKS_PATH = "chunks.pkl"
-MODEL_PATH = "models/Phi-3-mini-4k-instruct-q4.gguf"
+# Qwen2.5-3B-Instruct replaced Phi-3 Mini: llama.cpp renders Phi-3's
+# sliding-window attention as gibberish beyond ~2047 tokens, which broke
+# critical mode's 8-chunk prompts (see BUILD_LOG 2026-09-16). Qwen2.5-3B
+# has 32k native context and answered the same prompt correctly.
+MODEL_PATH = "models/Qwen2.5-3B-Instruct-Q4_K_M.gguf"
 TOP_K = 4  # how many chunks to retrieve per question
 CRITICAL_TOP_K = 8  # pull more candidates when checking for corroboration
 
@@ -136,17 +140,31 @@ def retrieve(question, embedder, index, chunks, k=TOP_K):
     return results
 
 
-def build_prompt(question, retrieved, critical=False):
+def build_messages(question, retrieved, critical=False):
+    """Chat-format messages. Using the model's own chat template (via
+    create_chat_completion) instead of a raw completion prompt — raw
+    prompts produced template artifacts and duplicated answers with
+    instruct-tuned models in the Phase 4 eval."""
     context = "\n\n".join(
         f"[Source: {r['source']}]\n{r['text']}" for r in retrieved
     )
     system = CRITICAL_SYSTEM_PROMPT if critical else SYSTEM_PROMPT
-    return (
-        f"{system}\n\n"
-        f"REFERENCE TEXT:\n{context}\n\n"
-        f"QUESTION: {question}\n\n"
-        f"ANSWER:"
+    return [
+        {"role": "system", "content": system},
+        {"role": "user", "content": f"REFERENCE TEXT:\n{context}\n\nQUESTION: {question}"},
+    ]
+
+
+def generate_answer(llm, question, retrieved, critical=False, max_tokens=400):
+    """Single entry point for generation — main loop, verify.py and
+    eval_questions.py all call this so they can never drift apart."""
+    messages = build_messages(question, retrieved, critical=critical)
+    output = llm.create_chat_completion(
+        messages=messages,
+        max_tokens=max_tokens,
+        temperature=0.0 if critical else 0.3,
     )
+    return output["choices"][0]["message"]["content"]
 
 
 def corroboration_check(retrieved):
@@ -197,11 +215,7 @@ def main():
         critical = is_critical(question)
         k = CRITICAL_TOP_K if critical else TOP_K
         retrieved = retrieve(question, embedder, index, chunks, k=k)
-        prompt = build_prompt(question, retrieved, critical=critical)
-
-        temperature = 0.0 if critical else 0.3
-        output = llm(prompt, max_tokens=400, temperature=temperature, stop=["QUESTION:"])
-        answer = output["choices"][0]["text"]
+        answer = generate_answer(llm, question, retrieved, critical=critical)
 
         sources = corroboration_check(retrieved) if critical else None
         print_answer(answer, critical=critical, sources=sources, raw_chunks=retrieved if critical else None)
