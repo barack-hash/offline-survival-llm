@@ -190,3 +190,20 @@ Template:
 - *The Knowledge* (Dartnell) remains the owner's OWN-license to-do.
 **Hardware/Tools used:** Pi over Tailscale.
 **Next:** Phase 5a keypad wiring, or the next corpus batch (first-aid manual + food preservation are highest-value).
+
+## 2026-09-16 — Commit attribution fixed + corpus batch 2 (13 PD sources, 6136 chunks)
+**Goal:** (a) Re-attribute all commits from the eiQora company identity to the owner personally; (b) add the remaining auto-fetchable corpus batch: first aid, canning, wind power, carpentry, electricity, radio.
+**Done — attribution:**
+- All 14 commits were authored `eiQora <yitbarekabegaz@eiqora.com>` — the Mac's *global* git config carried the company identity. Rewrote full history (`git filter-branch --env-filter`) to `Yitbarek Tegene <abegazyitbarek@gmail.com>`, force-pushed (`--force-with-lease` with explicit lease sha), realigned the Pi clone with `git reset --hard origin/main`. Global git config switched to the personal identity; eiQora repos must now set theirs locally.
+**Done — corpus batch 2 (all PD, provenance in CORPUS_SOURCES.md):**
+- FM 21-11 *First Aid for Soldiers* 1943 (129 chunks) · Gray *Every Step in Canning* 1920 (436) · Powell *Windmills and Wind Motors* 1910 (93) · Fairham *Woodwork Joints* 1921 (250) · Morgan *The Boy Electrician* ©1913 (491; edition year verified in the scan before trusting PD status) · Collins *The Radio Amateur's Hand Book* 1922 (427).
+- Index rebuilt: **6136 chunks / 15 files (13 PD + 2 FREE)**. eval_retrieval.py extended to **34 cases: 34/34 = 100%**, no regressions.
+- CORPUS_CHECKLIST.md: 20 items checked. Remaining: masonry half of carpentry row, fiber/rope-making, water filtration engineering text, mechanics primer, herbal medicine (deferred pending warning-framing decision), The Knowledge (owner OWN), owner's own build notes.
+**Mistakes/Challenges:**
+- gutendex.com fully down this session — archive.org advancedsearch + Gutenberg cache URLs used instead; Gutenberg-mirror identifiers (`...NNNNNgut`) are a reliable way to recover PG ids.
+- The mid-session `git reset --hard` on the Pi (attribution fix) silently reverted the not-yet-committed 34-case eval_retrieval.py to the 22-case version, so the first suite run after the rebuild tested the wrong file (reported 22/22). Caught because the case count didn't match; re-synced and re-ran → 34/34. Lesson: don't interleave history surgery with uncommitted-file workflows on a second machine.
+- `filter-branch` refused to run over unstaged changes (stash → rewrite → pop), and `--force-with-lease` needed an explicit sha because the rewrite had also rewritten the local origin/main ref.
+**Improvements/Decisions:**
+- The Boy Electrician chosen over post-1929 electricity texts specifically because the 1913 copyright was verifiable inside the scan.
+**Hardware/Tools used:** Pi over Tailscale.
+**Next:** Phase 5a keypad wiring (owner's hands). Corpus is now broad enough that further additions should be demand-driven (add when an eval question exposes a gap, like the Woodworth case).

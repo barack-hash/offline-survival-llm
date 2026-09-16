@@ -1,0 +1,4041 @@
+Google 
+
+
+
+This is a digital copy of a book that was preserved for generations on library shelves before it was carefully scanned by Google as part of a project 
+
+to make the world's books discoverable online. 
+
+It has survived long enough for the copyright to expire and the book to enter the public domain. A public domain book is one that was never subject 
+
+to copyright or whose legal copyright term has expired. Whether a book is in the public domain may vary country to country. Public domain books 
+
+are our gateways to the past, representing a wealth of history, culture and knowledge that's often difficult to discover. 
+
+Marks, notations and other maiginalia present in the original volume will appear in this file - a reminder of this book's long journey from the 
+
+publisher to a library and finally to you. 
+
+Usage guidelines 
+
+Google is proud to partner with libraries to digitize public domain materials and make them widely accessible. Public domain books belong to the 
+public and we are merely their custodians. Nevertheless, this work is expensive, so in order to keep providing tliis resource, we liave taken steps to 
+prevent abuse by commercial parties, including placing technical restrictions on automated querying. 
+We also ask that you: 
+
++ Make non-commercial use of the files We designed Google Book Search for use by individuals, and we request that you use these files for 
+personal, non-commercial purposes. 
+
++ Refrain fivm automated querying Do not send automated queries of any sort to Google's system: If you are conducting research on machine 
+translation, optical character recognition or other areas where access to a large amount of text is helpful, please contact us. We encourage the 
+use of public domain materials for these purposes and may be able to help. 
+
++ Maintain attributionTht GoogXt "watermark" you see on each file is essential for in forming people about this project and helping them find 
+additional materials through Google Book Search. Please do not remove it. 
+
++ Keep it legal Whatever your use, remember that you are responsible for ensuring that what you are doing is legal. Do not assume that just 
+because we believe a book is in the public domain for users in the United States, that the work is also in the public domain for users in other 
+countries. Whether a book is still in copyright varies from country to country, and we can't offer guidance on whether any specific use of 
+any specific book is allowed. Please do not assume that a book's appearance in Google Book Search means it can be used in any manner 
+anywhere in the world. Copyright infringement liabili^ can be quite severe. 
+
+About Google Book Search 
+
+Google's mission is to organize the world's information and to make it universally accessible and useful. Google Book Search helps readers 
+discover the world's books while helping authors and publishers reach new audiences. You can search through the full text of this book on the web 
+
+at |http: //books .google .com/I 
+
+
+
+> 
+
+
+
+
+WINDMILLS 
+
+
+
+AND 
+
+
+
+WIND MOTORS 
+
+HOW TO 
+
+BUILD AND RUN THEM 
+
+
+
+BY 
+
+F. E. POWELL 
+
+
+
+Folly Illustrated with Detail Drawimo* 
+
+
+
+
+NEW YORK 
+
+SPON & CHAMBERLAIN 
+
+123-125 LIBERTY STREET 
+
+1910 
+
+
+
+(N<x 36.) 
+
+
+
+• Copyright, 1910 
+
+By SPON & CHAMBERLAIN 
+
+
+
+GAMELOT PRESS. 444-46 Pearl Street, New York 
+
+
+
+PREFACE 
+
+
+
+I have endeavoured in the following pages not 
+only to interest the practical amateur in a branch 
+of mechanics unfortunately much neglected, but 
+also to present a series of practical original de- 
+signs that should prove useful to every reader 
+from the youngest to the most advanced. This 
+is admittedly a large undertaking, and would be 
+of doubtful wisdom, but for the sparseness of the 
+literature of the subject. There is, however, 
+no other book in the language, large or small, 
+dealing with the matter in the way here pre- 
+sented, and indeed only one other, as far as I 
+know, having the subject of windmills for its 
+sole topic. I venture to hope therefore that this 
+little book will help to arouse something of the 
+interest the subject deserves but has not hitherto 
+received. 
+
+That I am right in claiming for the wind 
+motor a more serious recognition I am con- 
+vinced, and particularly is this the case in re- 
+"•^rd to the model engineer. At present there 
+every prejudice against wind-power on ac- 
+count of its uncertainty, against which even its 
+
+inexpensiveness has not been able to contend. 
+
+... 
+Ill 
+
+
+
+IV PREFACE 
+
+If it can once be realised, however, that the un- 
+certainty can be reduced to little or no import- 
+ance, so much that even a petrol-engine might 
+seem unreliable and troublesome beside it, the 
+claim put forward for the windmill is fully sub- 
+stantiated. Not less than this is one of the aims 
+of this little book, and it is one which I confi- 
+dently expect will be upheld. 
+
+In a book like this, trenching upon new ground, 
+where every design has been the outcome of 
+careful consideration unaided by the experience 
+of others, it is not unlikely that errors or am- 
+biguities may have crept in. The reader who 
+finds any such, or who meets with difficulties of 
+any sort, will confer a kindness by communicat- 
+ing them to the author through the publishers. 
+
+R E. POWELL. 
+
+
+
+CONTENTS 
+
+
+
+PAGE 
+
+Preface iii 
+
+CHAPTER I 
+
+WINDMILL EVOLUTION 
+
+Ancient post-mill. Tower mill. Tower mill 
+with regulating or wind-wheel. Modern 
+type of windmill. Anemometer. Jumbo or 
+horizontal windmill. Wind-motor with ver- 
+tical axle. The pantanemone i 
+
+CHAPTER H 
+
+A MODEL WORKING WINDMILL 
+
+Tower mill type. Fixed sails without tail 
+regulator. Diameter across sails, two feet. 
+Full detailed drawings 1 1 
+
+CHAPTER HI 
+
+A SMALL AMERICAN TYPE WINDMILL 
+
+This type has fixed metal sails three feet in 
+diameter, with tail regulator. Develops 
+about Yso H.P. Full detailed drawings 22 
+
+
+
+VI CONTENTS 
+
+CHAPTER IV 
+
+A SMALL WORKING WINDMILL 
+
+PAGE 
+
+Automatically reversing sail type. Diameter 
+across sails, six feet. Develops about Ko 
+H.P. Suitable for pumping water or for 
+running a lathe. Full detailed drawings. . . 37 
+
+CHAPTER V 
+
+A PRACTICAL WORKING WINDMILL 
+
+A simple and compact wind-power motor with 
+adjustable sails and tail regulator. Diam- 
+eter across sails ten feet. Will develop 
+from one-quarter to one-half horse-power, 
+according to the velocity of the wind. Suit- 
+able for pumping water, driving a dynamo 
+or light farm machinery. Full detailed 
+drawings 48 
+
+CHAPTER VI 
+
+PRODUCTION OF ELECTRICITY BY WIND-POWER 
+
+Diagram of connections for a wind-driven 
+electrical installation. Driving belt ar- 
+rangement for wind electrical plant. Table 
+of wind pressures and velocities 65 
+
+
+
+CHAPTER I 
+Windmill Evolution 
+
+It is not a little strange that amateur engi- 
+neers should have so neglected the windmill, 
+either as a subject for model-making and experi- 
+ment, or even for the more practical purpose 
+of power production. Wind-power is free, and 
+while it is admittedly erratic it must surely ap- 
+peal to the mechanical, mind as a labour saver 
+of some value. The probability is that the lack 
+of simple published designs is the main reason 
+for this state of things, and the aim of this little 
+book is to remedy it. 
+
+Few mechanical appliances have a simpler his- 
+torical record than the windmill. Until com- 
+paratively recent years only two main types of 
+mill were ^9mmonly in use, known respectively 
+^|nd the Tower mills, vhe former, 
+is the earlier machine, was distinguished 
+by the fact that the whole building, carrying 
+sails, house, cap, and all machinery, was pivoted 
+on a huge timber post, so that the whole struc- 
+ture had to be removed when it was necessary 
+to adjust the mill to face the windJ The Tower 
+mill, called also the " Smock " and sometimes 
+the " Frock " mill, was an improvement on the 
+
+
+
+
+2 WISDMILLS- AXD WISD MOTORS 
+
+Other in having the cap only to revolve, carrjing 
+with it the sails and (later) the automatic regu- 
+lating mechanism for bringing the sails round 
+
+
+
+
+" into the wind." Illustrations of these two 
+types of mills are given in figs, i and. 2. 
+/ As hinted above, the automatic method of con- 
+I trolling the mill so that the sails should face the 
+1 wind was a fairly recent innovation. It dates 
+I back to the middle of the eighteenth century, 
+
+
+
+WINDMILL EVOLUTION 
+
+
+
+when Andre w Meikle introduced the now well- 
+ktlown auxiliary 'regulating wheel, which may 
+be seen in fig. 3 
+
+
+
+
+Fig. 2.— Tower Milt: at Hillerod, Denmark. 
+
+
+
+Another advance in windmill construction was 
+made in 1807, when Sir W, Cubitt introduced an 
+automatic reefing arrangement for the sails. Be- 
+
+
+
+4 WINDMILLS AND WIND MOTORS 
+
+fore that date speed was more or less outside 
+the control of the operator, who could only throw 
+in or out his machinery as the speed ranged too 
+
+
+
+
+Fig. 3.— Towi 
+
+
+
+with Regulating or Wind Wheel. 
+
+
+
+high or too low, or by the application of brakes 
+could keep it partly within bounds. 
+
+The later history of the development of wind- 
+mills must be looked for abroad. The inventor 
+of the "American" mill is said to have been 
+John Burnham, whose location is sufficiently in- 
+
+
+
+WINDMILL EVOLUTION 5 
+
+dicated in the name by which this type is known. 
+The date was about the middle of the nineteenth 
+century. Everyone knows that the distinction 
+between the older types and the modem trans- 
+atlantic machines lies in the number and dis- 
+position of the sails, which in the latter are nu- 
+merous and form a comparatively narrow ring of 
+vanes. A modem example of such a mill Is 
+illustrated in fig. 4. Since Bumham's day in- 
+ventors have not been asleep, and the multitude 
+of so-called American mills now on the market 
+is evidence of their skill. These machines vary, 
+however, only in details of design, regulation, 
+and control, not in any essential character. 
+
+The American mill, though not much more 
+efficient than its older competitor, has the ad- 
+vantages^of. cheapness, a more even turning move- 
+inent, and easier starting. The defects, espe- 
+cially^ in the matter of economy, of all types of 
+windmills led to a very remarkable series of ex- 
+periments which were carried out by the Danish 
+Government from 1891 until the death of the 
+chief investigator, Prof. Poul la Cour, in 1908, 
+brought them to an end. The work done by 
+this enthusiastic engineer included not only the 
+improvement of windmill details,,.but also a prac- 
+tiQal inquiry into the possibility of utilising 
+W4nd-power in the production of electrical en- 
+ergy. Much of the collected data is naturally 
+negative in its results, but students of the sub- 
+ject must always look with warm admiration on 
+
+
+
+e WIin>HILLS AND WIND MOTORS 
+
+the patient work of La Cour and the good sense 
+of the State that assisted him 
+
+As far as this book is concerned, the Danish 
+
+
+
+
+Fig 4— Modern Tjpe of W mdmill 
+
+experiments have one special bearing. They 
+proved that for maximum f^wcr and speed the 
+modern multi-sailed machines could not com- 
+
+
+
+WlsnMlLL EVOLUTION 7 
+
+pete with a four- 01 six-armed mill of modified 
+design. This type is comparatively easy to con- 
+struct in a modified form, and has so many ad- 
+vantages that one or two designs in the follow- 
+ing pages have been based upon it. 
+
+
+
+Besides the standard types of windmills pre- 
+iriously mentioned, many other wind motors 
+
+
+
+
+Fig. S- 
+Diagram of Anemometer. 
+
+
+
+Fig. 6. 
+Alternative Cups. 
+
+
+
+have been suggested and used at times, and de- 
+serve at least brief notice. One of the simplest 
+of these is the ordinary anemometer used for 
+measurement of wind velocities (see fig. 5). It 
+consists of four hemispherical cups carried on 
+cross-arms, which are pivoted at their junction 
+and moved by the superior resistance offered by 
+the concavity of any one of the cups facing the 
+wind. It will of course start in a wind of any 
+direction whatever in the plane of its revolution, 
+but has no pretension to power production. The 
+
+
+
+8 WINDMILLS AND WIND MOTORS 
+
+hemispheres may be replaced by small (tin) 
+cones (fig. 6), which are more easily made. 
+
+Another windmill of extreme simplicity, which 
+has sometimes been made of a large size, illus- 
+trated in fig. 7, is called a " Jumbo." The small 
+illustration in the corner of fig. 7 is a diagram- 
+
+
+
+
+Fie 7. — "Jumbo," or Horizontal Windmill. 
+
+matic end view of this type of motor. Arrows 
+show the direction of wind and of rotation. The 
+action is sufficiently indicated in the sketch, and 
+it need only be pointed out that the great dis- 
+advantage is that it will only work with certain 
+winds. It is also necessary to have a large open 
+space free from trees or buildings if the best 
+results are looked for. 
+
+
+
+WINDMILL EVOLUTION 9 
+
+A modified form of the last machine is that 
+shown in fig. 8, which has four or more sails 
+mounted on a vertical shaft and arranged with a 
+semicircular shield which runs on a circular path 
+so that the vanes can be acted upon by the wind 
+on one side only. Obviously the advantage in 
+
+
+
+
+Fta. 8,— Wind Motor with Vertical Axle. 
+
+
+
+this case is that winds of any direction can be 
+made to perform work, but the type has never 
+been developed to any extent. 
+
+Another wind motor worth illustrating is, 
+however, rather more curious than useful. This 
+is thcpaiitanemone, shown in fig, 9, It consists 
+simply of two semicircular discs whose diam- 
+eters are placed at right angles to one another, 
+the shaft bejng between them, in the same plane 
+as the diameters, but at 45° to each of them. 
+
+
+
+to 
+
+
+
+WINDMILLS AND WIND MOTORS 
+
+
+
+The amater may be interested to make a model 
+on these lines, which, while without practical 
+value, is interesting for the fact that the machine 
+will start in wind of any direction. 
+
+Other wind motors there are, of varying inter- 
+
+
+
+
+Fic 9, — The Pantanenlone. 
+
+
+
+est and usefulness, including a quite modern 
+development on the lines of a turbine, which has 
+not yet seen the light of a manufacturer's work- 
+shop. Space, however, is too valuable to be 
+given to any but well-tried designs, although 
+much interesting experimental work remains to 
+be done in this connection on systematic lines. 
+
+
+
+CHAPTER II 
+
+A Small Working Model Windmill. Tower 
+
+Mill Type 
+
+Considering the simplicity of a windmill model 
+and the fact that it will not easily get out of 
+order, it is surprising that more amateurs do 
+not turn their hands to its construction. A 
+windmill with sails of only 2 feet diameter, such 
+as will now be described, will develop in even a 
+moderate breeze fully as much power as an aver- 
+age steam-engine with cylinder say i inch stroke 
+by |-inch diameter, and will therefore be quite 
+powerf ul e nough to drive a model workshop, 
+work. a_ model crane, or do other similar light 
+WQrk±_.An interesting combination suitable for 
+outdoors, where of course the windmill must 
+work, would be a model railway arranged on an 
+incline so that by means of a long cord the mill 
+might be made to draw up a train to the top of 
+the slope, the descent being made by gravity. 
+This is not the place to enter into details, which 
+nevertheless would not be very abstruse and 
+would form an interesting problem to be carried 
+out by the young mechanic. 
+• Too much importance should not be attached 
+to the idea that wind is unreliable as a motive V 
+
+II 
+
+
+
+12 WINDMILLS AND WIND MOTORS 
+
+force^ _ It will be found more reliable than is 
+usually supposed, and apart from that the sim- 
+plicity of construction, in which no lathe and 
+very few tools are required, as well as the ab- 
+sence of cost in working, should all go to make 
+the model windmill a popular object. 
+
+The design shown in fig. lo is for a model of 
+the size already mentioned, namely, with sails 
+24 inches across the tips. It will be of course 
+quite easy for the reader to make his model 
+either larger or smaller, if he so desires, by tak- 
+ing care to increase or decrease the dimensions 
+of all parts in proportion. In a model like this 
+it would only be introducing unnecessary com- 
+plication if any attempt were made to provide 
+the adjustments usual in large mills, and indeed 
+it is quite possible that such regulating gear 
+would take all the available power of the machine 
+to work it. The design therefore dispenses with 
+any such elaborations, but the maker can, if so 
+disposed, and without any great difficulty, ar- 
+range for the top of the mill to turn automati- 
+cally, so that the sails always face the wind. A 
+study of the later chapters of this book will show 
+how this can be done. <_ 
+
+* Almost all the materials used in the construc- 
+tion are cardboard and wood, so that the model 
+is not intended to be left permanently out in all 
+weathers. If this should be desired, a larger 
+use of wood must be made, and tin or sheet-iron 
+well painted should also enter into the construe- 
+
+
+
+14 WINDMILLS AND WIND MOTORS 
+
+tion. The baseboard in any case should be a 
+substantial bit of timber, weighted if necessary, 
+or otherwise, well secured to avoid overturning 
+in a strong breeze. 
+
+The main part of tower is formed of stout 
+cardboard, which should be well varnished after 
+erection. It is cut out as shown in fig. 12, and 
+slight cuts along the division lines will enable 
+the eight sides to be formed up. A strip of 
+stout paper glued inside and outside will com- 
+plete the joint. Note that the outside strips 
+should be cut very neatly and all the same 
+widths. They will then take the appearance of 
+the finishing boards usually fitted at the corners 
+of a wooden building. While still in the flat, 
+the various windows, doors, etc., should be pen- 
+cilled firmly on the diflferent sides, and particular 
+care taken to fix any fitments for crane or other 
+details. The whole model can be made very 
+realistic if some little time is spent in lining out 
+the tower and cap to represent weather-board- 
+ing, or, if preferred, in the case of the tower, 
+stone or brick. Pencil lines will be best, and 
+colour may be put on to enhance the eflfect. 
+Some idea of the eflfect to be aimed at is indi- 
+cated in the lower part of fig. 11. 
+
+The top and base of tower will be octagonal 
+in plan, as shown in sketches, fig. 13. 
+
+Details of the head or cap are given in fig. 14, 
+which, together with fig. 11, will give a good idea 
+of the manner of construction. Fig. 15 shows 
+
+
+
+
+BACK END 
+
+
+
+DETAILS OF HEAD OR CAP 
+
+
+
+SCALE a/4"=1 FT. 
+
+Fig. 14 
+
+
+
+a ^ 
+
+PLAN 
+
+
+
+\.s?./ 
+
+
+
+
+SLrCINO BEARING 
+
+Fig. 12- Diagram for Setting-out Tower. < "o^ to sc*te > 
+Fig. 13- Top and Base of Tower. 
+Fig 14 - Views of Head or Cap. 
+Fig 15 -Shape of Card for Roof of Cap. 
+Fig 16 "Sliding Bearing. 
+
+
+
+A SMALL WORKING MODEL WINDMILL I^ 
+
+the shape of the two pieces of card to form the 
+roof of cap before bending to shape. 
+
+Pieces of cigar-box wood or thin pine form the 
+base and ends of cap, and should be joined by 
+very thin nails or stout pins, some deal sticks 
+about ^-inch square being used as spreaders or 
+stiffeners. The ends must be carefully set out 
+from centre lines, and holes nicely drilled and 
+
+
+
+T" 
+
+
+
+«r» 
+
+
+
+J, 
+
+
+
+1 
+
+
+(1 
+1 
+
+1 
+
+
+
+
+
+
+
+
+t 
+
+
+
+
+- 
+
+
+<r Cf^^i" 
+
+
+
+
+.t. 
+
+
+
+
+-V. J/ 1 
+
+4 OFF 
+
+
+SCALE 3" — 1 
+
+
+
+
+
+Fig. 17. — Shape of Sail for Model WindmilL 
+
+
+
+cut to the dimensions given. Their uses will be 
+apparent presently. One side of the roof should 
+be made to open with a hinge of calico to enable 
+the working parts to be got at. 
+
+Details of the arms and sails are given in figs. 
+17, 18, and 19, and readers unfamiliar with the 
+" setting " of windmill sails should carefully 
+study the drawings before shaping the arms. 
+As shown in fig. 18, the sails are not placed cen- 
+trally on the arm, which is much nearer one edge 
+than the other. This is shown in the sectional 
+view of arm and sail in fig. 18. Then also the 
+two sails on one arm point opposite ways, which 
+is perhaps best seen in the perspective sketch, 
+
+
+
+l8 WINDMILLS AND WIND MOTORS 
+
+fig. ID. The amount by which the sail lies out of 
+the plane of revolution is called its "angle of 
+weather." To obtain this setting, each arm is 
+bevelled away, the two ends being bevelled in 
+opposite ways. Fig. 19 shows this, and the 
+reader has only to imagine each arm brought 
+successively into the same position, say the top, 
+to realise how the bevel must always be the 
+same way with the arm in that position. Fig. 
+20 will also be helpful in making this clear. A 
+portion of the arm at its middle is left the full 
+square section (see figs. 18 and 20, which show 
+this). Every care must be taken to make the 
+bevelling correctly, or one pair of sails would 
+be found bevelled one way and the other in the 
+opposite way. This would of course result in 
+nullifying the effect of both. The axle, shown 
+in various figures, especially 18, 21, and 22, is 
+made of a piece of hard wood like oak or hick- 
+ory, and is shaped specially to take the two arms 
+as indicated in fig. 22. Care must be used not 
+only to cut this out true and a good fit, but also 
+not to break the thin prongs. The shaft must 
+be nicely rounded and sand-papered smooth. At 
+the collar portion, which will form the forward 
+bearing, a little paraffin wax should be melted 
+into the grain to reduce running friction, or, 
+better still, a thin brass ferrule fitted, as shown 
+in fig. 18. 
+
+The arms, in addition to being glued in place, 
+must be further secured by wooden pins, and 
+
+
+
+20 WINDMILLS AND WIND MOTORS 
+
+every care must be taken not only to fit them 
+correctly according to the bevels, but also to 
+get them dead square with the shaft and with 
+each other. The use of an ordinary set-square 
+will accomplish this. Both arms, as shown in 
+fig. 22, are slightly " checked " or " halved " into 
+each other, both to lock them more securely and 
+to reduce the overhang of shaft. Notice should 
+be taken that the cutaway is in the back of front 
+arm and front of rear arm. 
+
+The sails should be both glued and pinned to 
+the arms for security and a pencil line at the 
+t' right place on back of each sail will ensure get- 
+
+ting them correctly placed. Each sail, previous 
+to being mounted, should have parallel lines, 
+about half an inch apart, drawn across both faces 
+to imitate the slats generally used in large' mills 
+of this type. After mounting, and when glue is 
+firm, the sails and outer ends of shaft should 
+have a couple of coats of good thin varnish to 
+enable them to stand some weather. 
+
+It may here be remarked that when pins are 
+used instead of nails they will be found much 
+easier to drive if a quarter of an inch of the sharp 
+point is nipped off. If this is not done, they are 
+almost sure to bend. 
+
+It will be seen that the tail end of shaft is pro- 
+vided with a metal bearing or journal in the form 
+of a small headless nail. This must be let in bv 
+first very carefully boring an axial hole in shaft, 
+preferably with a twist drill, the end of shaft 
+
+
+
+A SMALL WORKING MODEL WINDMILL 21 
+
+being bound round to avoid splitting. This jour- 
+nal runs in a tin bearing (fig. i6), which is made 
+to slide stiffly up and down in the slot in back 
+of cap. This allows the owner to put in or out 
+of gear the winding shaft by means of which 
+the mill is caused to perform useful work. This 
+is accomplished through the disc A, fig. ii, fixed 
+on the winding shaft, a rubber band in circum- 
+ference of disc and thin rubber sleeve on main 
+axle being provided to ensure sufficient adhe- 
+sion. The winding shaft runs in two metal or 
+wood bearings, and has the end of a strong 
+thread secured to it for a rope. The other de- 
+tails for the working of this part of the apparatus 
+are perhaps shown clearly enough in the draw- 
+ings. 
+
+If carefully and neatly made, it is wonderful 
+how interesting such a model will prove. In a 
+stiff breeze the sails will revolve at a great rate, 
+and the crane will lift say half a pound at a good 
+speed. Weights will of course be in the form of 
+small sacks of material, boxes, barrels, etc., and 
+the crane should be made capable of slewing so 
+that the loads can be deposited where required. 
+Even in the light winds it is of interest to see 
+the sails moving gently round, and indeed at 
+such a time the appearance is rather more real- 
+istic, which may partly compensate for the 
+lessened utility. 
+
+
+
+CHAPTER III 
+A Small American Type Windmill 
+
+The design given in this chapter is intended to 
+form a link between the model pure and simple 
+and the "small power" mill able to perform 
+solid work. It has been thought desirable to 
+admit a certain amount of pattern-making and 
+machining in this case, as a windmill of this size 
+ought to be made on " practical " lines, although 
+it is as simple as possible in construction, and 
+quite within the range of the amateur with a 
+small back-geared lathe. The outside diameter 
+of the sails is 3 feet. 
+
+As in all the other cases, the present design 
+may be modified here and there to suit individ- 
+ual fancies, and it may also be reduced to form a 
+very pretty model or enlarged to any reasonable 
+size. Of course, any such change will involve 
+certain alterations in sizes of parts — not neces- 
+sarily to scale, as, for example, in the case of a 
+mill three times the size, the thicknesses of metal 
+would not in all cases need to be three times as 
+great. 
+
+A small machine like this may be recom- 
+mended particularly for experimental work. The 
+horse-power available in the usual 16-mile breeze 
+
+22 
+
+
+
+A SMALL AMERICAN TYPE WINDMILL 23 
+
+may be estimated at %o H.P., but this may easily 
+be doubled in any stiffish wind, so that for many 
+small matters the power is not to be despised. 
+With an efficient pump quite a respectable 
+amount of water can be lifted, or an old boiler 
+may be pumped up with air pressure, which will 
+thus be available for running model steam-en- 
+gines, or for testing purposes, or even a small 
+blow-lamp, etc. There is no reason why a model 
+dynamo and accumulator plant should not be 
+designed to utilise the power. On an average, a 
+breeze of i6 miles per hour or over is available 
+for quite six hours a day throughout the year. 
+Now a mill of the size here described would run 
+a 6-watt dynamo easily, if of good, efficient con- 
+struction ; so that the normal output for a week's 
+work would be 6 watts X 6 hours X 7 days= 
+252 watt-hours, provided the accumulator were 
+able to store all it received. Such a result would 
+be quite attainable during the majority of weeks 
+in a year. 
+
+To get the above result some simple apparatus 
+in the way of automatic cut-in and cut-out gear 
+would be required, and the cells would probably 
+have to be so connected that they could be 
+charged in parallel and discharged in series. 
+Thus, the stored energy might be utilised at the 
+rate of 24 volts, in which case the owner would 
+be able to get a return of say 2.5 amperes for 
+four hours (24 V. X 2.5 amp. X 4 hours = 240 
+watt-hours). Undoubtedly there are many cases 
+
+
+
+24 WINDMILLS AND WIND MOTORS 
+
+where such a result would be regarded as of 
+great utility in the amateur's workshop. Some 
+attention will be paid in the later pages of this 
+
+
+
+
+" American." Windmill : Front View of 
+Wheel. 
+
+
+
+book to the detailed apparatus necessary to this 
+end. 
+
+The American type of mill has been adopted 
+in the present instance as much for variety as 
+for other reasons. It is not noticeably more 
+
+
+
+26 WINDMILLS AND WIND MOTORS 
+
+efficient than some other fonns, but lends itself 
+to simplicity of construction. No attempt has 
+been made to have the sails self- regulating, but 
+a tail has been adopted in order to keep the mill 
+automatically head to wind, and this makes it 
+
+
+
+
+easy to regulate the speed by hand or to throw 
+the mill out of work entirely when desired. This 
+refinement can, however, be dispensed with if 
+desired. The size of the wheel is 3 feet in diam- 
+eter, and its normal speed in a 16-mile breeze 
+should be from 200 to 250 revolutions per minute. 
+Front and side views of the complete mill are 
+shown in figs. 23 and 24 respectively. The whole 
+
+
+
+A SMALL AMERICAN TYPE WINDMILL 27 
+
+of the mill has been designed in metal, as it is 
+intended for constant outdoor work in all 
+weathers. 
+
+Commencing witli the " tower," this has been 
+reduced to the simplest form by making use of 
+
+
+
+
+Fig. 28.— Plan of ihe above- 
+
+a piece of old 2-inch gas-, water-, or steam-pipe 
+about 3 feet long.. It is desirable that this should 
+have been galvanised, and it must of course be 
+quite straight. The tube is carried in a strong 
+wooden framework of 11 X i boards and some 
+2X2 scantlings, so that it can revolve therein 
+without shake or " give," since it will form the 
+movable part of the mill and will carry the whole 
+of the gearing. This wooden framing appears 
+in fig, 24, and is further illustrated in perspective 
+and in plan in figs. 27 and 28 respectively. 
+
+The construction of the wheel is indicated in 
+
+
+
+so WINDMILLS AND WIND MOTORS 
+
+the vertical section through it in fig. 25 (which 
+is twice the scale of the general arrangement, 
+fig. 24), and also in the perspective drawing, fig. 
+
+
+
+
+Fig. 29.— Perspective Sketch of Wheel and Sails of Model 
+" American " Windmill. 
+
+
+
+29. A hub, formed from three pieces of board, 
+and turned 6 inches diameter, is secured to the 
+shaft by means of an iron strip laid in the saw- 
+cuts in end of shaft, as shown in fig, 30. Nails 
+or screws make the three pieces of wood practi- 
+cally one solid whole. 
+
+
+
+A SMALL AMERICAN TYPE WINDMILL 
+
+
+
+29 
+
+
+
+Referring to fig. 29, it will be seen that the 
+
+
+
+
+Fig. 30. — Method of Securing Hub on End of Shaft. 
+
+wheel is carried by arms or spokes of f-inch X 
+346-i"ch galvanised hoop-iron. Six of these 
+spokes start from each side of hub, those on the 
+
+
+
+
+Fig. 31.— Wire Rings for Wheel: Upper Diagram, Outer 
+Rings; Lower Diagram, Inner Rings. 
+
+front side being made of three full-length strips, 
+as seen in figs. 23 and 26. Turning to fig. 25, it 
+will be seen how these spokes cross from front 
+
+
+
+30 WINDMILLS AND WIND MOTORS 
+
+to back, and vice versa. They are also soldered 
+to four rings, clearly shown in fig. 29, wherever 
+they cross these latter, and these rings are so 
+designed as to carry the sails between them. 
+The rings are of No. 6 B. & S. galvanised fenc- 
+ing wire, carefully curved to accurate diameters 
+— the outer 36 inches, and the inner 18 inches — 
+and ends overlapped 2 or 3 inches, bound with 
+fine wire and soldered together. The proper 
+distances apart of the two sets of rings are ij 
+inches and J inch respectively, as shown in fig. 
+31, which shows also the angle at which the sails 
+will lie between them, namely about 25**. The 
+shape of the sails themselves is shown in fig. 
+32: they should be of thin sheet-zinc, the four 
+corners slightly bent to lie flat against the wire 
+rings to give rather more surface for soldering. 
+
+If the mill is to be used for " power " produc- 
+tion in the ordinary way, it is very difficult to 
+find a better means of transmitting the energy 
+than by the usual method of bevel-wheels, as 
+shown in fig. 24. The exact ratio of one wheel 
+to the other is only determined by the require- 
+ments of the case, and as shown in the drawings 
+the vertical shaft would make three revolutions 
+to two of the axle. The wind-wheel and its axle 
+are carried in a light iron-casting, given in de- 
+tail in fig. 33, the lower end of which is bored 
+out to fit tight on the main 2-inch upright tube. 
+The manner of this fitting, and the arrangement 
+of bevel-wheels and brass bearings for upper and 
+
+
+
+-1^^ 
+
+
+
+^- 
+
+
+
+■H*r"?^^?rf^-^" 
+
+
+
+Fig. 33. Head Casting (Iron). 
+
+
+
+
+Fig. 32 Shape of Sails for Model ■American" 
+
+
+
+A SMALL AMERICAN TYPE WINDMILL 
+
+
+
+33 
+
+
+
+lower ends of vertical spindle, are shown in fig. 
+34. There is nothing special in any of these 
+parts, which are all simple turned work. 
+
+The machine may be also used to pump water, 
+
+
+
+
+FlC. 36. — Side View of Eccentric for Pumping Gear, 
+in which case probably the simplest plan is to 
+fit a small eccentric on wind-axle working a con- 
+necting-rod with a small pump in lower end of 
+2-inch tube. To save the reader trouble in de- 
+signing, a simple eccentric, strap, and rod are 
+shown in figs. 35 and 36, giving a lift of i^ 
+inches, which of course can be varied to suit the 
+needs of the maker. Too great a lift must be 
+avoided, owing to the speed at which the pump 
+
+
+
+34 
+
+
+
+WINDMILLS AND WIND MOTORS 
+
+
+
+will work. Care must be taken to make the 
+casting (fig. 33) higher than shown, if neces- 
+sary to enable the eccentric to clear (see fig. 35). 
+
+
+
+
+NO. 28 B. A 8. QAUOE 
+OALV. IRON SHEET 
+
+
+
+SCREW 
+V4"l.0«0 
+»/,"OIAM. 
+
+
+
+■" CEN8. 
+
+
+
+1—1- 
+
+
+
+H-^-J 7^ 
+
+
+
+
+SCALE 1V2"- 1 ft. 
+
+
+
+z: 
+
+
+
+HOLE .,f/ 
+
+FULL Vb" / /" ^^^"^ ^O*-"*" 
+
+
+
+
+
+TWO 1/4" RIVETS 
+
+
+
+quadrant cut from 
+Vi6"galv. plate 
+
+
+
+GALV'D ANGLE IRON 
+Vie" THICK 
+
+
+
+r SECTION 
+
+
+
+Fig. 37. — Elevation and Plan of Tail Regulator. 
+
+
+
+Details are given in the drawings, and are prob- 
+ably clearer than written explanations. 
+
+The tail-gear, by which the mill is made to 
+face the wind, is detailed in fig. 37, where the 
+upper view is a side elevation and the lower a 
+plan. The tail, formed of thin galvanised sheet- 
+iron, is riveted to a piece of very light galvan- 
+
+
+
+A SMALL AMERICAN TYPE WINDMILL 35 
+
+ised angle of the section shown. This is not the 
+usual rolled angle, but bent sheet, much lighter 
+and more suitable for this work. It can be ob- 
+tained from tank-makers or workers in galvan- 
+ised sheet-iron. The tail is pivoted where shown 
+by a bolt which allows sufficient movement and 
+is locked in position by the screw shown, a 
+tapped hole being provided in the casting (fig. 
+33). To get the full effect of wind, the tail must 
+lie square with the wheel, or in line with axle. 
+Should the wind be too high, its effect on the 
+wheel can be diminished by letting the tail turn 
+to an angle of 45 ^^ or less with the wheel, insert- 
+ing the screw in one of the radial holes in quad- 
+rant, according to the strength of the breeze. 
+The last hole (at right angles to tail) is the 
+" off " position, as when the screw is in that 
+place the tail will He parallel with wheel and the 
+effect of wind on same will be nil. The wire stay 
+shown in the drawings supporting back end of 
+tail, may be found unnecessary, but is easily 
+fixed. 
+
+It will be very desirable to fit a brake to the 
+mill. This need be only a very simple affair — a 
+wooden pulley fitted at any convenient position 
+on the driven shaft, with a rod or lever to press 
+on rim either by weights or spring when desired. 
+This may often be useful when it is required to 
+stop the mill or to alter the setting of tail, or 
+even in the workshop to regulate speed when 
+experimenting. 
+
+
+
+36 WINDMILLS AND WIND MOTORS 
+
+All parts of the mill subject to the weather 
+should either be galvanised or very well painted 
+if of iron, and a cap of galvanised sheet fitted 
+over the bevel-wheels and casting will not only 
+avoid unsightly rusting, but will save oil and re- 
+duce friction. 
+
+
+
+CHAPTER IV 
+A Small Working Windmill 
+
+The windmill next to claim attention is one 
+that should appeal to a large circle of readers. 
+It has purposely been designed in a very simple 
+form, yet of a size sufficient to develop reason- 
+able power, namely, %o horse-power in a moder- 
+ately stiff breeze of say i6 miles an hour. Such 
+a mill will do real work, such as pumping water, 
+running a small grindstone, or even driving a 
+30-watt dynamo. The total diameter of the 
+wheel is 6 feet. 
+
+In order to simplify the machine as far as 
+possible, the mill has been designed with fixed 
+head, so that the wind must be in one of two 
+opposite directions to give a maximum effect. 
+It should therefore be set up with the front 
+wheel facing in the direction of the prevailing 
+wind. Where the two principal prevailing winds 
+are, say, S.W. and N.W., the best direction for 
+the axis of the mill would probably be north and 
+south. Local conditions should be studied, and 
+detailed records of the prevailing winds of the 
+locality can generally be obtained without diffi- 
+culty. A fixed mill like this is also suitable for 
+a town dweller, where long rows of houses con- 
+
+37 
+
+
+
+38 WINDMILLS AND WIND MOTORS 
+
+fine the wind to definite directions up and down 
+the line of " back gardens." 
+
+The vanes (see figs. 38 and 44) can be either 
+fixed or allowed to revolve partially upon the 
+arms. If fixed, the mill will run in opposite direc- 
+tions with opposite winds, and while this need 
+not matter for such operations as pumping, it 
+would not be satisfactory in other work. A 
+simple device has therefore been adopted, so 
+that when the wind blows from what may be 
+called the back of the mill the sails will auto- 
+matically reverse and so cause the direction of 
+rotation to be always one way. The maker who 
+prefers to have the sails fixed may ignore this 
+arrangement and screw the vanes firmly to the 
+arms, which need only to be tapered oflf, and not 
+rounded in section. The alternative arms re- 
+quired in this case are sketched in fig. 46 (two 
+views), and of course require less work on their 
+construction. 
+
+The mill, as shown in figs. 38 to 47, has six 
+whips or arms mounted upon a triangular hub 
+to which they are all bolted. The six whips are 
+formed from three hardwood sticks, each mak- 
+ing a pair of arms. The sticks will be i^ inches 
+square in section, 6 feet long, the central portion 
+for a length of 22 inches left square while the 
+ends should be turned down taper, from ij 
+inches diameter at the root to i inch diameter at 
+the tips. Good, sound, straight wood should be 
+selected. 
+
+
+
+A SMALL WORKING WINDMILL 39 
+
+The hub, shown in detail in fig. 39, should be 
+very carefully made, to an equilateral triangle to 
+the sizes given, of a piece of very sound hard- 
+wood of some non-splitting timber. Beech would 
+be suitable. The hole for axle must be truly 
+bored and fit well so that the sails will all run 
+in true plane and square to the axle. The three 
+sticks must be bolted to hub, each with two 
+f-inch galvanised bolts, with good-sized washers, 
+every care being taken to fix each stick at right 
+angles to shaft. For further security, another 
+J-inch or f-inch bolt will join each pair of sticks 
+at their crossing, it being noticed that in one 
+case (see fig. 43) a piece of packing of same 
+thickness as the sticks will be required. The 
+bolt in this case must also be so much longer. 
+
+The axle, or windshaft, as it was called in older 
+days, will consist in this case of a short length 
+of stout mild steel tubing. The size is not im- 
+portant — it is shown i inch diameter outside, 
+and should not be less. This is not so much for 
+strength as for better attachment to the hub 
+with its far-spreading sails. A piece of f-inch 
+gas tubing will make a satisfactory axle if centred 
+in lathe and a light skimming taken oflf to obtain 
+roundness and to make good, clean journals. 
+
+The hardwood hub should be fixed to axle by 
+a couple of J-inch split pins going right through, 
+as seen in fig. 39. These can easily be got in 
+parallel with two of the sticks, and should fit 
+well so as to allow no backlash. 
+
+
+
+4^ WINDMILLS AND WIND MOTORS 
+
+The bearings should certainly be of brass, and 
+the most simple form they can very well take is 
+that shown in fig. 47. This provides, of course, 
+no adjustment — a refinement that can be adopted 
+with advantage if desired, but which hardly 
+needs illustration. These bearings are carried 
+in hardwood " pedestals," and secured by hard- 
+wood caps bolted down over them. A recess is 
+made in cap and blocks are provided on base to 
+prevent side movement of brasses. If possible, 
+oil cups or other similar lubricators should be 
+fitted, but they may be dispensed with if the oil 
+can is kept going. A cover of thin sheet-iron, 
+galvanised, may be fitted with advantage to the 
+working parts. The details of forward bearing 
+are sufficiently indicated in the three views, fig. 
+47 ; the back end bearing being exactly the same. 
+Every c^re should be taken to make all tight 
+and avoid any rocking. 
+
+The power of the mill may best be transmitted 
+by means of a pair of bevel-wheels, as shown in 
+fig. 41. This is the usual method, and of course 
+various ratios of speed can be got according to 
+the wheels used. As here shown, the wheels 
+have a speed ratio of two to one; and a light, 
+true-running shaft, say f inch or even ^ inch 
+diameter, carries the lower wheel. If this shaft 
+must be of any great length, or if much of it 
+must be unsupported, a greater diameter is de- 
+sirable; here again tubing can be substituted for 
+solid rod. For pumping purposes a crank may 
+
+
+
+
+
+
+
+1 
+
+
+i 
+
+
+f^ \ 
+
+
+■ p«iirin^ 
+
+
+
+
+■> '""'"'™ ^ 
+
+
+i 
+
+
+
+
+\\a o |! 
+
+
+: O O 1 / 
+
+
+
+
+■,' (^''" """" *'^-"-i-. 
+
+
+
+
+• 
+
+
+1' ^<.^.woaRin-^ 
+
+
+i 
+
+
+
+
+1 ^ 
+
+
+\ h 
+
+
+i 1 
+
+
+I 
+
+
+1 ' -'. 
+
+
+/ ^ 
+
+
+'1 
+
+
+5 
+
+
+^1 
+
+
+/ 
+
+
+M 
+
+
+S 
+
+
+
+
+;: / Fig 15 III 
+
+
+> 
+
+
+
+
+
+
+
+
+i 
+
+
+y °i, 
+
+
+•°^L 
+
+
+- 
+
+
+
+
+
+
+\^_^ 
+
+
+y ^sfx 
+
+
+lVi"DIA", sl 
+
+
+' Fig. 44 33^^ 
+
+
+iJi"Dui«. >.'; 
+
+
+' :>--rv^'^\ \ 1 
+
+
+
+
+K 
+
+
+%x^ v3 \k 
+
+
+w 
+
+
+1 
+
+
+ig-46 
+
+
+Fig. 44 Sail Mounted on Whip, with Stops for 
+
+
+AHomatic 
+
+
+Reversing, Fig. 45 End View of one Sail and 
+
+
+H.nge. 
+
+
+Fig. 46 Two Views of Arm for Fined Sails. 
+
+
+
+
+
+44 WINDMILLS AND WIND MOTORS 
+
+be arranged either as an overhung crank on tail 
+end of shaft, by an eccentric as described in the 
+last chapter, or by cranking the shaft itself, the 
+throw being made suitable for the pump to be 
+used. A light wooden connecting-rod should be 
+used if this plan is adopted. 
+
+The method of carr>'ing the vanes and also 
+the device for automatically s\i'inging them to 
+suit the wind are shown in figs. 40, 44, and 45. 
+The vanes are each formed of one (or, if neces- 
+sary, of two) f-inch boards, the edges being 
+tapered off as shown in fig. 45. Any timber not 
+liable to warp in sun and weather will be suit- 
+able, one of the best being Califomian redwood, 
+usuallv obtainable in wide sizes. 
+
+The supports or hinges, clearly seen in fig. 44, 
+are of }-inch X l-inch gal\*anised hoop-iron 
+neatly bent to fit round the arms at the places 
+assigned to them. They are attached to the 
+vanes by J-inch flat-headed rivets or bolts, gal- 
+vanised by preference, with large washers next 
+the wood, as shown. A good screw projecting 
+from the arm just beyond each bearing prevents 
+the vane from slipping ofiF. It should be seen 
+that each vane s^vin^rs easilv but without shake. 
+
+Owing to the unbalanced shape of the sails, 
+thev will swins: accordins: to the direction of 
+the wind, and means are provided to allow them 
+to take up a position either way at the best angle 
+for general work. This is specially shown in fig. 
+40> in which the black lines show how the sails 
+
+
+
+
+Fig.l? -Three Views of Front End BesHng for 6.footWin( 
+
+
+
+46 WINDMILLS AND WIND MOTORS 
+
+would set with the wind in the direction given, 
+and the direction of rotation for same. The 
+dotted lines indicate the condition when the wind 
+blows from the opposite quarter. The device 
+consists of pairs of short cross-bars screwed to 
+backs of arms and bolted, with packing between, 
+at their crossing. As the angle each way is im- 
+portant, care must be taken, by cutting away the 
+cross-bars or providing packing, if either is 
+necessary, to secure an angle of about 25°. A 
+template cut to the correct angle should be used 
+to adjust the vanes in each case. 
+
+The timber framing on which the mill is 
+erected needs no description beyond that af- 
+forded by the sketches, but it should be remem- 
+bered that stiffness is essential not only for 
+safety but also to avoid strain on the vertical 
+shaft and loss of power. Cross-bars can be 
+bolted in at intervals if this shaft is long, and 
+bearings fitted upon them. 
+
+A final word is necessary as to painting. For 
+such an " outside job " as a windmill careful 
+painting is essential, and in particular each piece 
+of finished timber in the mill itself must be very 
+carefully painted over before being built up. 
+Three coats of the best paint will not be too 
+much, and the last coat may be advantageously 
+mixed with some thoroughly good " outside " 
+varnish. The next season after erection, another 
+two coats of paint should be applied, but prob- 
+ably longer intervals may then elapse between 
+
+
+
+A SMALL WORKING WINDMILL 47 
+
+the applications. Attention should always be 
+paid to regular oiling, and it will be wise to 
+avoid working the mill unnecessarily by fitting 
+a brake or locking mechanism in some convenient 
+position indoors. Indeed, a brake may be very 
+desirable as a means of preventing accident either 
+to work or person if the windmill is used for 
+driving a lathe or other machine. 
+
+
+
+CHAPTER V 
+A Practical Working Windmill 
+
+To complete the series of small windmills suit- 
+able for amateur workmanship, a really practical 
+machine, capable of "power" production on a 
+moderate scale, remains to be described. It is 
+thought that a mill of lo-feet diameter, while 
+probably taxing to the fullest the constructive 
+ability of any average reader, might well be at- 
+tempted by a serious worker with happy results. 
+In this instance, while preserving the general 
+principle of simplicity, completeness has been 
+aimed at, and castings and forgings are adopted 
+throughout without hesitation. This certainly 
+involves some pattern-making, which, however, 
+should be within the scope of any one able to 
+carry out the necessary machining of the cast- 
+ings. Some readers may be willing — ^and able — 
+to reduce this part of the labour by adopting 
+makeshift details, but it should be remembered 
+that such a method is hardly more advisable 
+than it would be in the case of building any 
+other motor — say a steam-engine — for power 
+production. 
+
+The rating for a lo-foot windmill would be 
+about i H.P., which probably appears small for 
+
+48 
+
+
+
+
+Fig. 4B.-Front Elevation of 10-foot Windi 
+
+
+
+50 WINDMILLS AND WIND MOTORS 
+
+the amount of work involved and the material 
+employed. It is, however, a conservative esti- 
+mate, and is based on the standard i6-mile 
+breeze, which holds good for something like 8 
+hours per day on two-thirds of the days in the 
+-year. Manufacturers probably rate a mill of 
+this size much higher, and as long as no wind- 
+velocity is stated, they may fairly claim to be 
+correct. All practical modern windmills, how- 
+ever, are constructed with automatic gear so 
+that with any given velocity of wind a maxi- 
+mum output is obtained, and any increase in the 
+wind is more or less counteracted by the action 
+of the automatic gear. It follows therefore that 
+if our lo-foot mill is set to produce say ^ H.P., 
+it can only do this with a wind of much higher 
+velocity than i6 miles per hour, which is also 
+much more rare. Nevertheless, it will be quite 
+within the maker's power to get as much as this 
+and more out of his machine, if he so desires 
+and the wind is there. It will be merely a ques- 
+tion of altering the controlling weight, but will 
+also involve very much heavier stresses on the 
+machine. This point must be borne in mind. 
+
+A general elevation is given in fig. 48, to a scale 
+of J inch to the foot. The tower is built up of 
+four 3 inches X 3 inches vertical members, 12 
+feet high, each placed at the corners of a square, 
+with 4-inch space between each pair of uprights. 
+These uprights are well braced by struts, also 
+of 3 X 3 timber, starting below the circle of 
+
+
+
+A PRACTICAL WORKING WINDMILL 53 
+
+vanes, one strut on each side, and each bolted 
+to two uprights, as shown. The lower ends of 
+struts are lodged into two horizontal diagonals, 
+which are halved over each other at their cross- 
+ing so as to lie level. The lower ends of uprights 
+with a little shaping will also fit alongside these 
+diagonals and must be securely bolted to them 
+with ^-inch bolts. Bolts or straps must also se- 
+cure the diagonals to the feet of struts. Four 
+J-inch bolts not less than 3 feet long miust be 
+carried down at the four ends of the horizontal 
+members, into pockets of rough concrete of 2 or 
+3 cubic feet each. The holes above the concrete 
+must be then very firmly filled in and rammed, 
+and if the ground is soft or yielding, a greater 
+depth and more concrete must be employed. It 
+is perhaps needless to insist on the importance 
+of having all this timber, but especially that in 
+contact with the ground, thoroughly well tarred, 
+or better still, properly creosoted, and all bolts 
+should be galvanised. Large thick washers 
+under the nuts of the f-inch bolts are required. 
+A more detailed side elevation of the head, 
+tail, and part of the arms is given in fig. 49, to 
+a scale of f inch to the foot. This shows the 
+movable head casting A carried on the bearing 
+casting B. Both these are detailed still further, 
+to a scale of ij inches to the foot in figs. 50 to 
+54, and require little explanation. The stem of 
+A is of course turned to ride easily in the bored 
+hole in B, and is fitted with brass bushes for 
+
+
+
+54 WINDMILLS AND WIND MOTORS 
+
+axle and for vertical shaft. The casting B is 
+securely bolted to the tops of the 3X3 uprights 
+with ^-inch bolts, care being taken to get it 
+truly upright and central with the timbers. 
+Packing pieces, C, in figs. 49 and 54, are used to 
+ensure correct spacing. Note should be taken 
+of the sheet of zinc or lead, D, figs. 49 and 50, 
+which is first laid on tops of uprights, with suit- 
+able hole in middle to allow stem of B to pass, 
+and is then dressed down, as shown, to throw 
+all water from the timbers. It should hang clear 
+of the latter to avoid capillary action. 
+
+The tail, employed to keep the mill up to the 
+wind, is also shown in fig. 49 at E. It is car- 
+ried by two light angles, ij inches X H inches 
+X i inch, F and G, which are bolted respectively 
+to the top and bottom of head casting A with 
+f-inch bolts. The position of these angles is in- 
+dicated (in dotted lines) in figs. 50 and 51 at F. 
+A sheet of zinc forms the tail surface and is 
+riveted to angles with J-inch rivets about 4J 
+inches' pitch. Four stiflfeners of ij inch X i- 
+inch hoop-iron run vertically across the surface, 
+dividing it into three equal spaces. Both angles 
+and stiffening strips should be galvanised. 
+
+The shaping of one of the eight arms for the 
+vanes is shown in fig. 55, and the outline of sail 
+in fig. 56. The assembling of these parts is in- 
+dicated in fig. 49, but it is necessary to turn to 
+fig^- 57 to see in greater detail not only the 
+method of fixing but also the formidable-looking 
+
+
+
+A PRACTICAL WORKING WINDMILL 
+
+
+
+55 
+
+
+
+array of levers and rods constituting the auto- 
+matic gear. Every one of the eight sails has its 
+independent set of levers to actuate the central 
+
+
+
+»« «/i 
+
+
+
+^"x2 
+
+
+
+
+r- 
+
+
+
+— 2'3i'- 
+
+
+
+■*i^ 
+
+
+
+NOT TO SCALE 
+
+
+
+Fig. 55. — Shaping of Arm or Whip. 
+
+
+
+sliding rod, but while it must be admitted this 
+means a rather long list of troublesome details, 
+the complication is much more apparent than 
+real, and is largely due to the difficulty of ren- 
+
+
+
+CN 
+
+
+
+ol 
+
+
+
+HINGES 
+
+
+
+'«// 
+
+
+
+B'O 
+
+
+
+«A08. 
+
+
+
+HINQE 
+
+
+
+
+
+
+Fig. 56. — Outline of Sail for lo-foot Windmill. 
+
+
+
+dering in a drawing the working of levers that 
+do not lie in the same plane. The reader is 
+therefore asked to study with some care these 
+drawings, which the author for his part believes 
+to be presented as simply as possible. All that 
+has really to be remembered is that the wind 
+
+
+
+56 WINDMILLS AND WIND MOTORS 
+
+impinging on an unbalanced sail attempts to 
+turn it on its hinges, as shown in plan in fig. 58. 
+Regarding now the short side of sail (the so- 
+called "leading sail"), it of course describes an 
+arc of rather less than a right angle, until it 
+lies flat in the plane of the wind's direction. The 
+chord of this arc, or rather of that described by 
+a projecting pin J (a piece of %6-inch rod bent 
+as shown), forms the path of the lower arm of 
+lever K, fully drawn in fig. 64, the other arm of 
+which, being at right angles, must move verti- 
+cally up and down as compared with the sail 
+movement. This actuates the f-inch rod L (de- 
+tailed in figs. 59 and 60), which in its turn works 
+lever M. As before indicated, the planes of 
+movement of the levers K and M are not coinci- 
+dent, but while this makes their representation 
+on paper less easy, it in no way affects the ob- 
+ject, which is to produce on the sliding rod N 
+an in-and-out movement according to the amount 
+of the wind's pressure. The lever K is supported 
+at the special angle required (seen in plan in fig. 
+58) by a bracket O (fig. 64) bolted to arm. The 
+top arm of lever is made with a return end in 
+order to give a long bearing, and bottom end 
+slotted to allow the necessary play for the pin 
+J, due to the path of the latter being an arc. 
+
+Returning now to the sliding rod N, it will be 
+seen that the motion of the eight levers M is 
+transmitted to it through the special turned nut 
+P, figs. 62 and 63. The various possible posi- 
+
+
+
+A PRACTICAL WORKING WINDMILL 57 
+
+tions of the forked end of lever require that the 
+section of this " nut " be turned to the curves 
+shown. A lock-nut on the outer side enables P 
+to be screwed up to the most suitable position, 
+and there secured in place by the lock-nut. 
+
+Examination will show that the tendency of 
+any wind action on the sail is to force rod L 
+nearer the centre of mill, and so to drive rod N 
+to the right as looked at in figs. 49 and 57. This 
+has to be met at the other end of N by the coun- 
+teraction of a weight, R, carried by a cranked 
+lever, S, indicated in a diagram in fig. 49, and 
+more fully in figs. 67 and 69. The lever, the 
+short end of which is doubled or looped (see left- 
+hand view in fig. (>y^ in order to pass on both 
+sides of the loose pin bearing T, is hung from 
+the upper tail-angle F by a ^-inch screw, a se- 
+curer bearing being obtained for this by tapping 
+into the block U, which is riveted to angle, see 
+section, fig. 68. The arrangement of end of rod 
+N and pin block T is more clearly shown in fig. 
+69. Fig. 65 gives an end view of pin bearing, T. 
+
+The weight, R, should be cast double, one 
+piece having a slot or recess cast on one side as 
+shown in fig. 66. It is difficult to fix on the exact 
+weight that may be required, as this depends 
+not only on the views of the maker as to the 
+power which he desires the mill to exert at its 
+maximum, but also on the friction of the numer- 
+ous joints in levers. It is, however, recom- 
+mended that a trial be made with a weight of 
+
+
+
+6o WINDMILLS AND WIND MOTORS 
+
+about ID lbs., corresponding with the full lines 
+in the drawings given. If the mill sails are 
+found to open too easily with this weight — which 
+is, however, doubtful — it can be shifted further 
+along the lever arm, or if even this is found 
+insufficient, another disc can be added as shown 
+dotted on the left in fig. 66. A light galvanisci 
+chain, running over a pulley in top angle 'oC 
+tail and hanging with a loop to within 6 fe«l of 
+the ground level, is used to lift weight wheik tlie 
+owner desires to stop the mill, this actioa, of 
+course, opening all the sails so as to present ooij 
+their edges to the wind. The other end of chain 
+is looped back to a point near outer end of tail 
+to avoid entanglement with uprights or running 
+shaft. A hook attached to chain in proper posi- 
+tion, W, can be hitched under lower angle of 
+tail by taking chain sideways a little and so hang 
+the weight up for any length of time. 
+
+The automatic action and its details should 
+now be fairly clear, and the remaining parts of 
+the mill are simple. The large central casting, 
+X, appears in several figures, notably in section 
+in fig. 57 and in front elevation in fig. 70. It is 
+undoubtedly the most serious undertaking in the 
+whole construction and must probably be " put 
+out" into the hands of professionals. It should 
+not, however, be a costly item, and if made as 
+indicated will go far to making the mill a prac- 
+tical job. This casting carries the eight arms 
+and makes secure connection to the axle. It is 
+
+
+
+62 WINDMILLS AND WIND MOTORS 
+
+backed up in its support of the arms by the 
+smaller annular casting Y, fig. 71, which is bored 
+to fit well over turned part of X. Three very 
+well-fitted ^-inch screws at 120** secure the boss 
+to shaft, a good tight fit between shaft and casting 
+being essential. These screws must not project 
+inside the shaft far enough to touch the sliding 
+rodN. 
+
+The casting X carries also the eight little 
+brackets Z for the levers M. These brackets are 
+of cast iron and may be " American " in char- 
+acter in so far that the pins form part of the 
+casting, a file probably being a good enough tool 
+to finish them. 
+
+A little further stiffening of the sail-arms is 
+obtained by the use of the tension-rods TR, de- 
+tailed in fig. J2, These ar^ only J-inch galvan- 
+ised rods one end turned over for an inch at 
+right angles and the other screwed and lock- 
+nutted. The tension put on these must be even 
+and not too great; but they, as well as other 
+screws and bolts in the machine, will probably 
+require tightening up once or twice when the 
+weather has had its effect on the timber. 
+
+A word is required in reference to this latter 
+item. The arms should certainly be wrought 
+from good sound seasoned ash. The sails can 
+hardly be formed of better timber than Califor- 
+nian redwood (Sequoia semper znrens), which 
+can be obtained in wide boards. They will be 
+4 inch thick with the edges chamfered oflf both 
+
+
+
+A PRACTICAL WORKING WINDMILL 63 
+
+Sides. Three battens, 2 inches X li of sound 
+hardwood (ash, bluegum, etc.) must be well 
+screwed across, and the hinges, three in number, 
+will come opposite these, on the other side of 
+sail. These hinges should be of the strongest 
+make of T shape, galvanised. They are shown 
+in the plan, fig. 58. 
+
+So far the axle has hardly been mentioned. 
+It is, however, a very simple matter, being 
+nothing but a piece of 2-inch (outside diameter) 
+steel steam-pipe, preferably solid drawn, and 
+quite J inch thick. It should be true to begin 
+with, so that the very lightest skimming in the 
+lathe will make it a good journal. It carries the 
+usual bevel-wheel, indicated in figs. 49 and 57, 
+and gearing with another of the same size on 
+the vertical shaft. Both wheels are 4 inches on 
+inner diameters, but may be more or less if re- 
+quired, the casting A being altered if necessary. 
+The vertical spindle would be a piece of f-inch 
+cold rolled steel shafting, and should have bear- 
+ings also at bottom end and half-way down the 
+tower, presuming the spindle is carried down to 
+the ground as shown in fig. 48. A pair of bevel- 
+wheels is also required to transmit power to a 
+horizontal shaft. 
+
+One or two points in conclusion deserve re- 
+mark. First, that all possible metal parts should 
+be either galvanised or of sheet zinc. The cast- 
+ings will most probably be only painted. They 
+should be "pickled," freed from rust and espe- 
+
+
+
+04 WINDMILLS AND WIND MOTORS 
+
+cially from dirt and grease, and painted with 
+good red lead paint well rubbed in. It is better 
+still to warm the castings to about loo** Fahr. 
+when putting the first coat on. Three coats of 
+the red lead paint, thinly put on, and a finishing 
+coat of grey or black paint are required to make 
+a good job. The woodwork, it has already been 
+remarked, should be tarred or creosoted. This 
+does not apply to the arms and vanes, all of 
+which require the usual painting in most thor- 
+ough fashion. The most suitable paint is pure 
+white lead with a dash of ochre. 
+
+Steps, formed from any suitable timber, say 
+3X2 inches, should be nailed up at least two 
+sides of the verticals to enable the owner to 
+reach the head of mill for oiling, etc. 
+
+A mill of this power, especially if used to 
+drive a lathe or other workshop tools, should 
+have a simple cut-out device — such as a sliding 
+coupling actuated by a handy cord or chain, so 
+as to throw the mill out of gear in case of an 
+accident. A brake is not so necessary, as the 
+automatic gear is designed as much as possible 
+to keep the machine at uniform speed. Under 
+normal output this speed should be from 80 to 
+100 revs, per minute, varying slightly according 
+to the setting of the sails. These, in their flat- 
+test position — that is, with a light wind — should 
+lie at an angle of about 20° to the plane of 
+revolution of the wheel. 
+
+
+
+CHAPTER VI 
+
+Production of Electricity by Wind-Pov/er 
+
+To most readers the possibility of applying 
+the power from a windmill to the production 
+of electrical energy will be an interesting fea- 
+ture, and it is fortunate that recent experimental 
+work has proved that not only is this feasible 
+but even simple, inexpensive, and reliable. By 
+" reliability " it is not, of course, meant that the 
+fickleness of the wind is completely overcome, 
+but only ^that Jhe 3£garatuSj^ whigtu iacludes 
+some automatic gear, can be relied upon not to"^ 
+go wrong, rt is certainly possible — within rea- 
+sonable limits — by employing a large enough 
+mill and accumulator, to tide over even exten- 
+sive calms, but probably any amateur engineer 
+who decides to adopt the method to be de- 
+scribed will be willing to accept a few inevitable 
+" off-days " in each year, when no current will 
+be available, balancing this trouble against the 
+very definite advantage of the inexpensiveness 
+of the powen ' 
+
+Many experiments have been made at differ- 
+ent times and in different places to utilise wind- 
+power in the way now under discussion. There 
+is, however, no need to deal with more than one, 
+
+65 
+
+
+
+65 WINDMILLS AND WIND MOTORS 
+
+which, having proved satisfactory' in practice, is 
+in use in a fairly large number of instances in 
+North Germany and in Denmark, not only for 
+the supply of isolated farm-houses but even for 
+village lighting and power production. In prac- 
+tically all these cases an oil-engine is jised as a 
+standby, yet it*is found that the number of days 
+in the year on which this engine is called into 
+use are so few that the reader who proposes to 
+light a house or provide himself with power on 
+a small scale may reasonably consider the extra 
+expense unnecessary in his case. 
+
+The following suggestions are based entirely 
+on the excellent work recently done and pub- 
+lished by Prof. P. la Cour in Denmark on behalf 
+of that Government, which has in that partic- 
+ular placed itself ahead of other countries — 
+considerably to the advantage of many of its 
+villages and isolated dwellings. The reader 
+must be prepared to experiment a little — not 
+indeed in principles but in details of apparatus 
+to suit his own case — ^but may rest absolutely 
+assured that the method is quite practical and 
+satisfactory. 
+
+There are two main difficulties in applying a 
+power so variable and intermittent as wind to 
+the production and supply of electricity. There 
+must, first, be a means of automatically switch- 
+ing on the dynamo to a set of accumulat6?s 
+whenever the former is in a position to deliver 
+current, the same apparatus cutting it out when 
+
+
+
+PRODUCTION OF ELECTRICITY BY WIND-POWER 6y 
+
+the power falls away, gecondly, means must be 
+adopted whereby an increase of wind-power be- 
+yond the normal amount required to just work 
+the dynamo shall not affect the output by in- 
+ctieasing either voltage or current. Both these 
+ends have been attained by La Cour with the 
+simplest apparatus imaginable. 
+
+A consideration of the second question raised 
+will show why it is necessary to decide on a 
+definite wind-velocity as being that at which 
+any given windmill shall supply its " normal " 
+output. By rating it low, say a wind of 9 miles 
+per hour, it is possible to keep a dynamo work- 
+ing nearly every day in the year and for twelve 
+hours out of the twenty-four. But the power of 
+the wind at 9 miles an hour is only a quarter 
+of that at 15 miles an hour, and although the 
+latter only blows about half the total number 
+of days in a year, and then for only about nine 
+or ten hours a day, its total output is greater 
+than the other. Another point to be considered 
+IS that a very small dynamo is much less effi- 
+cient, so that a double loss is experienced if too 
+much constancy of work is aimed at. Of course, 
+in a large installation these points have less 
+emphasis, and it becomes desirable to run the 
+plant at a lower wind-rating (in other words, 
+use a comparatively large mill), the only limit- 
+ing factor being the initial cost of the plant. 
+
+In a wind-driven generating plant the follow- 
+ing points should be noted. The windmill itself 
+
+
+
+68 WINDMILLS AND WIND MOTORS 
+
+should be self-regulating (as, for example, that 
+described in Chap. V.), and fitted with tail so as 
+to turn to face all possible winds. The dynamo 
+should be shunt-wound, so that an increase in 
+the external resistance tends to raise the ter- 
+minal voltage. If necessary, this tendency may 
+be increased by having one or two resistance 
+coils in series with the shunt-winding, these 
+coils being automatically cut out as the external 
+resistance rises and current falls. A low-speed 
+machine is certainly preferable, the speed of a 
+windmill being rather low itself. The accumu- 
+lator is a vital point: it should have a large 
+capacity, as on this depends its ability to main- 
+tain a supply over a longer period of calm; yet, 
+as it is undesirable for anv accumulator to re- 
+main long at a low state of charging, care must 
+be taken to avoid draining it — especially if a 
+spell of calm weather seems likely. 
+
+The whole of the electrical apparatus is 
+shown diagrammatically in fig. 73, the only part 
+needing much description being the automatic 
+switch, further illustrated in three views in fig. 
+74. This consists of two electro-magnets, EM, 
+each like an ordinary bell-iiiaq:nct, and wound 
+with fine wire, but w^ith an extra winding of a 
+few turns of thick wire, exactly like a compound- 
+wound dynamo field magnet. A horse-shoe per- 
+manent magnet, PM, is suspended so that its 
+poles lie opposite and near to the poles of the 
+electro-magnets, and swings by means of the 
+
+
+
+70 WINDMILLS AND WIND MOTORS 
+
+pivot screws which work in a brass (or non- 
+magnetic) block, B. This block also carries the 
+copper rod CR, each end of which turns down- 
+ward into the wooden cups i and 2, containing 
+mercury, matters being so arranged, however, 
+that the end i is always in the mercury which- 
+ever way PM is swung, while 2 only touches 
+the mercury when that end of CR is drawn 
+downwards. 
+
+The switchboards present no special features. 
+By following out the connections it will be seen 
+that any agreed number of cells can be switched 
+on to the dynamo, while any independent num- 
+ber can be caused to supply the lamps. This 
+latter arrangement is desirable to allow for drop 
+of voltage during discharge, also to provide for 
+losses in mains and for an extra cell or two in 
+case of accident to others. 
+
+The action of the automatic switch is as fol- 
+lows: Assuming the dynamo to be still, or 
+running at too low a speed to furnish current, 
+it will be seen that the battery is energising the 
+electro-magnets EM through the fine wire-coils, 
+the current passing also through the armature 
+of the dynamo. The winding of EM is such 
+that the current in this direction attracts the 
+poles of PM to the right and so raises the end, 
+2, of CR out of the mercury. Only a very 
+small current is required, or allowed, to be thus 
+wasted. Supposing now the wind to increase 
+sufficiently to raise the speed of dynamo so 
+
+
+
+72 WIXDMILLS AXO ^IXO MOTORS 
+
+much as to be able to supply cnrrent. the first 
+effect will be to reduce the current in EM to 
+nil and then to reverse it, altering the polarity 
+of the electro-magnets and throwing the lower 
+end of magnet PM over to the right. This, by 
+dipping the end 2 of CR into the mercury, 
+makes connection between the d>Tiamo and ac- 
+cumulator, the charging of which at once begins. 
+The eflFect of the thick-wire coils on EM is to 
+hold the magnet switch more securely during 
+charging. The opposite action — that of throw- 
+ing out the d>Tiamo when the speed fails — ^is 
+obvious on inspection. 
+
+The apparatus required to maintain the dy- 
+namo at the right speed when that of the mill 
+itself ranges too high is a system of belts and 
+pulleys, shown in fig. 75. Here A is an ordinary 
+pulley with the usual cur\'ed face; B, a rather 
+wide, flat-surfaced pulley; C and D, again, ordi- 
+nary pulleys; C and B being fast on one shaft. 
+This shaft is carried on the light timber frame 
+EF, hinged at E, and canying a weight G at 
+the other end. 
+
+It will be seen that this arrangement provides 
+for a constant pull on the belt between A and B. 
+It may be found that this pull is too great even 
+without the weight G, in which case a cord 
+(shown dotted) takes its place, and, by means 
+of a pulley overhead and another weight, takes 
+off some of the load. 
+
+The belt CD has no special feature beyond 
+
+
+
+PRODUCTION OF ELECTRICITY BY WIND-POWER 73 
+
+being thin, supple, and even. That between A and 
+B, however, must be specially smooth on its run- 
+ning surface, and must in addition be thoroughly 
+well oiled. On this depends the peculiar result to 
+be obtained. It is found that when the weight G 
+has been properly adjusted, and other details of 
+current supply, etc., decided upon by experiment, no 
+matter how much faster than normal A is compelled 
+to run by the wind, the speed of B remains con- 
+stant or with just sufficient variation to meet 
+the slightly varying conditions required by the 
+dynamo, the belt slipping on B at the higher 
+speeds. The principle, of course, is not new; 
+but its application in the present instance, to- 
+gether with the automatic switch, is an excellent 
+example of mechanical adaptation. 
+
+The details of the whole of the apparatus 
+must necessarily be worked out by individual 
+requirements: the following suggestions, how- 
+ever, are added as an example, the instance 
+chosen being the lo-foot windmill described in 
+the last chapter. This windmill, working in a 
+15- or 16-mile breeze, should have an output of 
+about i H.P. Allowing for losses in dynamo, 
+gearing, and belts, it may be assumed that a 
+dynamo of lOO-watts output would be the right 
+machine for the available power. The voltage 
+chosen might well be 25, this being its lowest 
+rate at normal speed, which may be assumed at 
+1500 revs, per minute. 
+
+Under these circumstances, and assuming 
+
+
+
+■»i« 
+
+
+
+74 
+
+
+
+WINDMILLS AND WIND MOTORS 
+
+
+
+pulley A (fig. 7s) to run at 200 revs, per min- 
+ute (by whatever gearing used), A might be 12 
+inches diameter X 2 inches width ; B, 6 inches X 
+
+
+
+
+Fig. 75. — Driving Belt Arrangement for Wind Electrical 
+
+Plant. 
+
+• 
+
+3 ; C, 8 inches X 2 ; and D, the dynamo pulley, 
+2 inches X 2 inches. This gives a rather higher 
+ratio than is required — an error on the right 
+side. The belt between A and B should be i% 
+inches X %o inch, the pulleys being about 6 feet 
+centres, and belt CD i inch wide X Vh i^^ch thick, 
+also with about 6 feet drive. 
+
+
+
+PRODUCTION OF ELECTRICITY BY WIND-POWER 75 
+
+There would be twelve accumulator cells, 
+each of from 150 to 200 ampere-hour capacity, 
+which would be easily capable of dealing with 
+the full current for twenty-four hours' continu- 
+ous charging. The capacity mentioned is the 
+maximum suitable for the given plant, but the 
+minimum may be anything down to twelve 
+pocket-batteries, if so desired. Within the 
+limits given, the greater the capacity the more 
+the independence of conditions of wind. 
+
+With regard to the automatic switch, a little 
+experimenting and adjusting will be needed to 
+ensure its correct working. The electro-magnets 
+may be two ordinary bell-magnets, wound with 
+No. 36 wire, the bobbins being about ij inches 
+long and i inch diameter outside. A resistance 
+may be needed in series with this winding, or 
+the effect may be tried of connecting up only 
+six of the cells to these coils, the six on the left- 
+hand side in fig. 73 being, of course, selected. 
+All four bobbins will be joined in series. Over 
+the fine wire on each bobbin will be wound from 
+six to twelve turns (to be determined by experi- 
+ment) of No. 16 or 14 gauge cotton-covered 
+wire, the winding being in same direction as 
+the fine wire in each case, so that the current 
+is a reinforcing one when being supplied from 
+the dynamo. The balance of the permanent 
+magnet can be adjusted by moving the copper 
+rod CR either to right or left. 
+
+The output from such an installation may of 
+
+
+
+76 WINDMILLS AND WIND MOTORS 
+
+course be anything up to the safe discharge rate 
+of the battery employed. Assuming the normal 
+conditions of charging to be, say, lOO watts for 
+ten hours (equal to looo watt-hours), and that 
+this charge is to be used in two evenings, there 
+would be available 500 watt-hours per evening, 
+less the losses in transforming, or, say, 80 watts 
+for five hours. Fortunately at the time of year 
+— winter — when longer lighting is necessary 
+more wind-power is also available. Of course, 
+only metallic-filament lamps should be used, 
+when it will be seen that with proper propor- 
+tioning of the plant quite a respectable output 
+in light is to be obtained. The lamps for the 
+above installation would be 16 volt. 
+
+If the loan of an anemometer cannot be ob- 
+tained, a simple form of wind-pressure meter 
+should be used to determine the right weight 
+(R, fig. 49) required to just hold the windmill 
+sails at the velocity decided upon. Such an 
+apparatus is sketched in fig. 76. It is merely a 
+sheet of stout cardboard, 2 feet X i foot, hung 
+on one of the narrow edges by a hinge of linen, 
+the middle of the lower edge being connected 
+as shown to a small spring letter balance capa- 
+ble of reading up to at least one pound. A table 
+of wind-pressures and velocities is given below, 
+by which any pressure registered can be con- 
+verted into velocity. The pressure-board must, 
+of course, squarely face the wind blowing at the 
+time of the experiment. Note that the spring 
+
+
+
+PRODUCTION OF ELECTRiaTY BY WIND-POWER yj 
+
+balance is just at zero when no wind is im- 
+pressed on the board, or a false reading may 
+be obtained. If made to the given sizes, the 
+
+
+
+
+<r--t2-- 
+
+
+
+O 
+CI 
+
+
+
+
+-LINEN HINQE 
+
+
+
+DIRECTION 
+
+■< 
+
+OF WIND 
+
+
+
+SPRING BALANCE 
+
+Fig. 'jd. — A Simple Wind-pressure Gauge. 
+
+
+
+readings will be direct measurements of the 
+pressure per square foot. 
+
+The brake horse-power of a windmill can be 
+taken in exactly the same way as that of a 
+steam-engine, the only difficulty being the usual 
+unsteadiness of the wind. At a time when the 
+wind is fairly steady and about right in velocity, 
+
+
+
+78 
+
+
+
+WINDMILLS AND WIND MOTORS 
+
+
+
+such a test should be made, one observer watch- 
+ing the pressure-meter and noting the pressure, 
+say, every half-minute, another reading the 
+spring balance of the brake at similar intervals, 
+the test lasting for a quarter of an hour. Aver- 
+age results may then be obtained, which may 
+be extremely useful for determining the size of 
+dynamo required, it being remembered that the 
+power of the wind varies (theoretically) directly 
+as the cube of its velocity. In practice the vari- 
+ation rate lies between this and the square of the 
+velocity. 
+
+
+
+Table of Wind Pressure and Velocities. 
+
+
+
+Miles per 
+
+
+Feet per 
+
+
+Feet per 
+
+
+Force in 
+
+lbs. per 
+
+sq. foot. 
+
+
+hour. 
+
+
+minute. 
+
+
+second. 
+
+
+1 
+
+
+88 
+
+
+1.47 
+
+
+.005 
+
+
+2 
+
+
+176 
+
+
+2.93 
+
+
+.020\ 
+.044/ 
+
+
+3 
+
+
+264 
+
+
+4.4 
+
+
+4 
+
+
+352 
+
+
+5.87 
+
+
+.079\ 
+.123/ 
+
+
+5 
+
+
+440 
+
+
+7.33 
+
+
+10 
+
+
+880 
+
+
+14.67 
+
+
+.4921 
+1.107/ 
+
+
+15 
+
+
+1320 
+
+
+2? 
+
+
+20 
+
+
+1760 
+
+
+29.3 
+
+
+1.9681 
+3.075/ 
+
+
+25 
+
+
+2200 
+
+
+36.6 
+
+
+30 
+
+
+2640 
+
+
+44 
+
+
+4.4281 
+6.027/ 
+
+
+35 
+
+
+3080 
+
+
+51.3 
+
+
+40 
+
+
+3520 
+
+
+58.6 
+
+
+7.8721 
+9.963/ 
+
+
+45 
+
+
+3960 
+
+
+66 
+
+
+50 
+
+
+4400 
+
+
+73.3 
+
+
+12.300 
+
+
+oO 
+
+
+5280 
+
+
+88 
+
+
+17.712\ 
+24.108/ 
+
+
+70 
+
+
+6160 
+
+
+102.7 
+
+
+80 
+
+
+7040 
+
+
+117.3 
+
+
+31.4881 
+49.200/ 
+
+
+100 
+
+
+8800 
+
+
+146.6 
+
+
+
+Description. 
+
+
+
+Hardly perceptible. 
+Just perceptible. 
+
+Gentle breeze. 
+
+Pleasant breeze. 
+
+Brisk gale. 
+
+High wind. 
+
+Very high wind. 
+Storm. 
+Great storm. 
+
+Hurricane. 
+
+
+
+5It 
+
+
+
+■^ 
+
+
+
+LEARN TO DO THINGS 
+
+
+
+Model Library Series 
+
+OF COPYRIGHTED BOOKS 
+
+1 . The Study of Electricity for Beginners. 
+
+2. Dry Batteries, How to Make them. 
+
+3. Electrical Circuits and Diagrams, Part 1 . 
+
+4. Electric Bells, Annunciators and Alarms. 
+
+5. Modern Primary Batteries. 
+
+6. Experimenting w^ith Induction Coils. 
+
+7. Electric Gas Igniting Apparatus. 
+
+8. Small Accumulators, How to Make and Use 
+
+9. Model Steam Engine Design. 
+
+10. Practical Electrics. 
+
+1 1 . Inventions, How to Protect and Sell Them. 
+
+12. Woodwork Joints, How to Make and Use. 
+
+1 3. The Fireman's Guide to the Care of Boilers. 
+
+14. The Slide Valve Simply Explained. 
+
+15. The Magneto Telephone. 
+
+16. The Corliss Engine and Its Management. 
+
+17. Making Wireless Outfits. 
+
+18. Wireless Telephone Construction. 
+
+19. The Wimshurst Machine, How to Make It. 
+
+20. Simple Experiments in Static Electricity. 
+
+21. Small Electrical Measuring Instruments. 
+
+22. Electrical Circuits and Diagrams, Part 2. 
+
+23. Induction Coils, How to Make Them. 
+
+24. Model Vaudeville Theatres. 
+
+25. Alternating Currents, Simply Explained. 
+
+26. How to Build a Bi-plane Glider. 
+
+27. A B C of the Steam Engine. 
+
+28. Simple Soldering, Hard and Soft. 
+
+29. Telegraphy for Beginners. 
+
+30 . Low V oitage Lighting with Storage Batteries. 
+
+33. House Wiring for Electric Light. 
+
+34. Magnets and Magnetism. 
+
+36. Small Windmills and How to Make Them. 
+Injectors, Their Construction and Use. Keppy. 
+Refrigeration and Ice Making. Wakeman. 
+
+SPON R CHAMBERLAIN 
+
+PUBLISHERS OF TECHNICAL BOOKS 
+
+123-5 LIBERTY St.. new York 
+
+
+
+^» ^ n I v ^^ 
+
+
+
+No. 1. 
+
+
+
+Price, 25 
+
+
+
+THC 
+
+
+
+Study or Blegtrigh 
+
+
+
+rOR BEGINNERS. 
+
+
+
+Comprising the Elements of Electricity and Magnettsm as Ap 
+to Dynamos, Motors. Wiring, and to all Branches 
+
+of Electrical Work. 
+
+
+
+BY 
+
+
+
+NORMAN H. SCHNEIDER. 
+
+
+
+With Fifty-four Original Illustrations and Six Tabic 
+
+
+
+
+No. 2. 
+
+
+
+Price, 25 cts. 
+
+
+
+DRY BATTERIES, 
+
+tSfitOALU ADAPTH) POR 
+
+Automobile, Launch and Gas Engine Work; Medical Coils. B 
+Annunciators, Burglar Alarms, Telephones, Electrical 
+Experiments and all purposes requiring 
+a Good Battery. 
+
+
+
+WITH THIRTY OEIGINAL ILLUSTKATIONS. 
+
+
+
+
+No. 3. 
+
+
+
+Parti. 
+
+
+
+Price, 25 ct 
+
+
+
+ELECTRICAL 
+
+Circuits and DiAtiRAJw 
+
+ILLUSTRATED AND EXPUINED. 
+
+
+
+New and Original Drawings, comprising Alarms, Annuncial 
+
+Automobiles, Bells, Dynamos, Gas Lighting, Motors, 
+
+Storage Batteries, Street Railways,- Telephone, 
+
+Telegraph, Wireless Telegraphy, 
+
+Wiring and Testing. 
+
+
+
+NORMAN H. SCHNEIDER, 
+
+
+
+nitr~n 1 
+
+
+^^U ^ 
+
+
+
+
+1 
+
+
+H'HiH'ltlH 
+
+
+
+
+4s J 
+
+
+I=X 
+
+
+L_^l./VW^] 
+
+
+^ i 
+
+
+
+No. 4. Price, 25 cts. 
+
+HOW TO INSTALL 
+
+ELEGTRie Bells, 
+ANNUJvem tors, 
+
+AND Alarms. 
+
+
+
+Batteries, Wires and Wiring, Circuits, Pushes, Bells, Burglar 
+
+Alarms, High and Low Water Alarms, Fire Alarms, 
+
+Thermostats, Annunciators, and the Location 
+
+and Remedying of Troubles. 
+
+By NORMAN H. SCHNEIDER. 
+
+
+
+
+No. 5. 
+
+
+
+Price, 25 cts. 
+
+
+
+MODERN 
+
+Primary Batteries. 
+
+THtIR GONSTRUGTION. 
+
+USB AND MAINTENANCE. 
+
+Including Batteries for Telephones, Telegraphs. Motors. Electric 
+
+Lights, Induction Coils, and for all 
+
+E:^rimental Work, 
+
+BY 
+
+NORMAN H. SCHNEIDER. 
+
+
+
+
+No. 6. 
+
+
+
+Price, 25 cts. 
+
+
+
+EXPERIMENTING WITH 
+
+iNDUGTioiN Coils. 
+
+Containing practical dlrectloiis for operating Induction Coils and 
+
+Tesla Coils ; also showing how to make the apparatus ' 
+
+needed for the numerous experiments described. 
+
+
+
+H. S. NORRIE, 
+
+Author of '■ Induction Cmts and Col Making." 
+
+
+
+Fully llli>strated with Original Drawings. 
+
+
+
+
+MODEL LIBRAinr PllOe, XO CCS. 
+
+No. 8 
+
+SMALL 
+ACCUMULATORS. 
+
+Hav to !<t2ke, Chsi^ sM Use Tbecc, vlth Qossary 
+
+cf Techcical Ter~^ Useful Receifits 
+
+ax Merccrarda. 
+
+BY 
+
+PERCIVAL MARSHALL, A. 1. Mech. E. 
+
+
+
+Revfsd ai^ Eniatged Eifiduk 
+
+
+
+
+
+Price 25 Cts. 
+
+
+
+nODEL 
+
+
+
+TEAM ENGINE 
+DESIGN 
+
+
+
+HANDBOOK FOR THE DESIGNER OF SMALL. 
+STEIAM EINGINES, 
+
+By R. M. deVIGNIER. 
+
+
+
+
+THE 
+
+MODEL LIBRARY 
+
+No. 10 
+
+
+
+Price 26 Cents 
+
+
+
+Practical Electrics 
+
+A. Universal Handy BooK 
+
+ON 
+
+ELECTRIC BELLS. BATTERIES. ACCUMULATORS. 
+
+DYNAMOS. MOTORS, INDUCTION AND INTEJJSITT COILS. 
+
+TELEPHONES, MICROPHONES. PHONOGRAPHSw 
+
+PHOTOPHONES. ETC. 
+
+
+
+
+THE 
+
+MODEL LIBRARY ^"^ 2 6 Ctaits 
+
+No. 11 
+
+
+
+INVENTIONS 
+
+
+
+HOW TO 
+
+
+
+Protect, Sell and Buy Them 
+
+
+
+A PRACTICAL AND UP-TO-DATE GUIDE 
+
+
+
+FOR INVENTORS AND PA TENTEES 
+
+
+
+BY 
+
+
+
+FREDERIC B. WRIGHT 
+
+Attorney -at- Law y Counsellor in Patent Causes 
+
+
+
+\ 
+
+
+
+THE 
+MODEL LIBRARY 
+
+
+
+Price, 25cts. 
+
+
+
+Woodwork Joints 
+
+HOW TO MAKE ft^D WHERE TO USB THEM. 
+
+CONTAINING 
+
+Full (nstructions tor making Moillse and Tenoo, Lap, Dovetail, 
+Scarfing, and Glue Joints, with a Chapter on 
+
+Circular Woodwork. 
+
+
+
+
+THE 
+
+MODEL LIBRARY 
+
+No. 13 
+
+
+
+
+
+
+PRICE 25 CTi 
+
+THE FIREMAN'S GUIDE 
+
+AND HANDBOOK ON THE 
+
+CARE OF BOILERS 
+
+BY 
+
+KARL P. DAHLSTROM, M. E. 
+
+
+
+
+™E Price 25 Cents 
+
+MODEL LIBRARY 
+
+No. 14 jjj^ 
+
+SLIDE VALVE 
+
+Simply Explained 
+A Practical Treatise for Locomotive Engineers 
+
+AND 
+
+Students of the Steam Engine 
+
+By 
+W. J. TENNANT, Amo. M. I, M. E., and J. H. KINBALY, M. E. 
+
+Revised and Considerably Enlarged Including a Number of 
+New Illustrations 
+
+
+
+
+Model Library Price 25 cts. 
+
+No. 16 
+
+THE 
+
+CORLISS ENGINE 
+
+AND ITS 
+
+MANAGEMENT 
+
+BY 
+
+JOHN T. HENTHORN 
+
+AND 
+
+CHARLES D. THURBER 
+
+
+
+THIRD EDITION WITH AN APPENDIX 
+
+
+
+
+No, 17. 
+
+
+
+Price 25 Cents 
+
+
+
+Making 
+Wireless Outfits 
+
+
+
+A COSCISB AND SIMPLE EXPLANATION ON THE 
+CONSTRUCTION AND USE OF 
+
+
+
+'E WIRELESS EOU 
+
+
+
+U^P TO 100 MILES 
+
+
+
+B 
+
+
+
+V 
+
+
+
+NEWTON HARRISON. E. E. 
+
+
+
+^ ■ ^ ' ' 
+
+
+
+
+
+
+
+
+
+
+
+taMTM 
+
+
+
+C**TM 
+CONNiCTlOM 
+
+
+
+•tl«» 
+
+
+
+COMfM« 
+
+
+
+Mr 
+
+
+
+The 
+MODEL LIBRARY 
+
+No. 18. 
+
+
+
+Price 2 5 Cents 
+
+
+
+Wireless 
+Telephone Construction 
+
+
+
+A Comprehensive Explanation oi the Making ol a 
+
+Wireless Telephone Equipment for Receiving and Sending 
+
+Stations with Details ol Construction 
+
+
+
+NEWTON HARRISON, E. E. 
+
+With 43 Original Illustrations 
+
+
+
+
+MrSCEI. ISKJUT 
+
+
+
+PiA^TSd 
+
+
+
+Tbe 
+
+
+
+WLMSBIRST MACfflNE 
+
+HOW TO 3UKE AND LSE IT 
+
+
+
+
+
+
+1 
+
+
+c 
+
+
+^^N^JuC^^^^B 
+
+
+
+THE 
+
+MODEL LIBRARY 
+
+No. 30 
+
+
+
+Price 26 Cents 
+
+
+
+Simple Experiments in 
+
+Static Electricity 
+
+
+
+A Series of Instructive and Entertaining Electrical 
+Experiments for Students and Amateurs 
+
+
+
+P&RCIVAL G. BULL, M.A.Oxoii. 
+
+
+
+FULLY ILLUSTRATED 
+
+
+
+
+THE 
+
+MODEL LIBRARY 
+
+No. 21 
+
+
+
+PRICE 25 CTS 
+
+
+
+Small 
+
+Electrical Measuring 
+
+instruments 
+
+
+
+A Practical Handbook describin^i^ the viaking and using of 
+Galvanometers , Voltnietc7'S , A inpercvi ctcrs , Wheat stone Bridgei 
+and other Instruments for detecting and measurifig 
+
+lUcctrica I Cii r;r ;^ ts , 
+
+FUL L Y ILL I KS TRA TED 
+
+
+
+
+»«■ 
+
+
+
+THE 
+MODEL LIBRARY 
+
+
+
+Price 25 Cents. 
+
+
+
+Electrical 
+
+Circuits and Diagrams 
+
+PART II. 
+
+Alternating Current Generators and Motors, Single Phase 
+
+and Polyphase Transformers, Alternating Current and 
+
+Direct Current Motor Starters and Reversers, Arc 
+
+Generators and Circuits, Switches, Wiring, 
+
+Storage Battery Meter Conr 
+
+
+
+NORMAN H. SCHNEIDER. 
+
+
+
+
+=^ 
+
+
+
+THE 
+
+MOOBL LIBRARY 
+
+No. 23 
+
+
+
+Price 25 cts. 
+
+
+
+INDUCTION COILS 
+
+
+
+HOW TO MAKE AND USE THEM 
+
+
+
+
+
+
+full particulars, tahles of winJintcs and illustrations showing the construdlaa 
+
+of Coils giving sparks from one-half inch to twelve Inches, Indudioc 
+
+COILS FOR ALKtMUBIl.tS AND GAS ENGINES. 
+
+
+
+New edition tliomughly leviseJ and enlarged by 
+
+KURT STOYE, 
+
+Instructor Baron Je Htrsh Tradi? SJiool, New York. 
+
+
+
+
+The Model Library 
+, No. 24. 
+
+
+
+Price 25 Cts. 
+
+
+
+
+I 
+
+
+
+MODEL LIBRARY 
+SERIES 
+
+
+
+Price 25 Cta. 
+
+
+
+ABC 
+
+OF THE 
+
+STEAM ENGINE 
+
+AND 
+
+AUTOMATIC GOVERNOR 
+
+
+
+Six scale drawings of a High Speed Steum Engine and Automatic 
+
+(iciveTiior. Eacli pact is K'^'^" '" detail with its name and number 
+
+for easy reference, with description. With a chapter on Lubrication 
+
+and other practical information, 
+
+BY 
+
+J. P. LISK, M.E. 
+
+
+
+A: 
+
+
+
+
+THE 
+
+MODEL UBRART 
+
+
+
+Price 25 Cts, 
+
+
+
+How To Build 
+
+
+
+BI-PLANE GLIDER 
+
+
+
+A PRACTICAL HANDBOOK ON ITS 
+CONSTRUCTION AND USE 
+
+BY 
+
+ALFRED POWELL MORGAN 
+
+IVHA Full Detail Drawings 
+
+
+
+
+MODEL LIBRARY 
+
+SERIES 
+No. 29 
+
+
+
+Price 35 Cts. 
+
+
+
+Telegraphy for Beginners 
+
+
+
+STANDARD METHOD 
+
+AN 
+
+AUTHORITATIVE BOOK OF INSTRUCTION IN THE 
+
+METHODS AND FORMS MOST APPROVED. 
+
+WITH LESSONS; INCLUDING THE MORSE 
+
+AND CONTINENTAL CODES. 
+
+BY 
+
+WILLIS H. JONES 
+
+WiRK Chief Wbstern Union Tbly. Co. New York. 
+
+
+
+
+
+THE MODEL LIBRARY 
+No. 30 Price, 35 cents 
+
+
+
+lo'w voltage 
+Electric Lighting 
+
+WITH THE 
+
+STORAGE BATTERY 
+
+
+
+SPECIALLY APPLICABLE TO COUNTRY HOUSES 
+FARMS, SMALL SETTLEMENTS. YACHTS. ETC. 
+
+
+
+NORMAN H. SCHNEIDER 
+
+FULL Y ILL USTRA TED 
+
+
+
+
+
+
+
+
+<1 
+
+
+
+WIRING HOUSES 
+
+
+
+FOR 
+
+
+
+THE ELECTRIC LIGHT 
+
+
+
+Wt 
+
+
+
+NORMAN H. SCHNEIDER 
+
+
+
+\ 
+
+
+
+1 
+
+» 
+
+
+
+fc 
+
+
+
+\ 
+
+
+
+
+\^ \ 
+
+
+
+Man 
+
+
+
+MODEL LIBRARY 
+
+SEl 
+No. 34 
+
+
+
+Price 25 Ct8. 
+
+
+
+Magnets & Magnetism 
+
+SIMPLY EXPLAINED 
+
+Including the theory of Magnets, Pennanent Magnets, 
+Electro- Magnets, Solenoids, and Experiments with Magnets. 
+
+
+
+ALFRED W. MARSHALL. A.M.I.E.E.. M.I.Mech.E. 
+
+
+
+JVilA Fourty-nine Illustrations 
+
+
+
+
+Model Libraiy 
+No. 36 
+
+
+
+FHceZScts. 
+
+
+
+>VIXDMILLS 
+>VIIVD MOTORS 
+
+How to Bidld and Rim Them 
+
+F. E. POWELL 
+
+
+
+•■9 I26ST2 005 
+SO S3 £!1 
+
+
+
+
+f^S^-D 
+
+
+
+^11 
+
+
+
+j i ^g g 
+
+
+
+i 
+
+
+
+ijljrrrt -B*TE°"E 1 
+
+
+
+
+
+
+
+
+
+
+■^Hm 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+APQ^ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-4BIN 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+J|ULa-i 
+
+
+jm^^ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+STANFORD UNIVERSITY UBRARIES 
+STANFORD, CALIFORNIA 9430S-<004 
+
+
+

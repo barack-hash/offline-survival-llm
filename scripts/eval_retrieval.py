@@ -44,6 +44,19 @@ CASES = [
     ("how do I use a compass and correct for its errors when navigating", "lectures-in-navigation-1917.txt"),
     ("how is soap made from fat and lye", "elementary-chemistry-1906.txt"),
     ("how can I make lime by burning limestone and what is it good for", "elementary-chemistry-1906.txt"),
+    # 2026-09-16 batch 2: first aid, canning, wind power, carpentry, electricity, radio
+    ("how should I carry a wounded person who cannot walk", "first-aid-fm21-11-1943.txt"),
+    ("what should I do for a sucking chest wound", "first-aid-fm21-11-1943.txt"),
+    ("how do I can vegetables so they keep through the winter", "every-step-in-canning-1920.txt"),
+    ("what is the cold-pack method of canning food", "every-step-in-canning-1920.txt"),
+    ("how can I build a windmill to generate power", "windmills-wind-motors-1910.txt"),
+    ("what size windmill do I need to pump water", "windmills-wind-motors-1910.txt"),
+    ("what joint should I use to join two boards at a corner", "woodwork-joints-1921.txt"),
+    ("how do I cut a mortise and tenon joint", "woodwork-joints-1921.txt"),
+    ("how can I make a simple electric battery at home", "boy-electrician-1913.txt"),
+    ("how do I wind a coil to make an electromagnet", "boy-electrician-1913.txt"),
+    ("how do I build a simple radio receiver", "radio-amateurs-handbook-1922.txt"),
+    ("what kind of antenna do I need to receive radio signals", "radio-amateurs-handbook-1922.txt"),
 ]
 
 

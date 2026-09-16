@@ -11,7 +11,7 @@ use, but not public domain (check the license before wide redistribution).
 
 ## 1. Fire & Energy
 - [x] U.S. Army Survival Manual, FM 21-76 — fire-starting methods (PD) — in corpus since Phase 3
-- [ ] Basic solar/wind power primer (any out-of-copyright physics/engineering text, PD)
+- [x] Basic solar/wind power primer (any out-of-copyright physics/engineering text, PD) — Powell, Windmills and Wind Motors 1910
 - [ ] Notes on your own generator/dynamo build once you've tested it (your own writing)
 
 ## 2. Water & Sanitation
@@ -22,17 +22,17 @@ use, but not public domain (check the license before wide redistribution).
 ## 3. Food & Agriculture
 - [x] FM 21-76 — edible/poisonous plants, trapping, fishing (PD) — in corpus since Phase 3
 - [x] Old public-domain farming/gardening manuals (pre-1929, archive.org) (PD) — Goodrich, First Book of Farming 1905
-- [ ] Basic food preservation reference — canning, smoking, drying (PD or FREE)
+- [x] Basic food preservation reference — canning, smoking, drying (PD or FREE) — Gray, Every Step in Canning 1920
 
 ## 4. Shelter & Construction
 - [x] FM 21-76 — shelter building section (PD) — in corpus since Phase 3
-- [ ] Basic carpentry/masonry primer, public domain edition (PD)
+- [x] Basic carpentry/masonry primer, public domain edition (PD) — Fairham, Woodwork Joints 1921 (carpentry; masonry still open)
 - [ ] Your own notes once you test any shelter/heating builds (your own writing)
 
 ## 5. Medicine & First Aid
 - [x] Where There Is No Doctor (Hesperian) (FREE) — owner-supplied PDF, 2026-09-15
 - [x] Where There Is No Dentist (Hesperian) (FREE) — owner-supplied PDF, 2026-09-15
-- [ ] U.S. military first-aid field manual (PD)
+- [x] U.S. military first-aid field manual (PD) — FM 21-11 First Aid for Soldiers 1943
 - [ ] Basic public-domain herbal medicine reference — flag clearly as unverified/folk knowledge, not medical advice
 
 ## 6. Tools & Metalworking
@@ -45,9 +45,9 @@ use, but not public domain (check the license before wide redistribution).
 - [ ] *The Knowledge* — chemistry/materials chapters (OWN)
 
 ## 8. Electronics & Communication
-- [ ] Basic electricity/electronics primer, public-domain edition (PD)
+- [x] Basic electricity/electronics primer, public-domain edition (PD) — Morgan, The Boy Electrician 1913
 - [ ] Your own build notes on the generator/battery-charging project (your own writing)
-- [ ] Basic radio theory reference, if you want this covered eventually (PD)
+- [x] Basic radio theory reference, if you want this covered eventually (PD) — Collins, Radio Amateur's Hand Book 1922
 
 ## 9. Navigation & Orientation
 - [x] FM 21-76 — land navigation section (PD) — in corpus since Phase 3
