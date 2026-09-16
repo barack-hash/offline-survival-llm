@@ -207,3 +207,18 @@ Template:
 - The Boy Electrician chosen over post-1929 electricity texts specifically because the 1913 copyright was verifiable inside the scan.
 **Hardware/Tools used:** Pi over Tailscale.
 **Next:** Phase 5a keypad wiring (owner's hands). Corpus is now broad enough that further additions should be demand-driven (add when an eval question exposes a gap, like the Woodworth case).
+
+## 2026-09-16 — Phase 5a prepared: multi-tap keypad + LCD1602 interim display
+**Goal:** Owner asked (a) how a digits-only keypad can type questions, (b) whether the starter-kit display can be used. Prepare everything software-side so wiring day is plug-and-play.
+**Done:**
+- Kit identified from owner's box photo: **LAFVIN Super Starter Kit for UNO R3** — contains everything Phase 5a needs (UNO R3, 4x4 membrane keypad, LCD1602 parallel + 10K pot, breadboard, jumpers). No purchases needed for 5a; HARDWARE.md updated.
+- **keypad_serial.ino rewritten**: old-phone multi-tap text entry (2=abc2 … 9=wxyz9, 1=punctuation, 0=space, *=backspace, A=commit, #=send), 1 s letter timeout, question buffered on the Arduino with live LCD preview, only the finished line sent to the Pi. Removed the rotary-encoder code (kit has none). This supersedes the planned digits-only first version — no reason to ship the crippled input when multi-tap fits in the sketch.
+- **LCD1602 as interim display**: Arduino shows incoming serial lines across both LCD rows; main.py's SerialKeypadInput gained display_answer() — answers paged at 32 chars / 3 s so the UNO needs no big buffer (2KB SRAM). Critical answers are prefixed `!CRITICAL! verify vs 2nd source:` on the LCD.
+- docs/wiring/phase5a-keypad-lcd.md: full pin map (keypad→D2-D9, LCD 4-bit on D10-D13+A0/A1, pot for contrast), flash steps, typing cheat sheet.
+**Mistakes/Challenges:**
+- Owner's photo was HEIC and over the read size limit — converted/downscaled with sips first.
+**Improvements/Decisions:**
+- Multi-tap decoding lives on the Arduino, not the Pi: the Pi's serial protocol stays "one line = one question", so main.py needed no input-side changes and the future e-ink phase only swaps the display half.
+- Note for wiring day: this supersedes the "digits+A-D only" limitation the plan expected to log; the multi-tap GitHub issue planned in Phase 5a step 5 is no longer needed.
+**Hardware/Tools used:** None physically touched (owner away) — kit contents identified from photo.
+**Next:** Wiring day: owner wires per docs/wiring/phase5a-keypad-lcd.md, photographs it, flashes the sketch; then INPUT_MODE="serial" end-to-end test and the first hardware-typed question gets logged verbatim.

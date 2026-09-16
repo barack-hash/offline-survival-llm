@@ -112,10 +112,14 @@ class KeyboardInput:
 
 
 class SerialKeypadInput:
-    """Reads characters from the Arduino one at a time and assembles them
-    into a question, submitted when the encoder button (sends '\\n') is
-    pressed. '<' / '>' from the rotary encoder are ignored here — wire
-    them up to a menu system once the e-ink screen is in place."""
+    """Talks to the Arduino (keypad_serial.ino). The Arduino buffers the
+    whole question locally (multi-tap decoding, backspace, LCD preview)
+    and sends one finished line per question, so this side just reads
+    lines. display_answer() sends the answer back in short pre-paced
+    pages that the Arduino shows on its 16x2 LCD."""
+
+    LCD_PAGE_CHARS = 32     # one page = both LCD rows
+    PAGE_SECONDS = 3.0      # reading time per page
 
     def __init__(self, port, baud):
         import serial  # pyserial, installed by setup.sh
@@ -135,6 +139,28 @@ class SerialKeypadInput:
                 continue  # navigation, not text input yet
             buffer += char
             print(char, end="", flush=True)
+
+    def display_answer(self, text, critical=False):
+        import time
+        words = text.split()
+        if critical:
+            words = ["!CRITICAL! verify vs 2nd source:"] + words
+        pages, page = [], ""
+        for w in words:
+            candidate = (page + " " + w).strip()
+            if len(candidate) <= self.LCD_PAGE_CHARS:
+                page = candidate
+            else:
+                if page:
+                    pages.append(page)
+                page = w[: self.LCD_PAGE_CHARS]
+        if page:
+            pages.append(page)
+        for i, p in enumerate(pages, 1):
+            self.ser.write((p + "\n").encode())
+            self.ser.flush()
+            if i < len(pages):
+                time.sleep(self.PAGE_SECONDS)
 
 
 def get_input_source():
@@ -275,6 +301,8 @@ def main():
 
         sources = corroboration_check(retrieved) if critical else None
         print_answer(answer, critical=critical, sources=sources, raw_chunks=retrieved if critical else None)
+        if isinstance(input_source, SerialKeypadInput):
+            input_source.display_answer(answer, critical=critical)
 
 
 if __name__ == "__main__":
