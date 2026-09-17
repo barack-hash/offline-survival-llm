@@ -26,34 +26,32 @@ ribbon pins are numbered 1..8 left to right.
 (If rows/cols behave swapped or mirrored, don't rewire — tell the build
 assistant which keys come out wrong; it's a keymap fix in the sketch.)
 
-## 2. LCD1602 (4-bit mode) + contrast pot
+## 2. LCD1602 with I2C backpack — 4 wires, no breadboard
 
-Put the LCD and the 10K pot on the breadboard. Pot: one outer leg to 5V,
-other outer leg to GND, middle (wiper) to LCD VO.
+The kit's LCD turned out to have an I2C backpack (small board soldered on
+the back with 4 pins: GND, VCC, SDA, SCL). That replaces the whole
+16-pin parallel wiring, the contrast pot, and the backlight resistor
+(contrast is the tiny blue trim screw on the backpack itself).
 
-| LCD pin | Goes to |
+Use 4 female-to-male jumpers (female end on the backpack pin):
+
+| Backpack pin | Arduino pin |
 |---|---|
-| 1 VSS | GND |
-| 2 VDD | 5V |
-| 3 VO  | pot wiper (contrast — turn until text is crisp) |
-| 4 RS  | D13 |
-| 5 RW  | GND |
-| 6 E   | D12 |
-| 7-10 D0-D3 | (leave unconnected — 4-bit mode) |
-| 11 D4 | D11 |
-| 12 D5 | D10 |
-| 13 D6 | A0 |
-| 14 D7 | A1 |
-| 15 A (backlight +) | 5V through 220Ω resistor |
-| 16 K (backlight −) | GND |
+| GND | GND |
+| VCC | 5V |
+| SDA | A4 |
+| SCL | A5 |
 
-Power: breadboard + / − rails from Arduino 5V and GND; LCD and pot feed
-from the rails.
+A4/A5 are the UNO's I2C bus — the LCD must be on exactly those two.
+If the screen backlights but shows no text: (a) turn the blue trim screw
+on the backpack with a small screwdriver until characters appear;
+(b) if still blank, the backpack's address is 0x3F — change LCD_ADDR in
+keypad_serial.ino.
 
 ## 3. Flash + connect
 
 1. Arduino IDE → Library Manager → install "Keypad" (Mark Stanley /
-   Alexander Brevig). LiquidCrystal is built in.
+   Alexander Brevig) AND "LiquidCrystal I2C" (Frank de Brabander).
 2. Open scripts/keypad_serial.ino, board "Arduino Uno", flash.
 3. LCD should say `Survival ref. / Type & press #`. Test typing standalone
    first (multi-tap: 2=abc, *=backspace, A=commit letter, #=send).

@@ -28,18 +28,20 @@
     Keypad ribbon pins 1-8 (left to right, keys facing you):
       1-4 (rows R1-R4)  -> D9, D8, D7, D6
       5-8 (cols C1-C4)  -> D5, D4, D3, D2
-    LCD1602 (4-bit mode, LiquidCrystal built-in library):
-      VSS->GND  VDD->5V  VO->potentiometer wiper (pot ends to 5V+GND)
-      RS->D13   RW->GND  E->D12
-      D4->D11   D5->D10  D6->A0   D7->A1
-      A(backlight+)->5V via 220 ohm resistor   K(backlight-)->GND
+    LCD1602 with I2C backpack (4 female-to-male jumpers, no breadboard):
+      GND -> Arduino GND     VCC -> Arduino 5V
+      SDA -> Arduino A4      SCL -> Arduino A5
 
-  Requires the "Keypad" library (Library Manager -> "Keypad" by
-  Mark Stanley / Alexander Brevig). LiquidCrystal ships with the IDE.
+  Libraries (IDE -> Manage Libraries):
+    - "Keypad" by Mark Stanley / Alexander Brevig
+    - "LiquidCrystal I2C" by Frank de Brabander
+  If the LCD stays blank but backlights, the backpack may use address
+  0x3F instead of 0x27 — change LCD_ADDR below.
 */
 
 #include <Keypad.h>
-#include <LiquidCrystal.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 // ---------- keypad ----------
 const byte ROWS = 4;
@@ -54,8 +56,9 @@ byte rowPins[ROWS] = {9, 8, 7, 6};
 byte colPins[COLS] = {5, 4, 3, 2};
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
-// ---------- LCD (RS, E, D4, D5, D6, D7) ----------
-LiquidCrystal lcd(13, 12, 11, 10, A0, A1);
+// ---------- LCD via I2C backpack ----------
+const byte LCD_ADDR = 0x27;   // try 0x3F if the display stays blank
+LiquidCrystal_I2C lcd(LCD_ADDR, 16, 2);
 
 // ---------- multi-tap state ----------
 const char *TAP_MAP[10] = {
@@ -108,7 +111,8 @@ void showAnswerLine(const char *s) {
 
 void setup() {
   Serial.begin(9600);
-  lcd.begin(16, 2);
+  lcd.init();
+  lcd.backlight();
   lcd.print(F("Survival ref."));
   lcd.setCursor(0, 1);
   lcd.print(F("Type & press #"));
