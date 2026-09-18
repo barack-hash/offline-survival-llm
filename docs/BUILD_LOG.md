@@ -222,3 +222,26 @@ Template:
 - Note for wiring day: this supersedes the "digits+A-D only" limitation the plan expected to log; the multi-tap GitHub issue planned in Phase 5a step 5 is no longer needed.
 **Hardware/Tools used:** None physically touched (owner away) — kit contents identified from photo.
 **Next:** Wiring day: owner wires per docs/wiring/phase5a-keypad-lcd.md, photographs it, flashes the sketch; then INPUT_MODE="serial" end-to-end test and the first hardware-typed question gets logged verbatim.
+
+## 2026-09-18 — Phase 5a COMPLETE: defective keypad forensics, IR-remote pivot, first hardware question
+**Goal:** Wire keypad + LCD, flash, and get the first question asked entirely on device hardware.
+**Done:**
+- LCD1602 turned out to be the I2C-backpack variant → 4-wire hookup (GND/5V/A4/A5), sketch moved to LiquidCrystal_I2C. Worked first try (address 0x27).
+- Toolchain: arduino-cli on the Mac (needed Rosetta 2 — bundled avr-gcc is x86-only), flashing over /dev/cu.usbmodem1101.
+- **Keypad forensics** (the night's saga, in order):
+  1. First test: phantom 'A' flood + missed presses.
+  2. Raw-key diag sketch: ~40 events for 4 presses, mostly 'A'.
+  3. Board went totally silent + bootloader 'not in sync' → **power cycle fixed it** (chip was wedged; lesson: power-cycle before suspecting wiring).
+  4. Wiring-agnostic pair-scan sketch (drive each of D2-D9 low, watch the rest): pairs **D2-D9 and D4-D6 stream continuously with no key pressed** = keys 'A' and '0' electrically stuck.
+  5. Isolation: shorts persist with keypad dangling in air (not table pressure); one-by-one unplug timeline showed shorts follow the keypad wires; all-unplugged = silent (Arduino + jumpers healthy); **only ribbon wires 1+8 reconnected → D2-D9 short returns instantly with no touch. Verdict: membrane internally shorted (lines 1-8, 4-6). Defective from factory.**
+- **Pivot: kit's NEC IR remote as input device.** IR receiver (G/R/Y → GND/IOREF/D2, 3 wires). Scanned all 17 buttons (owner pressed sequence; one accidental extra ◀ press was identifiable in the timeline) — codes match the documented LAFVIN/Elegoo NEC map. New scripts/ir_remote_serial.ino: same multi-tap scheme (2=abc...), *=backspace, 0=space, #=send, OK=commit-letter, arrows reserved; NEC repeat frames ignored.
+- Standalone proof: owner typed **"fire"** on the remote → arrived verbatim over serial.
+- Hiccups on the way: remote's battery pull-tab still in (found via phone-camera IR test), IOREF used as second 5V source (LCD holds the only 5V socket), two Mac serial listeners colliding on the port.
+- **MILESTONE:** Arduino moved to the Pi (/dev/ttyACM0), main.py in serial mode. First hardware question: **"fire"** → grounded FM 21-76 answer (tinder/kindling/fuel progression, upwind placement, sawdust/salt-brine reignition), paged on the LCD at 32 chars/3s. On-device perf: prompt 26.5 t/s, generation 5.47 t/s, 82 s total.
+- Photos in docs/wiring/ (keypad-era wiring + IR remote). HARDWARE.md updated incl. the defective part.
+**Mistakes/Challenges:** all inline above — this session WAS the mistakes. Biggest lessons: (1) a component can be dead from the factory — build the diagnostic before re-wiring in circles; (2) when serial dies AND flashing dies, power-cycle first; (3) `pgrep -f` self-match bit again on the Mac (port cleanup).
+**Improvements/Decisions:**
+- IR remote is now the primary input (arguably better for the enclosure: sealed pocket, no ribbon passthrough). keypad_serial.ino kept in repo for a future replacement pad.
+- Multi-tap GitHub issue from the original plan is moot (implemented from day one).
+**Hardware/Tools used:** Arduino UNO R3, LCD1602 (I2C), IR receiver + remote (first use), defective 4x4 membrane keypad (diagnosed), breadboard/jumpers, owner's phone camera as IR detector.
+**Next:** Leave device running for daily use; Phase 5b when e-ink arrives; Phase 6 shopping (UPS HAT, 18650s, solar panel). Optional: replacement keypad (issue #5).
