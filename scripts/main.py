@@ -101,7 +101,7 @@ def is_critical(question: str) -> bool:
 #                          USB-serial (see keypad_serial.ino). Update
 #                          SERIAL_PORT to match your Arduino (check with
 #                          `ls /dev/ttyACM*` or `ls /dev/ttyUSB*` on the Pi).
-INPUT_MODE = "keyboard"
+INPUT_MODE = "serial"
 SERIAL_PORT = "/dev/ttyACM0"
 SERIAL_BAUD = 9600
 
