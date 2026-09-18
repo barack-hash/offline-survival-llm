@@ -244,4 +244,4 @@ Template:
 - IR remote is now the primary input (arguably better for the enclosure: sealed pocket, no ribbon passthrough). keypad_serial.ino kept in repo for a future replacement pad.
 - Multi-tap GitHub issue from the original plan is moot (implemented from day one).
 **Hardware/Tools used:** Arduino UNO R3, LCD1602 (I2C), IR receiver + remote (first use), defective 4x4 membrane keypad (diagnosed), breadboard/jumpers, owner's phone camera as IR detector.
-**Next:** Leave device running for daily use; Phase 5b when e-ink arrives; Phase 6 shopping (UPS HAT, 18650s, solar panel). Optional: replacement keypad (issue #5).
+**Next:** Leave device running for daily use; Phase 5b when e-ink arrives; Phase 6 shopping (UPS HAT, 18650s, solar panel). Optional: replacement keypad (issue #6).

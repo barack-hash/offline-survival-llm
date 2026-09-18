@@ -8,4 +8,4 @@
 | Arduino UNO R3 (from kit) | LAFVIN clone, ATmega328P | kit | — | Input controller: IR decode, multi-tap, LCD driving, serial link to Pi | 2026-09-18 |
 | LCD1602 w/ I2C backpack (from kit) | 16x2 chars, I2C addr 0x27, contrast trim on backpack | kit | — | Interim answer display until e-ink (5b) | 2026-09-18 |
 | IR remote + receiver (from kit) | NEC protocol, 17 buttons (arrows/OK/0-9/*/#); receiver module pins G/R/Y | kit | — | Text input via multi-tap — replaced the defective keypad | 2026-09-18 |
-| 4x4 membrane keypad (from kit) | **DEFECTIVE** — internal shorts, ribbon lines 1-8 and 4-6 permanently closed (stuck 'A'/'0') | kit | — | Unusable; kept as spare parts. Replacement optional (issue #5) | 2026-09-18 |
+| 4x4 membrane keypad (from kit) | **DEFECTIVE** — internal shorts, ribbon lines 1-8 and 4-6 permanently closed (stuck 'A'/'0') | kit | — | Unusable; kept as spare parts. Replacement optional (issue #6) | 2026-09-18 |
