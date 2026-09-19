@@ -1,0 +1,27 @@
+# systemd unit for the offline survival reference device.
+# Install (run on the Pi from the repo root):
+#   sudo cp scripts/survival-llm.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now survival-llm
+# Logs: journalctl -u survival-llm -f
+
+[Unit]
+Description=Offline survival LLM reference device (main.py, serial mode)
+# No network dependencies on purpose — the device must work fully offline.
+
+[Service]
+Type=simple
+User=yitbarek
+WorkingDirectory=/home/yitbarek/offline-survival-llm
+ExecStart=/home/yitbarek/offline-survival-llm/venv/bin/python scripts/main.py
+# If the Arduino isn't enumerated yet at boot (or gets unplugged),
+# main.py exits on the serial open — keep retrying until it's there.
+Restart=always
+RestartSec=5
+# The model load takes ~1 min on boot; don't let systemd think it hung.
+TimeoutStartSec=300
+# Modest niceness bump so inference gets the CPU when asked.
+Nice=-5
+
+[Install]
+WantedBy=multi-user.target
