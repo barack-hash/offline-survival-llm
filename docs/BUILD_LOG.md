@@ -245,3 +245,18 @@ Template:
 - Multi-tap GitHub issue from the original plan is moot (implemented from day one).
 **Hardware/Tools used:** Arduino UNO R3, LCD1602 (I2C), IR receiver + remote (first use), defective 4x4 membrane keypad (diagnosed), breadboard/jumpers, owner's phone camera as IR detector.
 **Next:** Leave device running for daily use; Phase 5b when e-ink arrives; Phase 6 shopping (UPS HAT, 18650s, solar panel). Optional: replacement keypad (issue #6).
+
+## 2026-09-18 — Appliance mode: systemd service, survives power-on unattended
+**Goal:** Device must serve its purpose the moment power arrives — no SSH, no manual start.
+**Done:**
+- scripts/survival-llm.service added to the repo and installed: Restart=always/RestartSec=5 (retries until the Arduino enumerates), TimeoutStartSec=300 for the model load, no network dependencies by design, Nice=-5.
+- Killed the old nohup-run main.py, enabled the service, verified `assistant ready` in the journal.
+- **Cold-boot test: `sudo reboot` → service auto-started → ready ~60 s after power-on** with zero human involvement.
+- Owner's post-reboot question via IR remote: "i am stranded on an island" → full 399-token grounded answer paged on the LCD. Timing measured: prompt 26.5 t/s, generation 5.44 t/s, 127 s total for a maximum-length answer.
+**Mistakes/Challenges:**
+- First reboot-watcher script had a race (checked the journal before the boot had anything in it) — re-checked manually.
+**Improvements/Decisions:**
+- Open-ended prompts generate the full 400-token budget (~2 min). Acceptable for now; if field latency ever matters, options are max_tokens reduction or a smaller quant — one change at a time, measured.
+- journalctl -u survival-llm is now the device's flight recorder (questions, answers, perf lines all land there).
+**Hardware/Tools used:** Pi 5 + full input/display stack (first unattended cold boot of the complete device).
+**Next:** Daily-driver period; Phase 5b/6/7 as hardware arrives (issues #1-#3).
