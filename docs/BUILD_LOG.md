@@ -315,3 +315,17 @@ Template:
 - Assumptions to verify on hardware: fan position on the stack (`cooler_off`), which way the cooler exhausts, and the real stack height.
 **Hardware/Tools used:** None physical.
 **Next:** When the enclosure is printed: log idle + inference temperatures enclosed vs open-air (Phase 1 baseline: 49 °C idle, 70 °C full load) — that's the acceptance test for this airflow design.
+
+## 2026-09-24 — Enclosure v0.5: copper pipe details
+**Goal:** Copper pipe details along both sides (steampunk).
+**Done:**
+- New printed part `pipes`: one pipe run per side that follows the enclosure's profile — down the thick section at 40 mm depth, a 45° elbow down the sloped step, then along the thin keyboard section. End flanges, elbow collars, 4 riveted pipe clamps per side, a pressure gauge (dial ticks + needle) on the left and a hex-body valve wheel on the right.
+- D-profile pipes (flat back against the wall, centreline 0.35 r into the wall) so the part prints flat-back-down without supports and glues on; copper filament intended.
+- Placement checked against every side feature: vent plates stop at 23 mm depth (pipe starts at 37.4); DC jack (26.7–35.7 mm deep at y 90.5–99.5) and USB-C (≤33.1 mm deep at y 130–140) clear the pipe and every clamp foot; on the thin section the pipe sits 0.6 mm above the back surface and under the bezel parting line.
+- render.sh + viewer updated (pipes grouped with the brass trim toggle).
+**Mistakes/Challenges:**
+- None this round; the first clamp spacing (every 24 mm from the top) would have put a clamp foot over the DC jack on the right side — caught in the placement check before rendering, clamps moved to y = 146/122/80.
+**Improvements/Decisions:**
+- Pipes as a separate part (not part of the shell) keeps the shell's walls simple and lets the colour differ.
+**Hardware/Tools used:** None physical.
+**Next:** Unchanged — measure the real stack, screen connector clearance, fan position and port positions when parts arrive; then test-print the bezel.

@@ -1,4 +1,4 @@
-# Enclosure (Phase 7) — DRAFT v0.4, not print-ready
+# Enclosure (Phase 7) — DRAFT v0.5, not print-ready
 
 Parametric OpenSCAD model of a handheld enclosure: 4.2" e-ink screen on top,
 CardKB keyboard below, Pi 5 + Geekworm X1202 UPS + 4× 18650 stacked behind
@@ -23,7 +23,7 @@ with calipers, update the numbers, and re-render.
 ## Files
 - `enclosure.scad` — the model; every dimension is a named parameter
 - `render.sh` — re-renders every part and the viewer's `stl/layout.json`
-- `stl/` — rendered parts: `tub`, `bezel`, `retainer`, `trim` (printed) and
+- `stl/` — rendered parts: `tub`, `bezel`, `retainer`, `trim`, `pipes` (printed) and
   `ghost_*` (stand-ins for the electronics, for the viewer only)
 - `viewer.html` — 3D viewer (orbit, explode, show/hide parts)
 
@@ -38,4 +38,4 @@ http://localhost:8765/viewer.html (the STLs can't load from `file://`).
 - 4× M3 heat-set inserts + 4× M3 button-head screws (bezel to tub)
 - 6× M2 self-tapping screws (retainer to bezel posts)
 - Optional: rubber caps on the four printed feet
-- `trim` (porthole gear ring) prints best in brass/copper-colour filament; glue on
+- `trim` (porthole gear ring) and `pipes` (both side pipe runs) print best in brass / copper filament, flat back down; glue on

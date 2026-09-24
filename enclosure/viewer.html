@@ -23,13 +23,13 @@
 </head>
 <body>
 <div id="ui">
-  <h1>Survival Device — Enclosure v0.4</h1>
+  <h1>Survival Device — Enclosure v0.5</h1>
   <div class="dim" id="dim">loading…</div>
   <div>
     <button data-t="bezel" class="on">Bezel</button>
     <button data-t="tub" class="on">Rear shell</button>
     <button data-t="retainer" class="on">Retainer</button>
-    <button data-t="trim" class="on">Brass trim</button>
+    <button data-t="trim" class="on">Brass &amp; copper</button>
     <button data-t="ghost" class="on">Components</button>
     <button data-t="air">Airflow</button>
   </div>
@@ -42,6 +42,7 @@
     <div><span style="background:#44484f"></span>Rear shell</div>
     <div><span style="background:#7a7f86"></span>Retainer plate</div>
     <div><span style="background:#b87333"></span>Porthole gear trim</div>
+    <div><span style="background:#c96b3c"></span>Copper pipes, gauge, valve</div>
     <div><span style="background:#4aa3ff"></span>Cool air in &nbsp;<span style="background:#ff6a3d"></span>Hot air out</div>
     <div><span style="background:#47a86f"></span>Pi 5 + X1202 + 18650s</div>
     <div><span style="background:#e9e7df"></span>4.2" e-ink</div>
@@ -85,6 +86,7 @@ const parts = [
   { f:'bezel',       color:0xb08d57, group:'bezel',    ex: 1.2, metal:0.55 },
   { f:'retainer',    color:0x7a7f86, group:'retainer', ex: 0.5 },
   { f:'trim',        color:0xb87333, group:'trim',     ex:-1.4, metal:0.6 },
+  { f:'pipes',       color:0xc96b3c, group:'trim',     ex:-0.3, metal:0.7 },
   { f:'ghost_stack', color:0x47a86f, group:'ghost',    ex:-0.4, opacity:0.8 },
   { f:'ghost_eink',  color:0xe9e7df, group:'ghost',    ex: 0.85 },
   { f:'ghost_kb',    color:0x26282c, group:'ghost',    ex: 0.85 },

@@ -19,13 +19,14 @@
 //   bezel    — front cap: screen window, keyboard opening, nameplates
 //   retainer — ring that clamps the screen against the bezel
 //   trim     — brass gear ring for the porthole (print in brass-colour, glue on)
+//   pipes    — copper pipe runs for both sides, flat-backed (print in copper, glue on)
 //
 // Render one part:  openscad -D 'part="tub"' -o tub.stl enclosure.scad
 //
 // Sizes marked VERIFY are not in any datasheet — measure the real parts with
 // calipers before sending anything to a print service.
 
-part = "assembly"; // tub | bezel | retainer | trim | ghost_stack | ghost_eink | ghost_kb | assembly
+part = "assembly"; // tub | bezel | retainer | trim | pipes | ghost_stack | ghost_eink | ghost_kb | assembly
 
 $fn = 48;
 
@@ -80,6 +81,8 @@ post_r    = 2.5;
 post_hole = 1.8;   // M2 self-tapping
 feet_h    = 4.0;   // standoff feet on the back keep the porthole breathing
 deco_h    = 0.8;   // height of raised bead frames / nameplates
+pipe_r    = 2.6;   // decorative copper pipes on the sides
+pipe_z_hi = 40;    // pipe height (depth) along the thick section, clear of vents and ports
 rivets    = true;
 label     = "OFFLINE SURVIVAL REFERENCE";
 top_label = "FIELD REFERENCE  MK I";
@@ -124,6 +127,14 @@ posts = [[W/2-35, top_cy], [W/2+35, top_cy], [W/2-35, div_cy], [W/2+35, div_cy]]
 win_outer = [eink_view[0] + 1 + 2*bezel_t, eink_view[1] + 1 + 2*bezel_t];
 plate     = [76, 7.6];     // bottom nameplate
 top_plate = [58, 6.6];
+
+// pipe path in side view (y, z): down the thick section, 45° elbow down the
+// step, then along the thin keyboard section
+pipe_z_lo = D_top - D_bot + 3.4;
+pipe_path = [[H - 12, pipe_z_hi], [ys - 9.5, pipe_z_hi],
+             [ys - 9.5 - (pipe_z_lo - pipe_z_hi), pipe_z_lo], [8, pipe_z_lo]];
+pipe_clamps = [[146, pipe_z_hi], [122, pipe_z_hi], [80, pipe_z_hi], [28, pipe_z_lo]];
+pipe_orn_y  = 110;  // gauge (left) / valve wheel (right)
 
 vent_z   = floor_t + fan_gap + 8;              // vents level with the cooler
 vent_low  = st_y1 + 6;                          // intake band
@@ -308,6 +319,64 @@ module trim() {
     }
 }
 
+
+// ---------------- pipes: copper pipe runs on both sides ----------------
+// Built for the left wall (outer face at x = 0) and mirrored to the right.
+// Each run is a D-profile (flat back glued to the wall) so it prints flat.
+module pipe_run(orn) {
+    c = 0.35 * pipe_r;                 // centreline sits slightly into the wall
+    P = [for (q = pipe_path) [-c, q[0], q[1]]];
+    body_h = c + pipe_r + 1.2;          // gauge / valve body height off the wall
+    intersection() {
+        union() {
+            for (i = [0 : len(P) - 2]) hull() {
+                translate(P[i]) sphere(r = pipe_r, $fn = 32);
+                translate(P[i + 1]) sphere(r = pipe_r, $fn = 32);
+            }
+            for (i = [1, 2]) translate(P[i]) sphere(r = pipe_r + 0.7, $fn = 32);   // elbow collars
+            for (e = [[P[0], [0, 1, 0]], [P[3], [0, -1, 0]]])                        // end flanges
+                translate(e[0]) rotate([90, 0, 0]) cylinder(r = pipe_r + 1.4, h = 1.8, center = true, $fn = 32);
+            for (k = pipe_clamps) {                                                  // riveted clamps
+                translate([-c, k[0], k[1]]) rotate([90, 0, 0])
+                    cylinder(r = pipe_r + 0.6, h = 2.4, center = true, $fn = 32);
+                translate([-0.8, k[0] - 1.2, k[1] - (pipe_r + 4)]) cube([0.81, 2.4, 2*(pipe_r + 4)]);
+                if (rivets) for (dz = [-1, 1])
+                    translate([-0.8, k[0], k[1] + dz*(pipe_r + 2.6)]) rotate([0, -90, 0]) rivet(0.8);
+            }
+            translate([0, pipe_orn_y, pipe_z_hi]) rotate([0, -90, 0]) {
+                if (orn == "gauge") {
+                    cylinder(r = 7, h = body_h, $fn = 40);
+                    translate([0, 0, body_h]) {
+                        difference() {
+                            cylinder(r = 7, h = 1.2, $fn = 40);
+                            translate([0, 0, 0.6]) cylinder(r = 5.8, h = 1, $fn = 40);
+                        }
+                        for (a = [-120 : 30 : 120]) rotate(a)
+                            translate([-0.25, 4.2, 0.5]) cube([0.5, 1.2, 0.5]);
+                        rotate(-35) translate([-0.4, 0, 0.5]) cube([0.8, 4.4, 0.6]);   // needle
+                        cylinder(r = 0.9, h = 1.3, $fn = 16);
+                    }
+                } else {
+                    cylinder(r = 5, h = body_h, $fn = 6);                                // hex valve body
+                    translate([0, 0, body_h]) {
+                        difference() {
+                            cylinder(r = 6.5, h = 1.4, $fn = 40);
+                            translate([0, 0, -1]) cylinder(r = 5.2, h = 4, $fn = 40);
+                        }
+                        for (a = [0, 60, 120]) rotate(a) translate([-0.6, -6, 0]) cube([1.2, 12, 1.4]);
+                        cylinder(r = 1.6, h = 2.2, $fn = 20);
+                    }
+                }
+            }
+        }
+        translate([-50, -60, -60]) cube([50, H + 120, 200]);   // keep only what's outside the wall
+    }
+}
+module pipes() {
+    pipe_run("gauge");
+    translate([W, 0, 0]) mirror([1, 0, 0]) pipe_run("valve");
+}
+
 // ---------------- bezel ----------------
 module bezel_deco() {
     translate([0, 0, D_top - 0.01]) {
@@ -443,6 +512,7 @@ if (part == "tub") tub();
 else if (part == "bezel") bezel();
 else if (part == "retainer") retainer();
 else if (part == "trim") trim();
+else if (part == "pipes") pipes();
 else if (part == "ghost_stack") ghost_stack();
 else if (part == "ghost_eink") ghost_eink();
 else if (part == "ghost_kb") ghost_kb();
@@ -450,6 +520,7 @@ else {
     color("#3b3b3b") tub();
     color("#b08d57") bezel();
     color("#b87333") trim();
+    color("#c96b3c") pipes();
     color("#666") retainer();
     color("#4a7", 0.6) ghost_stack();
     color("#eee") ghost_eink();
