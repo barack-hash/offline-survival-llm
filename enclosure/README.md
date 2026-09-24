@@ -1,9 +1,15 @@
-# Enclosure (Phase 7) — DRAFT v0.3, not print-ready
+# Enclosure (Phase 7) — DRAFT v0.4, not print-ready
 
 Parametric OpenSCAD model of a handheld enclosure: 4.2" e-ink screen on top,
 CardKB keyboard below, Pi 5 + Geekworm X1202 UPS + 4× 18650 stacked behind
-the screen only. Outer size ≈ 109 × 170 mm; **59 mm deep behind the screen,
-11.4 mm at the keyboard**, joined by a sloped step on the back.
+the screen only. Outer size ≈ 109 × 170 mm; **61 mm deep behind the screen,
+11.4 mm at the keyboard** (+4 mm standoff feet), joined by a sloped step.
+
+**Airflow:** the Pi faces the back wall so its cooler fan breathes through a
+porthole grille; the battery pack sits between the Pi and the e-paper panel
+as a heat shield. Cool air in: porthole + low side vents. Hot air out: upper
+side louvers + top-edge vents. Feet keep the porthole clear when lying flat.
+Toggle **Airflow** in the viewer to see the paths.
 
 Confirmed from manufacturer specs: e-ink board 103.0 × 78.5, display area
 84.8 × 63.6, panel 90.1 × 77.0 × 1.18 (Waveshare manual); CardKB v1.1
@@ -16,15 +22,14 @@ with calipers, update the numbers, and re-render.
 
 ## Files
 - `enclosure.scad` — the model; every dimension is a named parameter
-- `stl/` — rendered parts: `tub`, `bezel`, `retainer` (printed) and
+- `render.sh` — re-renders every part and the viewer's `stl/layout.json`
+- `stl/` — rendered parts: `tub`, `bezel`, `retainer`, `trim` (printed) and
   `ghost_*` (stand-ins for the electronics, for the viewer only)
 - `viewer.html` — 3D viewer (orbit, explode, show/hide parts)
 
 ## Re-render
 ```bash
-for p in tub bezel retainer ghost_stack ghost_eink ghost_kb; do
-  openscad -D "part=\"$p\"" --export-format binstl -o stl/$p.stl enclosure.scad
-done
+./render.sh
 ```
 View: `python3 -m http.server 8765` in this folder, then open
 http://localhost:8765/viewer.html (the STLs can't load from `file://`).
@@ -32,4 +37,5 @@ http://localhost:8765/viewer.html (the STLs can't load from `file://`).
 ## Hardware for assembly
 - 4× M3 heat-set inserts + 4× M3 button-head screws (bezel to tub)
 - 6× M2 self-tapping screws (retainer to bezel posts)
-- 4× 10 mm stick-on rubber feet
+- Optional: rubber caps on the four printed feet
+- `trim` (porthole gear ring) prints best in brass/copper-colour filament; glue on

@@ -23,13 +23,15 @@
 </head>
 <body>
 <div id="ui">
-  <h1>Survival Device — Enclosure v0.3</h1>
+  <h1>Survival Device — Enclosure v0.4</h1>
   <div class="dim" id="dim">loading…</div>
   <div>
     <button data-t="bezel" class="on">Bezel</button>
     <button data-t="tub" class="on">Rear shell</button>
     <button data-t="retainer" class="on">Retainer</button>
+    <button data-t="trim" class="on">Brass trim</button>
     <button data-t="ghost" class="on">Components</button>
+    <button data-t="air">Airflow</button>
   </div>
   <label>Explode <input id="explode" type="range" min="0" max="80" value="0"></label>
   <div>
@@ -39,6 +41,8 @@
     <div><span style="background:#b08d57"></span>Bezel (front)</div>
     <div><span style="background:#44484f"></span>Rear shell</div>
     <div><span style="background:#7a7f86"></span>Retainer plate</div>
+    <div><span style="background:#b87333"></span>Porthole gear trim</div>
+    <div><span style="background:#4aa3ff"></span>Cool air in &nbsp;<span style="background:#ff6a3d"></span>Hot air out</div>
     <div><span style="background:#47a86f"></span>Pi 5 + X1202 + 18650s</div>
     <div><span style="background:#e9e7df"></span>4.2" e-ink</div>
     <div><span style="background:#26282c"></span>CardKB keyboard</div>
@@ -80,6 +84,7 @@ const parts = [
   { f:'tub',         color:0x44484f, group:'tub',      ex:-1.0 },
   { f:'bezel',       color:0xb08d57, group:'bezel',    ex: 1.2, metal:0.55 },
   { f:'retainer',    color:0x7a7f86, group:'retainer', ex: 0.5 },
+  { f:'trim',        color:0xb87333, group:'trim',     ex:-1.4, metal:0.6 },
   { f:'ghost_stack', color:0x47a86f, group:'ghost',    ex:-0.4, opacity:0.8 },
   { f:'ghost_eink',  color:0xe9e7df, group:'ghost',    ex: 0.85 },
   { f:'ghost_kb',    color:0x26282c, group:'ghost',    ex: 0.85 },
@@ -116,9 +121,35 @@ function setView(v) { camera.position.set(...views[v]); controls.target.set(0,0,
 setView('iso');
 ['front','side','back','iso'].forEach(v => document.getElementById(v).onclick = () => setView(v));
 
-const visible = { bezel:true, tub:true, retainer:true, ghost:true };
+// ---- airflow overlay (positions from the model via stl/layout.json) ----
+const L = await (await fetch(`stl/layout.json?v=${Date.now()}`)).json();
+const airGroup = new THREE.Group(); airGroup.visible = false; model.add(airGroup);
+function arrow(from, dir, len, color) {
+  const d = new THREE.Vector3(...dir).normalize();
+  const mat = new THREE.MeshStandardMaterial({ color, emissive:color, emissiveIntensity:0.35 });
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, len - 6, 12), mat);
+  const head  = new THREE.Mesh(new THREE.ConeGeometry(3.2, 6, 16), mat);
+  shaft.position.y = (len - 6) / 2; head.position.y = len - 3;
+  const g = new THREE.Group(); g.add(shaft, head);
+  g.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d);
+  g.position.set(...from); airGroup.add(g);
+}
+const COOL = 0x4aa3ff, HOT = 0xff6a3d;
+for (const [dx, dy] of [[0,0], [-10,0], [10,0], [0,-10], [0,10]])
+  arrow([L.fan[0] + dx, L.fan[1] + dy, -L.feet - 30], [0, 0, 1], 26, COOL);   // porthole intake
+for (const dz of [-5, 5]) {
+  arrow([-30, L.vent_low, L.vent_z + dz], [1, 0, 0], 26, COOL);              // low side intake
+  arrow([L.W + 30, L.vent_low, L.vent_z + dz], [-1, 0, 0], 26, COOL);
+  arrow([-2, L.vent_high, L.vent_z + dz], [-1, 0, 0], 26, HOT);             // high side exhaust
+  arrow([L.W + 2, L.vent_high, L.vent_z + dz], [1, 0, 0], 26, HOT);
+}
+for (const dx of [-20, 0, 20])
+  arrow([L.W/2 + dx, L.H + 2, L.vent_z + 2], [0, 1, 0], 28, HOT);           // top-edge chimney
+
+const visible = { bezel:true, tub:true, retainer:true, trim:true, ghost:true, air:false };
 document.querySelectorAll('button[data-t]').forEach(b => b.onclick = () => {
   const t = b.dataset.t; visible[t] = !visible[t]; b.classList.toggle('on', visible[t]);
+  if (t === 'air') airGroup.visible = visible.air;
   meshes.forEach(m => { if (m.userData.group === t) m.visible = visible[t]; });
 });
 const ex = document.getElementById('explode');

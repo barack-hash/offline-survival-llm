@@ -296,3 +296,22 @@ Template:
 - Didn't swap the Pi active cooler for a passive heatsink to save height: Phase 1 measured 70 °C at full load *with* the fan; losing it risks throttling during inference.
 **Hardware/Tools used:** None physical.
 **Next:** Measure the real stack height and screen connector clearance when parts arrive — those two numbers set the final depth.
+
+## 2026-09-24 — Enclosure v0.4: airflow redesign + steampunk styling
+**Goal:** Make the enclosure look steampunk and design the airflow so the Pi stays cool inside it.
+**Done:**
+- **Airflow problem found in v0.3:** the Pi 5 active cooler's fan draws air in through its top, which faced the screen with only ~2.6 mm of clearance — the fan would have been starved and recirculating its own hot air, and the e-paper panel (typically rated to ~50 °C) sat directly over the SoC.
+- **Fix: flipped the stack** — Pi + cooler face the back wall, X1202 + 4× 18650 face the screen. Fan now breathes through a porthole intake grille in the back wall (concentric rings + 6 spokes, ~70% open), with a 2 mm fan gap. The battery pack shields the screen from Pi heat and keeps the cells cooler (18650 charging limit ~45 °C).
+- Chimney path: cool air in via porthole + low side vents, hot air out via upper side louvers + top-edge vents (all vent bands moved down to the cooler's level at the back). 4 mm domed standoff feet keep the porthole breathing when laid on its back.
+- X1202 charge-port height moved to ~29 mm (it's now the front board of the stack) — VERIFY.
+- **Steampunk details:** bead frames around screen and keyboard; riveted triangular corner brackets on the screen frame; riveted raised brass nameplates ("OFFLINE SURVIVAL REFERENCE", "FIELD REFERENCE MK I"); framed, riveted steam-vent plates on the side louvers and top vents; rivet line around the back plate; brass gear ring around the porthole as a separate `trim` part for two-colour printing.
+- enclosure/render.sh re-renders all parts and writes stl/layout.json; viewer gained Brass trim + Airflow toggles (arrows positioned from the model's own numbers).
+- Depth: 61.2 mm behind the screen (+2 mm for the fan gap vs v0.3), 11.4 mm at the keyboard, +4 mm feet.
+**Mistakes/Challenges:**
+- The v0.3 layout had the thermal problem baked in; I only caught it by asking where the fan actually takes its air from. Lesson for the log: design the air path first, then the shape around it.
+- Write tool refused to overwrite enclosure.scad ("modified since read") because an earlier python patch had touched it — re-read, then wrote.
+**Improvements/Decisions:**
+- Decorative trim as a separate glue-on part so the shell can print in one colour and the brass details in another.
+- Assumptions to verify on hardware: fan position on the stack (`cooler_off`), which way the cooler exhausts, and the real stack height.
+**Hardware/Tools used:** None physical.
+**Next:** When the enclosure is printed: log idle + inference temperatures enclosed vs open-air (Phase 1 baseline: 49 °C idle, 70 °C full load) — that's the acceptance test for this airflow design.

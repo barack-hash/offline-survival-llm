@@ -3,23 +3,29 @@
 // Layout (device held upright, front face toward you):
 //   top:    Waveshare 4.2" e-Paper Module V2 (400x300)
 //   bottom: M5Stack CardKB v1.1 keyboard
-//   behind the screen only: Raspberry Pi 5 + active cooler on a Geekworm
-//           X1202 UPS board carrying 4x 18650 cells
+//   behind the screen only: Geekworm X1202 UPS + 4x 18650 (toward the
+//           screen) with the Raspberry Pi 5 + active cooler on top of it,
+//           facing the BACK wall
 //
-// v0.3 profile: full depth only behind the screen, where the Pi/UPS stack
-// lives; the keyboard section is ~11 mm thin; a sloped step joins the two.
+// v0.4 airflow: the Pi faces the back so its cooler fan (which draws air in
+// through its top) breathes through a porthole grille in the back wall.
+// The battery pack sits between the Pi and the e-paper panel as a heat
+// shield. Cool air enters the porthole and the low side vents; hot air
+// rises out of the upper side louvers and the top-edge vents. Standoff feet
+// keep the porthole clear when the device lies on its back.
 //
 // Printed parts:
-//   tub      — rear shell: stack guides, vents, charge ports, keyboard rails
-//   bezel    — flat front cap: screen window, keyboard opening
+//   tub      — rear shell: stack guides, porthole intake, vents, charge ports
+//   bezel    — front cap: screen window, keyboard opening, nameplates
 //   retainer — ring that clamps the screen against the bezel
+//   trim     — brass gear ring for the porthole (print in brass-colour, glue on)
 //
 // Render one part:  openscad -D 'part="tub"' -o tub.stl enclosure.scad
 //
 // Sizes marked VERIFY are not in any datasheet — measure the real parts with
 // calipers before sending anything to a print service.
 
-part = "assembly"; // tub | bezel | retainer | ghost_stack | ghost_eink | ghost_kb | assembly
+part = "assembly"; // tub | bezel | retainer | trim | ghost_stack | ghost_eink | ghost_kb | assembly
 
 $fn = 48;
 
@@ -34,31 +40,35 @@ eink_back_clear = 3.2;     // connector + cable behind the board — VERIFY
 
 // M5Stack store: CardKB v1.1 product size 88.0 x 54.0 x 5.0 mm.
 kb     = [88.0, 54.0, 5.0];
-kb_lip = 1.5;              // bezel overlap on each keyboard edge
-kb_foam = 1.0;             // foam tape between rails and keyboard back
+kb_lip = 1.5;
+kb_foam = 1.0;
 
 // Geekworm X1202: PCB 97.4 x 85 mm. Stack height (cells + X1202 + Pi 5 +
 // active cooler) is not published; Geekworm's own case is 62.8 mm tall
 // outside, so this is an estimate below that — VERIFY.
 stack = [97.4, 85.0, 48.0];
+fan_gap    = 2.0;          // air gap between the cooler's fan and the back wall
+cooler_off = [0, 0];       // fan centre relative to stack centre (seen from behind) — VERIFY
+grille_d   = 36;           // porthole intake diameter (Pi 5 active cooler fan ≈ 30 mm)
 
-// X1202 charge ports on the right-hand wall — positions VERIFY
-usbc_y_off = 20;   // from stack centre, along height
+// X1202 charge ports on the right-hand wall. The X1202 is now the front
+// board of the stack, so its edge ports sit ~27-31 mm above the floor — VERIFY
+usbc_y_off = 20;
 dc_y_off   = -20;
-port_z     = 6;    // port centre height above the tub floor
+port_z     = 29;
 
 // ---------------- shell ----------------
 wall      = 2.2;
 floor_t   = 2.2;
 bezel_t   = 2.0;
-skirt     = 3.0;   // bezel side wall depth below the face
+skirt     = 3.0;
 gap       = 0.8;
 corner_r  = 7;
 edge_ch   = 1.6;
-margin_top = 10;   // top screw bosses sit above the stack
-margin_bot = 12;   // engraved label
-divider   = 9;     // bar between screen and keyboard
-taper_len = 26;    // length of the sloped step on the back
+margin_top = 10;
+margin_bot = 12;
+divider   = 9;
+taper_len = 26;
 kb_rail_h = 1.0;
 retainer_t = 1.6;
 boss_r    = 4.0;
@@ -68,23 +78,24 @@ screw_d   = 3.4;
 head_d    = 6.2;
 post_r    = 2.5;
 post_hole = 1.8;   // M2 self-tapping
+feet_h    = 4.0;   // standoff feet on the back keep the porthole breathing
+deco_h    = 0.8;   // height of raised bead frames / nameplates
 rivets    = true;
 label     = "OFFLINE SURVIVAL REFERENCE";
-back_text = [
-    ["OFFLINE SURVIVAL REFERENCE", 4.4],
-    ["CHARGE: USB-C 5V 5A  |  DC 6-18V", 3.0],
-    ["", 3.0],
-    ["REFERENCE AID - NOT A SOLE AUTHORITY", 2.8],
-    ["FOR MEDICAL DOSING, STRUCTURAL", 2.8],
-    ["OR ELECTRICAL DECISIONS", 2.8]];
+top_label = "FIELD REFERENCE  MK I";
+back_top  = [["OFFLINE SURVIVAL REFERENCE", 4.2],
+             ["CHARGE: USB-C 5V 5A  |  DC 6-18V", 2.9]];
+back_bot  = [["REFERENCE AID - NOT A SOLE AUTHORITY", 2.7],
+             ["FOR MEDICAL DOSING, STRUCTURAL", 2.7],
+             ["OR ELECTRICAL DECISIONS", 2.7]];
 
 // ---------------- derived ----------------
 screen_layer = eink_glass[2] + eink_pcb[2] + eink_back_clear;
-D_top = floor_t + stack[2] + 1 + screen_layer + bezel_t;          // behind the screen
-D_bot = floor_t + kb_rail_h + kb_foam + kb[2] + bezel_t + 0.2;     // under the keyboard
+D_top = floor_t + fan_gap + stack[2] + 1 + screen_layer + bezel_t;
+D_bot = floor_t + kb_rail_h + kb_foam + kb[2] + bezel_t + 0.2;
 bezel_depth = bezel_t + skirt;
-split_z = D_top - bezel_depth;       // tub / bezel parting plane
-face_z  = D_top - bezel_t;           // underside of the front face
+split_z = D_top - bezel_depth;
+face_z  = D_top - bezel_t;
 
 inner_w = max(eink_pcb[0], stack[0], kb[0]) + 2*gap;
 inner_h = margin_bot + kb[1] + divider + eink_pcb[1] + margin_top + 2*gap;
@@ -96,11 +107,13 @@ kb_top  = wall + gap + margin_bot + kb[1];
 div_cy  = kb_top + divider/2;
 ek_cy   = kb_top + divider + eink_pcb[1]/2;
 top_cy  = H - wall - gap - margin_top/2;
+label_cy = wall + margin_bot/2 - 0.2;
 
-st_y1 = H - wall - gap - margin_top + 1 - stack[1];   // stack sits under the top boss band
+st_y1 = H - wall - gap - margin_top + 1 - stack[1];
 st_cy = st_y1 + stack[1]/2;
-ys = st_y1 - 1;              // inner cavity is full depth from here up
-ye = ys - taper_len;         // and keyboard-thin from here down
+ys = st_y1 - 1;
+ye = ys - taper_len;
+fan_c = [W/2 - cooler_off[0], st_cy + cooler_off[1]];   // seen from behind, X is mirrored
 
 bosses     = [[wall+5, H-wall-4.5], [W-wall-5, H-wall-4.5]];
 side_free  = (inner_w - kb[0]) / 2;
@@ -108,8 +121,16 @@ mid_bosses = [[wall+side_free/2+0.4, kb_top - 8], [W-wall-side_free/2-0.4, kb_to
 all_bosses = concat(bosses, mid_bosses);
 posts = [[W/2-35, top_cy], [W/2+35, top_cy], [W/2-35, div_cy], [W/2+35, div_cy]];
 
+win_outer = [eink_view[0] + 1 + 2*bezel_t, eink_view[1] + 1 + 2*bezel_t];
+plate     = [76, 7.6];     // bottom nameplate
+top_plate = [58, 6.6];
+
+vent_z   = floor_t + fan_gap + 8;              // vents level with the cooler
+vent_low  = st_y1 + 6;                          // intake band
+vent_high = st_y1 + stack[1] - 32;              // exhaust band
+
 echo(str("Outer W x H = ", W, " x ", H, " mm; depth ", D_top, " mm behind screen, ",
-         D_bot, " mm at keyboard"));
+         D_bot, " mm at keyboard (+", feet_h, " mm feet)"));
 
 // ---------------- helpers ----------------
 module rbox(s, r) {
@@ -127,14 +148,27 @@ module crbox(s, r, ct = 0, cb = 0) {
 module crect(c, s, h, r = 1) {
     translate([c[0]-s[0]/2, c[1]-s[1]/2, 0]) rbox([s[0], s[1], h], r);
 }
+module ring_rect(c, outer, inner, h, r = 1.5) {
+    difference() {
+        crect(c, outer, h, r);
+        translate([0, 0, -1]) crect(c, inner, h + 2, r);
+    }
+}
+module rivet(r = 1.2) { scale([1, 1, 0.6]) sphere(r = r); }
 module slot(len, w, h) {
     hull() for (y = [-len/2 + w/2, len/2 - w/2]) translate([0, y, 0]) cylinder(d = w, h = h);
 }
+module gear2d(r_root, r_tip, teeth) {
+    union() {
+        circle(r = r_root);
+        for (i = [0 : teeth - 1]) rotate(i * 360 / teeth)
+            polygon([[r_root - 0.5, -2.1], [r_tip, -1.2], [r_tip, 1.2], [r_root - 0.5, 2.1]]);
+    }
+}
 
 // Body = side profile (Y-Z) extruded across the width, intersected with the
-// rounded plan outline. The profile is concave (thin keyboard section, then
-// a sloped step up to the full-depth screen section), which hull() can't do.
-module profile2d(zf) {   // 2D coords: x = device height (Y), y = depth (Z)
+// rounded plan outline (concave profile: hull() can't make it).
+module profile2d(zf) {
     polygon([[0, D_top - D_bot], [ye, D_top - D_bot], [ys, 0], [H, 0], [H, zf], [0, zf]]);
 }
 module across_width(w) { multmatrix([[0,0,1,0],[1,0,0,0],[0,1,0,0]]) linear_extrude(w) children(); }
@@ -153,61 +187,105 @@ module body_inner() {
 
 // ---------------- tub ----------------
 module vent_band(y0) { for (i = [0:5]) translate([0, y0 + i*4.5, 0]) children(); }
-
+module side_vent_cuts() {
+    for (x = [-2, W - wall - 1]) for (band = [vent_low, vent_high])
+        vent_band(band) translate([x, 0, vent_z])
+            rotate([0, 90, 0]) translate([-8, 0, 0]) cube([16, 2.2, wall + 3]);
+}
+module top_vent_cuts() {
+    for (i = [-5:5]) translate([W/2 + i*5, H - wall - 1, vent_z + 2])
+        rotate([-90, 0, 0]) slot(20, 2.2, wall + 3);
+}
+module porthole_cut() {
+    // concentric rings held by six spokes: ~70% open area over the fan
+    translate([fan_c[0], fan_c[1], -feet_h - 1]) linear_extrude(floor_t + feet_h + 2)
+        difference() {
+            circle(d = grille_d);
+            for (r = [4.5, 9.5, 14.5]) difference() { circle(r = r + 1.4); circle(r = r); }
+            circle(r = 3.2);
+            for (a = [0 : 60 : 300]) rotate(a) translate([0, -0.8]) square([grille_d, 1.6]);
+        }
+}
+// raised steampunk details on the outside of the tub
+module tub_deco() {
+    // framed steam-vent plates around the side louvers, riveted at the corners
+    for (side = [0, 1]) for (band = [vent_low, vent_high]) {
+        x0 = side == 0 ? -deco_h : W - 0.01;
+        translate([x0, band - 4, vent_z - 11]) cube([deco_h + 0.01, 6*4.5 + 3.8, 22]);
+        if (rivets) for (dy = [-2, 6*4.5 + 1.8], dz = [-9, 9])
+            translate([side == 0 ? -deco_h : W + deco_h, band + dy, vent_z + dz])
+                rotate([0, side == 0 ? -90 : 90, 0]) rivet(0.9);
+    }
+    // top-edge vent plate
+    translate([W/2 - 30, H - 0.01, vent_z - 9]) cube([60, deco_h + 0.01, 22]);
+    // feet: domed standoffs on the flat back
+    for (fx = [14, W - 14], fy = [ys + 10, H - 12])
+        translate([fx, fy, 0]) {
+            translate([0, 0, -(feet_h - 2)]) cylinder(d = 8, h = feet_h - 2 + 0.01);
+            translate([0, 0, -(feet_h - 2)]) scale([1, 1, 0.5]) sphere(d = 8);
+        }
+    // rivet line around the back plate
+    if (rivets) {
+        inset = 5.5;
+        xs = [for (i = [0:7]) inset + 4 + i*(W - 2*inset - 8)/7];
+        ysr = [for (i = [0:6]) ys + inset + i*(H - ys - 2*inset)/6];
+        for (p = concat([for (x = xs) [x, ys + inset]], [for (x = xs) [x, H - inset]],
+                        [for (y = ysr) [inset, y]], [for (y = ysr) [W - inset, y]]))
+            if (min([for (f = [[14, ys + 10], [W - 14, ys + 10], [14, H - 12], [W - 14, H - 12]]) norm(p - f)]) > 7)
+                translate([p[0], p[1], 0]) mirror([0, 0, 1]) rivet(1.1);
+    }
+}
 module tub() {
     difference() {
-        intersection() {
-            union() {
-                difference() { body_outer(); body_inner(); }
-                for (b = bosses)
-                    translate([b[0], b[1], 0]) cylinder(r = boss_r, h = split_z);
-                for (b = mid_bosses)
-                    translate([b[0], b[1], 0]) cylinder(r = mid_boss_r, h = split_z);
-                // corner guides for the Pi/UPS stack
-                for (sx = [0, 1], sy = [0, 1])
-                    translate([W/2 + (sx ? 1 : -1)*(stack[0]/2 + gap),
-                               st_cy + (sy ? 1 : -1)*(stack[1]/2 + gap), floor_t])
-                        mirror([sx, 0, 0]) mirror([0, sy, 0])
-                            translate([-1.6, -1.6, 0]) difference() {
-                                cube([10, 10, 8]);
-                                translate([1.6, 1.6, -1]) cube([10, 10, 10]);
-                            }
-                // rails that hold the keyboard up against the bezel (with foam tape)
-                // (split in the middle so the CardKB cable can pass up to the Pi)
-                for (dy = [-kb[1]/2 + 4, kb[1]/2 - 4], sx = [-1, 1])
-                    translate([W/2 + (sx < 0 ? -kb[0]/2 + 6 : 9), kb_cy + dy - 1.5, 0])
-                        cube([kb[0]/2 - 15, 3, D_top - D_bot + floor_t + kb_rail_h]);
+        union() {
+            intersection() {
+                union() {
+                    difference() { body_outer(); body_inner(); }
+                    for (b = bosses) translate([b[0], b[1], 0]) cylinder(r = boss_r, h = split_z);
+                    for (b = mid_bosses) translate([b[0], b[1], 0]) cylinder(r = mid_boss_r, h = split_z);
+                    // corner guides for the stack
+                    for (sx = [0, 1], sy = [0, 1])
+                        translate([W/2 + (sx ? 1 : -1)*(stack[0]/2 + gap),
+                                   st_cy + (sy ? 1 : -1)*(stack[1]/2 + gap), floor_t])
+                            mirror([sx, 0, 0]) mirror([0, sy, 0])
+                                translate([-1.6, -1.6, 0]) difference() {
+                                    cube([10, 10, 8]);
+                                    translate([1.6, 1.6, -1]) cube([10, 10, 10]);
+                                }
+                    // keyboard rails (split in the middle for the CardKB cable)
+                    for (dy = [-kb[1]/2 + 4, kb[1]/2 - 4], sx = [-1, 1])
+                        translate([W/2 + (sx < 0 ? -kb[0]/2 + 6 : 9), kb_cy + dy - 1.5, 0])
+                            cube([kb[0]/2 - 15, 3, D_top - D_bot + floor_t + kb_rail_h]);
+                }
+                body_outer();
             }
-            body_outer();
+            tub_deco();
+            lanyard_tab();
         }
-        body_outer_clip_top();
+        translate([-50, -50, split_z]) cube([W + 100, H + 100, 100]);
         for (b = all_bosses) translate([b[0], b[1], split_z - 6]) cylinder(d = insert_d, h = 7);
-        // side vents at the stack: intake low, exhaust high
-        for (x = [-1, W - wall - 1]) for (band = [st_y1 + 4, st_y1 + stack[1] - 30])
-            vent_band(band) translate([x, 0, floor_t + 22])
-                rotate([0, 90, 0]) translate([-14, 0, 0]) cube([28, 2.2, wall + 2]);
-        // top-edge exhaust
-        for (i = [-5:5]) translate([W/2 + i*5, H - wall - 1, floor_t + 24])
-            rotate([-90, 0, 0]) slot(28, 2.2, wall + 2);
+        side_vent_cuts();
+        top_vent_cuts();
+        porthole_cut();
         // X1202 charge ports, right wall
-        translate([W - wall - 1, st_cy + usbc_y_off, floor_t + port_z])
+        translate([W - wall - 2, st_cy + usbc_y_off, floor_t + port_z])
             rotate([0, 90, 0]) hull() for (dy = [-3.1, 3.1])
-                translate([0, dy, 0]) cylinder(d = 3.8, h = wall + 2);
-        translate([W - wall - 1, st_cy + dc_y_off, floor_t + port_z])
-            rotate([0, 90, 0]) cylinder(d = 9, h = wall + 2);
+                translate([0, dy, 0]) cylinder(d = 3.8, h = wall + 4);
+        translate([W - wall - 2, st_cy + dc_y_off, floor_t + port_z])
+            rotate([0, 90, 0]) cylinder(d = 9, h = wall + 4);
         // snap windows for the bezel's bottom tongues
         for (sx = [-1, 1]) translate([W/2 + sx*25 - 5, -1, split_z - 2.4]) cube([10, wall + 2, 1.4]);
-        // rear engraving on the flat back behind the screen, read from behind
-        for (i = [0 : len(back_text) - 1])
-            translate([W/2, (ys + H)/2 + 18 - i*7.5, -0.01]) mirror([1, 0, 0])
-                linear_extrude(0.7) text(back_text[i][0], size = back_text[i][1],
+        // rear engraving above and below the porthole, read from behind
+        for (i = [0 : len(back_top) - 1])
+            translate([W/2, H - 14 - i*6.5, -0.01]) mirror([1, 0, 0])
+                linear_extrude(0.7) text(back_top[i][0], size = back_top[i][1],
                     halign = "center", valign = "center", font = "Liberation Sans:style=Bold");
-        for (fx = [16, W - 16], fy = [ys + 12, H - 14])
-            translate([fx, fy, -0.01]) cylinder(d = 10.4, h = 1.0);
+        for (i = [0 : len(back_bot) - 1])
+            translate([W/2, fan_c[1] - grille_d/2 - 10 - i*4.6, -0.01]) mirror([1, 0, 0])
+                linear_extrude(0.7) text(back_bot[i][0], size = back_bot[i][1],
+                    halign = "center", valign = "center", font = "Liberation Sans:style=Bold");
     }
-    lanyard_tab();
 }
-module body_outer_clip_top() { translate([-50, -50, split_z]) cube([W + 100, H + 100, 100]); }
 module lanyard_tab() {
     difference() {
         translate([W - 32, -7, D_top - D_bot]) rbox([16, 7 + corner_r, D_bot - bezel_depth], 3);
@@ -216,7 +294,42 @@ module lanyard_tab() {
     }
 }
 
+// ---------------- trim: brass gear ring around the porthole ----------------
+module trim() {
+    translate([fan_c[0], fan_c[1], -1.2]) difference() {
+        union() {
+            linear_extrude(1.2) difference() {
+                gear2d(grille_d/2 + 5, grille_d/2 + 7.5, 20);
+                circle(d = grille_d + 1);
+            }
+            if (rivets) for (a = [30 : 60 : 330]) rotate(a) translate([grille_d/2 + 3, 0, 0])
+                mirror([0, 0, 1]) rivet(1.0);
+        }
+    }
+}
+
 // ---------------- bezel ----------------
+module bezel_deco() {
+    translate([0, 0, D_top - 0.01]) {
+        // bead frame around the screen with riveted corner brackets
+        ring_rect([W/2, ek_cy], win_outer + [6, 6], win_outer, deco_h + 0.01, 2.5);
+        for (sx = [-1, 1], sy = [-1, 1]) {
+            c = [W/2 + sx*(win_outer[0]/2 + 3), ek_cy + sy*(win_outer[1]/2 + 3)];
+            translate([c[0], c[1], 0]) linear_extrude(deco_h + 0.01)
+                polygon([[0, 0], [-sx*11, 0], [0, -sy*11]]);
+            if (rivets) translate([c[0] - sx*3, c[1] - sy*3, deco_h]) rivet(1.0);
+        }
+        // bead frame around the keyboard recess
+        ring_rect([W/2, kb_cy], [kb[0] + 6, kb[1] + 6], [kb[0] + 3, kb[1] + 3], deco_h * 0.75 + 0.01, 3);
+        // riveted nameplates
+        for (pl = [[label_cy, plate], [top_cy, top_plate]]) {
+            translate([W/2 - pl[1][0]/2, pl[0] - pl[1][1]/2, 0])
+                crbox([pl[1][0], pl[1][1], deco_h + 0.01], 1.5, ct = 0.4);
+            if (rivets) for (sx = [-1, 1])
+                translate([W/2 + sx*(pl[1][0]/2 - 2.4), pl[0], deco_h]) rivet(0.9);
+        }
+    }
+}
 module bezel() {
     difference() {
         union() {
@@ -233,6 +346,7 @@ module bezel() {
                 }
                 body_outer();
             }
+            bezel_deco();
             // alignment lip into the tub
             difference() {
                 translate([wall + 0.3, wall + 0.3, split_z - 3])
@@ -241,7 +355,7 @@ module bezel() {
                     rbox([W-2*wall-3, H-2*wall-3, 5], corner_r - wall - 1.2);
                 for (b = all_bosses) translate([b[0], b[1], split_z - 4]) cylinder(r = boss_r + 0.5, h = 5);
             }
-            // bottom tongues with snap bumps (bezel hooks in at the bottom, screws at the top)
+            // bottom tongues with snap bumps
             for (sx = [-1, 1]) translate([W/2 + sx*25 - 5, wall + 0.3, split_z - 3]) {
                 cube([10, 1.4, 3]);
                 translate([0, -0.6, 0.6]) cube([10, 0.6, 1.2]);
@@ -250,20 +364,23 @@ module bezel() {
         }
         for (b = all_bosses) {
             translate([b[0], b[1], split_z - 5]) cylinder(d = screw_d, h = bezel_depth + 10);
-            translate([b[0], b[1], D_top - 2]) cylinder(d = head_d, h = 3);
+            translate([b[0], b[1], D_top - 2]) cylinder(d = head_d, h = 4);
         }
         for (p = posts) translate([p[0], p[1], face_z - 6]) cylinder(d = post_hole, h = 6);
         // screen window, chamfered toward the viewer
         translate([W/2 + eink_view_off[0], ek_cy + eink_view_off[1], face_z - 0.01]) hull() {
             crect([0, 0], [eink_view[0] + 1, eink_view[1] + 1], 0.01, 1);
-            translate([0, 0, bezel_t]) crect([0, 0], [eink_view[0] + 1 + 2*bezel_t, eink_view[1] + 1 + 2*bezel_t], 0.02, 2);
+            translate([0, 0, bezel_t]) crect([0, 0], win_outer, 0.02, 2);
         }
-        // keyboard opening + shallow front recess so the keys sit near flush
+        // keyboard opening + shallow front recess
         translate([0, 0, face_z - 1]) crect([W/2, kb_cy], [kb[0] - 2*kb_lip, kb[1] - 2*kb_lip], bezel_t + 2, 2);
-        translate([0, 0, D_top - 1.0]) crect([W/2, kb_cy], [kb[0] + 3, kb[1] + 3], 2, 3);
-        // engraved label
-        translate([W/2, wall + margin_bot/2 + 0.5, D_top - 0.8])
-            linear_extrude(1) text(label, size = 3.8, halign = "center", valign = "center",
+        translate([0, 0, D_top - 1.0]) crect([W/2, kb_cy], [kb[0] + 3, kb[1] + 3], 3, 3);
+        // nameplate lettering
+        translate([W/2, label_cy, D_top + deco_h - 0.6])
+            linear_extrude(1) text(label, size = 3.5, halign = "center", valign = "center",
+                                   font = "Liberation Sans:style=Bold");
+        translate([W/2, top_cy, D_top + deco_h - 0.6])
+            linear_extrude(1) text(top_label, size = 3.2, halign = "center", valign = "center",
                                    font = "Liberation Sans:style=Bold");
     }
 }
@@ -275,8 +392,10 @@ module rivet_ring() {
         [for (i = [0:n_y-1]) [inset, inset + corner_r + i*(H - 2*inset - 2*corner_r)/(n_y-1)]],
         [for (i = [0:n_y-1]) [W - inset, inset + corner_r + i*(H - 2*inset - 2*corner_r)/(n_y-1)]]);
     for (p = pts)
-        if (min([for (b = all_bosses) norm(p - b)]) > 7)
-            translate([p[0], p[1], D_top]) scale([1, 1, 0.6]) sphere(r = 1.2);
+        if (min([for (b = all_bosses) norm(p - b)]) > 7
+            && !(abs(p[0] - W/2) < plate[0]/2 + 2 && abs(p[1] - label_cy) < plate[1]/2 + 2)
+            && !(abs(p[0] - W/2) < top_plate[0]/2 + 2 && abs(p[1] - top_cy) < top_plate[1]/2 + 2))
+            translate([p[0], p[1], D_top]) rivet(1.2);
 }
 
 // ---------------- retainer (screen) ----------------
@@ -297,15 +416,15 @@ module retainer() {
 }
 
 // ---------------- ghost components (viewer only) ----------------
-module ghost_stack() {
-    translate([W/2 - stack[0]/2, st_y1, floor_t]) {
-        for (i = [0:3]) translate([10 + i*21, 10, 9.5])                  // 4x 18650 under the X1202
+module ghost_stack() {   // flipped: cooler toward the back wall, cells toward the screen
+    z0 = floor_t + fan_gap;
+    translate([W/2 - stack[0]/2, st_y1, z0]) {
+        translate([stack[0]/2 - 20 - cooler_off[0], stack[1]/2 - 20 + cooler_off[1], 0])
+            cube([40, 40, 13]);                                            // active cooler
+        translate([(stack[0] - 85)/2, (stack[1] - 56)/2, 13]) cube([85, 56, 1.6]);   // Pi 5
+        translate([0, 0, 23]) cube([stack[0], stack[1], 1.6]);             // X1202
+        for (i = [0:3]) translate([10 + i*21, 10, 24.6 + 9.6])              // 4x 18650
             rotate([-90, 0, 0]) cylinder(d = 18.5, h = 65.3);
-        translate([0, 0, 20]) cube([stack[0], stack[1], 1.6]);             // X1202 PCB
-        translate([(stack[0] - 85)/2, (stack[1] - 56)/2, 30]) {
-            cube([85, 56, 1.6]);                                           // Pi 5
-            translate([85/2 - 20, 56/2 - 20, 1.6]) cube([40, 40, stack[2] - 32 - 1.6]);  // cooler
-        }
     }
 }
 module ghost_eink() {
@@ -323,14 +442,21 @@ module ghost_kb() {
 if (part == "tub") tub();
 else if (part == "bezel") bezel();
 else if (part == "retainer") retainer();
+else if (part == "trim") trim();
 else if (part == "ghost_stack") ghost_stack();
 else if (part == "ghost_eink") ghost_eink();
 else if (part == "ghost_kb") ghost_kb();
 else {
     color("#3b3b3b") tub();
     color("#b08d57") bezel();
+    color("#b87333") trim();
     color("#666") retainer();
     color("#4a7", 0.6) ghost_stack();
     color("#eee") ghost_eink();
     color("#333") ghost_kb();
 }
+
+// Key coordinates for the viewer's airflow overlay (see render.sh)
+echo(str("LAYOUT {\"W\":", W, ",\"H\":", H, ",\"D\":", D_top, ",\"fan\":[", fan_c[0], ",", fan_c[1],
+         "],\"grille_r\":", grille_d/2, ",\"vent_z\":", vent_z, ",\"vent_low\":", vent_low + 13,
+         ",\"vent_high\":", vent_high + 13, ",\"feet\":", feet_h, "}"));
