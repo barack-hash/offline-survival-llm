@@ -329,3 +329,24 @@ Template:
 - Pipes as a separate part (not part of the shell) keeps the shell's walls simple and lets the colour differ.
 **Hardware/Tools used:** None physical.
 **Next:** Unchanged — measure the real stack, screen connector clearance, fan position and port positions when parts arrive; then test-print the bezel.
+
+## 2026-09-24 — Enclosure v0.6: the pipes become working conduits
+**Goal:** Owner: "everything needs to serve a use" — make the copper pipes functional instead of decorative.
+**Done:**
+- Pipes are now cable conduits: 3/8" OD soft copper tube (7.9 mm bore), buildable from real copper + real 3/8" brass compression elbows/tees, or printed.
+- **Left = data line:** USB 2.0 (load new books/manuals from a stick, backups), AUX I2C accessory port (external sensor modules on the same bus as the CardKB), and the gauge's RGB LED.
+- **Right = power line:** 6–18 V solar/car DC input (pigtail from the X1202's DC jack) and the power-button wires.
+- **Gauge = real status light** (5 mm RGB LED behind a translucent dial; battery level from the X1202 fuel gauge, "thinking" pulse) — faces forward so it's visible while reading. Covers e-ink's weakness at showing activity.
+- **Valve wheel = real power button** (6×6 tactile switch in the valve body, wheel is the cap, wired to the Pi 5 J2 header); recessed below the front face so it isn't pressed by accident.
+- **Junction box** under the step (behind the thin keyboard section): SOLAR 6-18V / USB / AUX I2C ports on its bottom face, screwed lid with engraved labels, fixed by 2 screws from inside the tub. Protected when held and when lying on its back.
+- Lines enter the case through glands in the top face; the loops over the top corners double as roll bars. Top screw bosses moved inboard (x = 22 mm) and the top retainer posts to ±25.5 mm to clear the glands. X1202 DC cutout on the side wall removed (DC now via the junction box); USB-C 5 V 5 A stays direct.
+- Model echoes per-side copper tube cut lengths; new parts: fittings, manifold, manifold_lid, gauge_face, valve_cap. docs/wiring/plumbing-conduits.md has the wire-by-wire plan and parts list.
+- Size with plumbing ≈ 135 × 189 × 67 mm (from 122 × 177 × 67).
+**Mistakes/Challenges:**
+- First plumbing draft had the pipe clamps poking ~1 mm into the side wall (clamp radius exceeded the pipe's standoff) and fittings with only a wire bore where the tube needs a socket — both caught reviewing the code before the first render; clamps now clipped to outside the wall, fittings bored to tube OD + 0.15.
+- Constraint worked around: USB/DC connectors don't fit a 7.9 mm bore, so the plan uses solderable breakouts soldered after pulling wires through.
+**Improvements/Decisions:**
+- Real 3/8" copper + brass compression fittings recommended over printed pipes: authentic, far stronger as roll bars, and standard hardware-store parts.
+- USB-C charging not extended through a pipe (5 A through an extension is a needless risk).
+**Hardware/Tools used:** None physical.
+**Next:** Unchanged measurement list, plus: confirm the Pi 5 J2 button behaviour with the X1202 attached, and pick I2C accessory modules whose addresses don't clash.

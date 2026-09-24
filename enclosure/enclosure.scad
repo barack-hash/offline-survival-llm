@@ -19,14 +19,22 @@
 //   bezel    — front cap: screen window, keyboard opening, nameplates
 //   retainer — ring that clamps the screen against the bezel
 //   trim     — brass gear ring for the porthole (print in brass-colour, glue on)
-//   pipes    — copper pipe runs for both sides, flat-backed (print in copper, glue on)
+//   plumbing — functional: the pipes are cable conduits (3/8" copper tube,
+//              7.9 mm bore). Left "data line": USB + accessory I2C + gauge
+//              LED. Right "power line": 6-18 V solar/car input + power
+//              button. The gauge is a real RGB status light; the valve wheel
+//              is the real power button. All lines end at a junction box
+//              under the step, where the external ports are.
+//   fittings / manifold / manifold_lid / gauge_face / valve_cap — printed
+//              parts for the plumbing (pipes can be real copper + real brass
+//              3/8" compression elbows/tees, or printed)
 //
 // Render one part:  openscad -D 'part="tub"' -o tub.stl enclosure.scad
 //
 // Sizes marked VERIFY are not in any datasheet — measure the real parts with
 // calipers before sending anything to a print service.
 
-part = "assembly"; // tub | bezel | retainer | trim | pipes | ghost_stack | ghost_eink | ghost_kb | assembly
+part = "assembly"; // tub | bezel | retainer | trim | pipes | fittings | manifold | manifold_lid | gauge_face | valve_cap | ghost_stack | ghost_eink | ghost_kb | assembly
 
 $fn = 48;
 
@@ -52,10 +60,10 @@ fan_gap    = 2.0;          // air gap between the cooler's fan and the back wall
 cooler_off = [0, 0];       // fan centre relative to stack centre (seen from behind) — VERIFY
 grille_d   = 36;           // porthole intake diameter (Pi 5 active cooler fan ≈ 30 mm)
 
-// X1202 charge ports on the right-hand wall. The X1202 is now the front
-// board of the stack, so its edge ports sit ~27-31 mm above the floor — VERIFY
+// X1202 USB-C charge port on the right-hand wall (the X1202 is the front
+// board of the stack, so its edge ports sit ~27-31 mm above the floor) — VERIFY.
+// Its DC jack is extended through the power line to the junction box.
 usbc_y_off = 20;
-dc_y_off   = -20;
 port_z     = 29;
 
 // ---------------- shell ----------------
@@ -81,8 +89,15 @@ post_r    = 2.5;
 post_hole = 1.8;   // M2 self-tapping
 feet_h    = 4.0;   // standoff feet on the back keep the porthole breathing
 deco_h    = 0.8;   // height of raised bead frames / nameplates
-pipe_r    = 2.6;   // decorative copper pipes on the sides
-pipe_z_hi = 40;    // pipe height (depth) along the thick section, clear of vents and ports
+pipe_od   = 9.53;  // 3/8" soft copper tube
+pipe_id   = 7.9;
+fit_r     = pipe_od/2 + 1.6;   // fitting body radius (≈ 3/8" compression elbow/tee)
+pz        = 42;    // depth of every pipe run: clear of vents (≤23) and the USB-C port (≤33)
+px_off    = 5.3;   // pipe centre outside each side wall
+gland_x   = 12;    // pipes enter the case through the top face, this far in from each side
+top_rise  = 6;     // top loop height above the top face (doubles as a corner roll bar)
+tee_y     = 115;   // gauge (left) / power valve (right)
+clamp_ys  = [146, 90, 60];
 rivets    = true;
 label     = "OFFLINE SURVIVAL REFERENCE";
 top_label = "FIELD REFERENCE  MK I";
@@ -118,23 +133,28 @@ ys = st_y1 - 1;
 ye = ys - taper_len;
 fan_c = [W/2 - cooler_off[0], st_cy + cooler_off[1]];   // seen from behind, X is mirrored
 
-bosses     = [[wall+5, H-wall-4.5], [W-wall-5, H-wall-4.5]];
+bosses     = [[22, H-wall-4.5], [W-22, H-wall-4.5]];   // inboard of the top pipe glands
 side_free  = (inner_w - kb[0]) / 2;
 mid_bosses = [[wall+side_free/2+0.4, kb_top - 8], [W-wall-side_free/2-0.4, kb_top - 8]];
 all_bosses = concat(bosses, mid_bosses);
-posts = [[W/2-35, top_cy], [W/2+35, top_cy], [W/2-35, div_cy], [W/2+35, div_cy]];
+posts = [[W/2-25.5, top_cy], [W/2+25.5, top_cy], [W/2-35, div_cy], [W/2+35, div_cy]];
 
 win_outer = [eink_view[0] + 1 + 2*bezel_t, eink_view[1] + 1 + 2*bezel_t];
 plate     = [76, 7.6];     // bottom nameplate
 top_plate = [58, 6.6];
 
-// pipe path in side view (y, z): down the thick section, 45° elbow down the
-// step, then along the thin keyboard section
-pipe_z_lo = D_top - D_bot + 3.4;
-pipe_path = [[H - 12, pipe_z_hi], [ys - 9.5, pipe_z_hi],
-             [ys - 9.5 - (pipe_z_lo - pipe_z_hi), pipe_z_lo], [8, pipe_z_lo]];
-pipe_clamps = [[146, pipe_z_hi], [122, pipe_z_hi], [80, pipe_z_hi], [28, pipe_z_lo]];
-pipe_orn_y  = 110;  // gauge (left) / valve wheel (right)
+// junction box under the step (behind the thin keyboard section)
+man = [18, W - 18, 14, 34, 34, D_top - D_bot];   // x0, x1, y0, y1, z0, z1
+man_wall = 1.8;
+pipe_bot_y = (man[2] + man[3]) / 2;
+// left-side pipe centreline (right side is mirrored)
+P_A = [gland_x, H - 2, pz];            // inside the top gland
+P_B = [gland_x, H + top_rise, pz];     // elbow
+P_C = [-px_off, H + top_rise, pz];     // elbow
+P_T = [-px_off, tee_y, pz];            // tee: gauge / valve
+P_D = [-px_off, pipe_bot_y, pz];       // elbow
+P_E = [man[0] + 5, pipe_bot_y, pz];    // into the junction box
+gauge_c = [-px_off - 1.2, tee_y];
 
 vent_z   = floor_t + fan_gap + 8;              // vents level with the cooler
 vent_low  = st_y1 + 6;                          // intake band
@@ -282,8 +302,14 @@ module tub() {
         translate([W - wall - 2, st_cy + usbc_y_off, floor_t + port_z])
             rotate([0, 90, 0]) hull() for (dy = [-3.1, 3.1])
                 translate([0, dy, 0]) cylinder(d = 3.8, h = wall + 4);
-        translate([W - wall - 2, st_cy + dc_y_off, floor_t + port_z])
-            rotate([0, 90, 0]) cylinder(d = 9, h = wall + 4);
+        // wire glands through the top face for both pipe lines
+        for (gx = [gland_x, W - gland_x]) translate([gx, H - wall - 2, pz])
+            rotate([-90, 0, 0]) cylinder(d = pipe_id, h = wall + 4);
+        // junction-box mounting screws, driven from inside through the thin floor
+        for (mx = [W/2 - 18, W/2 + 18]) translate([mx, man[3] - 4, D_top - D_bot - 1]) {
+            cylinder(d = 2.9, h = floor_t + 2);
+            translate([0, 0, floor_t + 1 - 1.4]) cylinder(d1 = 2.9, d2 = 5.8, h = 1.41);
+        }
         // snap windows for the bezel's bottom tongues
         for (sx = [-1, 1]) translate([W/2 + sx*25 - 5, -1, split_z - 2.4]) cube([10, wall + 2, 1.4]);
         // rear engraving above and below the porthole, read from behind
@@ -320,62 +346,138 @@ module trim() {
 }
 
 
-// ---------------- pipes: copper pipe runs on both sides ----------------
-// Built for the left wall (outer face at x = 0) and mirrored to the right.
-// Each run is a D-profile (flat back glued to the wall) so it prints flat.
-module pipe_run(orn) {
-    c = 0.35 * pipe_r;                 // centreline sits slightly into the wall
-    P = [for (q = pipe_path) [-c, q[0], q[1]]];
-    body_h = c + pipe_r + 1.2;          // gauge / valve body height off the wall
-    intersection() {
+// ---------------- plumbing: pipes that are cable conduits ----------------
+// Built for the left side; the right side is the mirror image.
+module seg(a, b, r) {
+    v = b - a; L = norm(v);
+    translate(a) rotate([0, acos(v[2]/L), atan2(v[1], v[0])]) cylinder(r = r, h = L);
+}
+module tube(a, b) {                 // hollow tube between two centreline points
+    u = (b - a) / norm(b - a);
+    difference() { seg(a, b, pipe_od/2); seg(a - u, b + u, pipe_id/2); }
+}
+module hex_nut(p, u) { seg(p + u*(fit_r*0.55), p + u*(fit_r*0.55 + 3.5), fit_r * 1.12, $fn = 6); }
+module fitting_at(p, legs) {        // elbow / tee body with compression nuts on each leg
+    sphere(r = fit_r, $fn = 32);    // (called already translated to p)
+    for (u = legs) hex_nut([0, 0, 0], u);
+}
+module side_pipes() {
+    $fn = 32;
+    tube(P_A, P_B); tube(P_B, P_C); tube(P_C, P_T); tube(P_T, P_D); tube(P_D, P_E);
+}
+module side_fittings(orn) {
+    $fn = 32;
+    difference() {
         union() {
-            for (i = [0 : len(P) - 2]) hull() {
-                translate(P[i]) sphere(r = pipe_r, $fn = 32);
-                translate(P[i + 1]) sphere(r = pipe_r, $fn = 32);
+            translate(P_B) fitting_at(P_B, [[0, -1, 0], [-1, 0, 0]]);
+            translate(P_C) fitting_at(P_C, [[1, 0, 0], [0, -1, 0]]);
+            translate(P_D) fitting_at(P_D, [[0, 1, 0], [1, 0, 0]]);
+            translate(P_T) fitting_at(P_T, [[0, 1, 0], [0, -1, 0], [0, 0, 1]]);
+            // top gland: flange on the top face + nut
+            translate([gland_x, H - 0.01, pz]) rotate([-90, 0, 0]) {
+                cylinder(r = fit_r + 2.2, h = 1.8);
+                cylinder(r = fit_r * 1.12, h = 4.5, $fn = 6);
             }
-            for (i = [1, 2]) translate(P[i]) sphere(r = pipe_r + 0.7, $fn = 32);   // elbow collars
-            for (e = [[P[0], [0, 1, 0]], [P[3], [0, -1, 0]]])                        // end flanges
-                translate(e[0]) rotate([90, 0, 0]) cylinder(r = pipe_r + 1.4, h = 1.8, center = true, $fn = 32);
-            for (k = pipe_clamps) {                                                  // riveted clamps
-                translate([-c, k[0], k[1]]) rotate([90, 0, 0])
-                    cylinder(r = pipe_r + 0.6, h = 2.4, center = true, $fn = 32);
-                translate([-0.8, k[0] - 1.2, k[1] - (pipe_r + 4)]) cube([0.81, 2.4, 2*(pipe_r + 4)]);
-                if (rivets) for (dz = [-1, 1])
-                    translate([-0.8, k[0], k[1] + dz*(pipe_r + 2.6)]) rotate([0, -90, 0]) rivet(0.8);
+            // pipe clamps along the side wall, riveted to it (kept outside the wall)
+            intersection() {
+                for (y = clamp_ys) {
+                    hull() {
+                        seg([-px_off, y - 2, pz], [-px_off, y + 2, pz], pipe_od/2 + 1.6);
+                        translate([-0.8, y - 2, pz - pipe_od/2 - 1.6]) cube([0.8, 4, pipe_od + 3.2]);
+                    }
+                    translate([-0.8, y - 2, pz - pipe_od/2 - 6]) cube([0.8, 4, pipe_od + 12]);
+                }
+                translate([-50, -60, -60]) cube([50, H + 120, 200]);
             }
-            translate([0, pipe_orn_y, pipe_z_hi]) rotate([0, -90, 0]) {
+            if (rivets) for (y = clamp_ys, dz = [-1, 1])
+                translate([-0.8, y, pz + dz*(pipe_od/2 + 4)]) rotate([0, -90, 0]) rivet(0.8);
+            // gauge housing (left) / power-valve body (right), facing the front
+            translate([gauge_c[0], gauge_c[1], pz]) {
                 if (orn == "gauge") {
-                    cylinder(r = 7, h = body_h, $fn = 40);
-                    translate([0, 0, body_h]) {
-                        difference() {
-                            cylinder(r = 7, h = 1.2, $fn = 40);
-                            translate([0, 0, 0.6]) cylinder(r = 5.8, h = 1, $fn = 40);
-                        }
-                        for (a = [-120 : 30 : 120]) rotate(a)
-                            translate([-0.25, 4.2, 0.5]) cube([0.5, 1.2, 0.5]);
-                        rotate(-35) translate([-0.4, 0, 0.5]) cube([0.8, 4.4, 0.6]);   // needle
-                        cylinder(r = 0.9, h = 1.3, $fn = 16);
-                    }
+                    cylinder(r = 6, h = 60.2 - pz, $fn = 40);
+                    translate([0, 0, 58.8 - pz]) cylinder(r = 6.3, h = 1.4, $fn = 40);
                 } else {
-                    cylinder(r = 5, h = body_h, $fn = 6);                                // hex valve body
-                    translate([0, 0, body_h]) {
-                        difference() {
-                            cylinder(r = 6.5, h = 1.4, $fn = 40);
-                            translate([0, 0, -1]) cylinder(r = 5.2, h = 4, $fn = 40);
-                        }
-                        for (a = [0, 60, 120]) rotate(a) translate([-0.6, -6, 0]) cube([1.2, 12, 1.4]);
-                        cylinder(r = 1.6, h = 2.2, $fn = 20);
-                    }
+                    cylinder(r = 6, h = 58.4 - pz, $fn = 6);
                 }
             }
         }
-        translate([-50, -60, -60]) cube([50, H + 120, 200]);   // keep only what's outside the wall
+        // tube sockets through every fitting and clamp (tube OD + 0.15 clearance)
+        seg(P_B, P_C, pipe_od/2 + 0.15);  seg(P_C, P_D, pipe_od/2 + 0.15);
+        seg(P_D, P_E, pipe_od/2 + 0.15);
+        translate([gauge_c[0], gauge_c[1], pz]) {
+            cylinder(r = 2, h = 30);
+            if (orn == "gauge") {
+                translate([0, 0, 60.2 - pz - 9]) cylinder(r = 4.2, h = 10, $fn = 32);   // 5 mm RGB LED
+                translate([0, 0, 58.8 - pz]) cylinder(r = 5.9, h = 3, $fn = 40);        // dial seat
+            } else {
+                translate([-3.15, -3.15, 58.4 - pz - 4.5]) cube([6.3, 6.3, 5]);            // 6x6 tactile switch
+            }
+        }
+        seg(P_A - [0, 5, 0], P_B, pipe_od/2 + 0.15);
     }
 }
-module pipes() {
-    pipe_run("gauge");
-    translate([W, 0, 0]) mirror([1, 0, 0]) pipe_run("valve");
+module pipes()    { side_pipes(); translate([W, 0, 0]) mirror([1, 0, 0]) side_pipes(); }
+module fittings() { side_fittings("gauge"); translate([W, 0, 0]) mirror([1, 0, 0]) side_fittings("valve"); }
+
+module gauge_face() {   // print in white/clear: the status LED glows through it
+    translate([gauge_c[0], gauge_c[1], 59.0]) difference() {
+        cylinder(r = 5.75, h = 1.2, $fn = 40);
+        for (a = [-120 : 30 : 120]) rotate(a) translate([-0.25, 3.6, 0.8]) cube([0.5, 1.3, 1]);
+        rotate(-35) translate([-0.35, 0, 0.8]) cube([0.7, 3.4, 1]);
+    }
 }
+module valve_cap() {    // press the wheel = Pi 5 power button (switch in the valve body)
+    translate([W - gauge_c[0], gauge_c[1], 0]) {
+        translate([0, 0, 58.6]) {
+            difference() { cylinder(r = 6.5, h = 1.4, $fn = 40); translate([0, 0, -1]) cylinder(r = 5.2, h = 4, $fn = 40); }
+            for (a = [0, 60, 120]) rotate(a) translate([-0.6, -6, 0]) cube([1.2, 12, 1.4]);
+            cylinder(r = 1.8, h = 1.8, $fn = 20);
+        }
+        translate([0, 0, 56.6]) cylinder(r = 1.4, h = 2.1, $fn = 20);   // plunger onto the switch
+    }
+}
+
+// junction box under the step: every line ends here, at the external ports
+module manifold() {
+    x0 = man[0]; x1 = man[1]; y0 = man[2]; y1 = man[3]; z0 = man[4]; z1 = man[5];
+    difference() {
+        union() {
+            translate([x0, y0, z0]) rbox([x1 - x0, y1 - y0, z1 - z0], 3);
+            for (sx = [x0, x1]) translate([sx, pipe_bot_y, pz]) rotate([0, 90, 0])
+                cylinder(r = fit_r + 1.2, h = 3, center = true, $fn = 32);          // pipe bosses
+        }
+        translate([x0 + man_wall, y0 + man_wall, z0 - 1]) rbox([x1 - x0 - 2*man_wall, y1 - y0 - 2*man_wall, z1 - z0 - man_wall + 1], 1.5);
+        translate([x0 + 1, y0 + 1, z0 - 0.01]) rbox([x1 - x0 - 2, y1 - y0 - 2, 1.2], 2);   // lid rebate
+        for (sx = [x0 - 3, x1 - 7]) translate([sx, pipe_bot_y, pz]) rotate([0, 90, 0])
+            cylinder(r = pipe_od/2 + 0.15, h = 10, $fn = 32);                      // pipe sockets
+        // external ports on the bottom face
+        translate([32, y0 - 1, pz]) rotate([-90, 0, 0]) translate([-4.9, -2.5, 0]) cube([9.8, 5, man_wall + 2]);   // AUX I2C (Grove)
+        translate([W/2, y0 - 1, pz]) rotate([-90, 0, 0]) translate([-6.7, -3, 0]) cube([13.4, 6, man_wall + 2]); // USB-A
+        translate([W - 32, y0 - 1, pz]) rotate([-90, 0, 0]) cylinder(d = 8.2, h = man_wall + 2, $fn = 32);      // DC 5.5x2.1
+        for (mx = [W/2 - 18, W/2 + 18]) translate([mx, y1 - 4, z1 - 6]) cylinder(d = 2.2, h = 7);  // mounting screws
+        for (cx = [x0 + 4, x1 - 4], cy = [y0 + 4, y1 - 4]) translate([cx, cy, z0 - 1]) cylinder(d = 1.8, h = 7); // lid screws
+    }
+    for (cx = [x0 + 4, x1 - 4], cy = [y0 + 4, y1 - 4]) translate([cx, cy, z0 + 1.2])
+        difference() { cylinder(r = 2.6, h = z1 - z0 - 1.2 - man_wall); cylinder(d = 1.8, h = 20); }
+    for (mx = [W/2 - 18, W/2 + 18]) translate([mx, y1 - 4, z1 - man_wall - 5])
+        difference() { cylinder(r = 3, h = 5); cylinder(d = 2.2, h = 6); }
+}
+module manifold_lid() {
+    x0 = man[0]; x1 = man[1]; y0 = man[2]; y1 = man[3]; z0 = man[4];
+    difference() {
+        translate([x0 + 1.1, y0 + 1.1, z0]) rbox([x1 - x0 - 2.2, y1 - y0 - 2.2, 1.2], 2);
+        for (cx = [x0 + 4, x1 - 4], cy = [y0 + 4, y1 - 4]) translate([cx, cy, z0 - 1]) cylinder(d = 2.3, h = 4);
+        // labels above each port, read from behind (mirrored)
+        for (l = [[32, "AUX I2C"], [W/2, "USB"], [W - 32, "SOLAR 6-18V"]])
+            translate([l[0], y0 + 6, z0 - 0.01]) mirror([1, 0, 0]) linear_extrude(0.5)
+                text(l[1], size = 2.4, halign = "center", valign = "center", font = "Liberation Sans:style=Bold");
+    }
+    if (rivets) for (cx = [x0 + 4, x1 - 4], cy = [y0 + 4, y1 - 4]) translate([cx, cy, z0]) mirror([0, 0, 1]) rivet(1.3);
+}
+
+echo(str("Copper tube centreline lengths per side (subtract your fittings' socket depth): riser ",
+         P_B[1] - P_A[1], ", top run ", P_B[0] - P_C[0], ", upper side ", P_C[1] - P_T[1],
+         ", lower side ", P_T[1] - P_D[1], ", into box ", P_E[0] - P_D[0], " mm"));
 
 // ---------------- bezel ----------------
 module bezel_deco() {
@@ -513,6 +615,11 @@ else if (part == "bezel") bezel();
 else if (part == "retainer") retainer();
 else if (part == "trim") trim();
 else if (part == "pipes") pipes();
+else if (part == "fittings") fittings();
+else if (part == "manifold") manifold();
+else if (part == "manifold_lid") manifold_lid();
+else if (part == "gauge_face") gauge_face();
+else if (part == "valve_cap") valve_cap();
 else if (part == "ghost_stack") ghost_stack();
 else if (part == "ghost_eink") ghost_eink();
 else if (part == "ghost_kb") ghost_kb();
@@ -521,6 +628,11 @@ else {
     color("#b08d57") bezel();
     color("#b87333") trim();
     color("#c96b3c") pipes();
+    color("#b08d57") fittings();
+    color("#b08d57") manifold();
+    color("#b08d57") manifold_lid();
+    color("#f4f1e6") gauge_face();
+    color("#b08d57") valve_cap();
     color("#666") retainer();
     color("#4a7", 0.6) ghost_stack();
     color("#eee") ghost_eink();

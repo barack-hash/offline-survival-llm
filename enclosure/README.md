@@ -1,4 +1,4 @@
-# Enclosure (Phase 7) — DRAFT v0.5, not print-ready
+# Enclosure (Phase 7) — DRAFT v0.6, not print-ready
 
 Parametric OpenSCAD model of a handheld enclosure: 4.2" e-ink screen on top,
 CardKB keyboard below, Pi 5 + Geekworm X1202 UPS + 4× 18650 stacked behind
@@ -10,6 +10,13 @@ porthole grille; the battery pack sits between the Pi and the e-paper panel
 as a heat shield. Cool air in: porthole + low side vents. Hot air out: upper
 side louvers + top-edge vents. Feet keep the porthole clear when lying flat.
 Toggle **Airflow** in the viewer to see the paths.
+
+**Plumbing is functional:** the copper pipes are cable conduits (3/8" tube).
+Left = data line (USB port, AUX I2C accessory port, status-light gauge);
+right = power line (6-18 V solar/car input, valve-wheel power button). Both
+end at the junction box under the step. The top loops double as corner roll
+bars. Wiring plan: `docs/wiring/plumbing-conduits.md`.
+Overall with plumbing ≈ 135 × 189 × 67 mm (incl. lanyard tab and feet).
 
 Confirmed from manufacturer specs: e-ink board 103.0 × 78.5, display area
 84.8 × 63.6, panel 90.1 × 77.0 × 1.18 (Waveshare manual); CardKB v1.1
@@ -23,7 +30,8 @@ with calipers, update the numbers, and re-render.
 ## Files
 - `enclosure.scad` — the model; every dimension is a named parameter
 - `render.sh` — re-renders every part and the viewer's `stl/layout.json`
-- `stl/` — rendered parts: `tub`, `bezel`, `retainer`, `trim`, `pipes` (printed) and
+- `stl/` — rendered parts: `tub`, `bezel`, `retainer`, `trim`, `pipes`, `fittings`,
+  `manifold`, `manifold_lid`, `gauge_face`, `valve_cap` (printed) and
   `ghost_*` (stand-ins for the electronics, for the viewer only)
 - `viewer.html` — 3D viewer (orbit, explode, show/hide parts)
 

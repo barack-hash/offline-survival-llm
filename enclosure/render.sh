@@ -3,10 +3,11 @@
 set -e
 cd "$(dirname "$0")"
 mkdir -p stl
-for p in tub bezel retainer trim pipes ghost_stack ghost_eink ghost_kb; do
+for p in tub bezel retainer trim pipes fittings manifold manifold_lid gauge_face valve_cap ghost_stack ghost_eink ghost_kb; do
   openscad -D "part=\"$p\"" --export-format binstl -o "stl/$p.stl" enclosure.scad 2> "stl/.$p.log"
   grep -iE "warning|error" "stl/.$p.log" | grep -v "Status:" || true
 done
 grep -o 'LAYOUT {.*}' stl/.tub.log | head -1 | sed 's/^LAYOUT //' > stl/layout.json
 grep -o 'Outer W.*mm feet)' stl/.tub.log | head -1
+grep -o 'Copper tube.*mm"' stl/.tub.log | head -1 | tr -d '"'
 rm -f stl/.*.log

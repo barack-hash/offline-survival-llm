@@ -23,13 +23,14 @@
 </head>
 <body>
 <div id="ui">
-  <h1>Survival Device — Enclosure v0.5</h1>
+  <h1>Survival Device — Enclosure v0.6</h1>
   <div class="dim" id="dim">loading…</div>
   <div>
     <button data-t="bezel" class="on">Bezel</button>
     <button data-t="tub" class="on">Rear shell</button>
     <button data-t="retainer" class="on">Retainer</button>
-    <button data-t="trim" class="on">Brass &amp; copper</button>
+    <button data-t="trim" class="on">Gear trim</button>
+    <button data-t="plumb" class="on">Pipes &amp; ports</button>
     <button data-t="ghost" class="on">Components</button>
     <button data-t="air">Airflow</button>
   </div>
@@ -42,7 +43,8 @@
     <div><span style="background:#44484f"></span>Rear shell</div>
     <div><span style="background:#7a7f86"></span>Retainer plate</div>
     <div><span style="background:#b87333"></span>Porthole gear trim</div>
-    <div><span style="background:#c96b3c"></span>Copper pipes, gauge, valve</div>
+    <div><span style="background:#c96b3c"></span>Copper conduits (3/8" tube)</div>
+    <div><span style="background:#9dffb0"></span>Status-light gauge</div>
     <div><span style="background:#4aa3ff"></span>Cool air in &nbsp;<span style="background:#ff6a3d"></span>Hot air out</div>
     <div><span style="background:#47a86f"></span>Pi 5 + X1202 + 18650s</div>
     <div><span style="background:#e9e7df"></span>4.2" e-ink</div>
@@ -86,7 +88,12 @@ const parts = [
   { f:'bezel',       color:0xb08d57, group:'bezel',    ex: 1.2, metal:0.55 },
   { f:'retainer',    color:0x7a7f86, group:'retainer', ex: 0.5 },
   { f:'trim',        color:0xb87333, group:'trim',     ex:-1.4, metal:0.6 },
-  { f:'pipes',       color:0xc96b3c, group:'trim',     ex:-0.3, metal:0.7 },
+  { f:'pipes',        color:0xc96b3c, group:'plumb',    ex:-0.3, metal:0.7 },
+  { f:'fittings',     color:0xb08d57, group:'plumb',    ex:-0.3, metal:0.55 },
+  { f:'manifold',     color:0xb08d57, group:'plumb',    ex:-0.9, metal:0.55 },
+  { f:'manifold_lid', color:0xa07d47, group:'plumb',    ex:-1.6, metal:0.55 },
+  { f:'gauge_face',   color:0x9dffb0, group:'plumb',    ex: 0.6, glow:true },
+  { f:'valve_cap',    color:0xb08d57, group:'plumb',    ex: 0.6, metal:0.55 },
   { f:'ghost_stack', color:0x47a86f, group:'ghost',    ex:-0.4, opacity:0.8 },
   { f:'ghost_eink',  color:0xe9e7df, group:'ghost',    ex: 0.85 },
   { f:'ghost_kb',    color:0x26282c, group:'ghost',    ex: 0.85 },
@@ -100,6 +107,7 @@ await Promise.all(parts.map(p => new Promise(res => {
     geo.computeVertexNormals();
     const mat = new THREE.MeshStandardMaterial({
       color:p.color, roughness:p.metal ? 0.35 : 0.7, metalness:p.metal || 0.05,
+      emissive:p.glow ? p.color : 0x000000, emissiveIntensity:p.glow ? 0.9 : 0,
       transparent:!!p.opacity, opacity:p.opacity || 1 });
     const m = new THREE.Mesh(geo, mat);
     m.userData = p;
@@ -148,7 +156,7 @@ for (const dz of [-5, 5]) {
 for (const dx of [-20, 0, 20])
   arrow([L.W/2 + dx, L.H + 2, L.vent_z + 2], [0, 1, 0], 28, HOT);           // top-edge chimney
 
-const visible = { bezel:true, tub:true, retainer:true, trim:true, ghost:true, air:false };
+const visible = { bezel:true, tub:true, retainer:true, trim:true, plumb:true, ghost:true, air:false };
 document.querySelectorAll('button[data-t]').forEach(b => b.onclick = () => {
   const t = b.dataset.t; visible[t] = !visible[t]; b.classList.toggle('on', visible[t]);
   if (t === 'air') airGroup.visible = visible.air;
