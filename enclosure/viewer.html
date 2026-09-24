@@ -23,7 +23,7 @@
 </head>
 <body>
 <div id="ui">
-  <h1>Survival Device — Enclosure v0.2</h1>
+  <h1>Survival Device — Enclosure v0.3</h1>
   <div class="dim" id="dim">loading…</div>
   <div>
     <button data-t="bezel" class="on">Bezel</button>
@@ -33,7 +33,7 @@
   </div>
   <label>Explode <input id="explode" type="range" min="0" max="80" value="0"></label>
   <div>
-    <button id="front">Front</button><button id="back">Back</button><button id="iso">3/4 view</button>
+    <button id="front">Front</button><button id="side">Side</button><button id="back">Back</button><button id="iso">3/4 view</button>
   </div>
   <div class="legend">
     <div><span style="background:#b08d57"></span>Bezel (front)</div>
@@ -106,15 +106,15 @@ const size = new THREE.Vector3(); bbox.getSize(size);
 const c = new THREE.Vector3(); bbox.getCenter(c);
 model.position.set(-c.x, -c.y, -c.z);
 document.getElementById('dim').textContent =
-  `${size.x.toFixed(0)} × ${size.y.toFixed(0)} × ${size.z.toFixed(0)} mm  (W × H × D, incl. lanyard tab)`;
+  `${size.x.toFixed(0)} × ${size.y.toFixed(0)} × ${size.z.toFixed(0)} mm  (W × H × max depth, incl. lanyard tab)`;
 
 const R = Math.max(size.x, size.y, size.z) * 2.2;
 const views = {
-  front: [0, 0, R], back: [0, 0, -R], iso: [R*0.62, R*0.35, R*0.72],
+  front: [0, 0, R], side: [R, 0, 0], back: [0, 0, -R], iso: [R*0.62, R*0.35, R*0.72],
 };
 function setView(v) { camera.position.set(...views[v]); controls.target.set(0,0,0); controls.update(); }
 setView('iso');
-['front','back','iso'].forEach(v => document.getElementById(v).onclick = () => setView(v));
+['front','side','back','iso'].forEach(v => document.getElementById(v).onclick = () => setView(v));
 
 const visible = { bezel:true, tub:true, retainer:true, ghost:true };
 document.querySelectorAll('button[data-t]').forEach(b => b.onclick = () => {

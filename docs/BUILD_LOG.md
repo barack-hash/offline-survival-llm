@@ -279,3 +279,20 @@ Template:
 - Every datasheet-derived size is tagged VERIFY; STLs are explicitly draft until parts are measured with calipers.
 **Hardware/Tools used:** None physical. OpenSCAD 2026.09.23 snapshot, three.js 0.160 viewer.
 **Next:** When parts arrive: caliper-measure stack height, e-ink module + glass + active area, CardKB thickness, X1202 port positions → update VERIFY params → test-print the bezel only (cheapest fit check) before the full enclosure.
+
+## 2026-09-24 — Enclosure v0.3: real part dimensions + slim stepped profile
+**Goal:** Make the enclosure slimmer and size it to the exact screen and keyboard being bought.
+**Done:**
+- Pulled manufacturer dimensions: Waveshare 4.2" e-Paper Module manual (driver board 103.0 × 78.5 mm, display 84.8 × 63.6 mm, panel 90.1 × 77.0 × 1.18 mm; new units ship V2 with partial refresh), M5Stack store (CardKB v1.1 88.0 × 54.0 × 5.0 mm, I2C 0x5F, $7.95 direct vs $18.99 on the Amazon clone listing).
+- CardKB is 4 mm wider and 3.5 mm thinner than v0.2 assumed (84 × 54 × 8.5).
+- Re-laid out the enclosure: the Pi/X1202 stack (85 mm tall) sits only behind the screen band; the keyboard section is thin. Depth **74.3 mm → 59.2 mm behind the screen, 11.4 mm at the keyboard.**
+- Stack height re-estimated to 48 mm (cells + X1202 + spacers + Pi 5 + cooler; Geekworm's own case is 62.8 mm outside, an upper bound) — still VERIFY.
+- Structure changes: screws at the top corners + beside the keyboard; bezel hooks into snap windows along the bottom edge (too thin there for inserts); keyboard held against the bezel by floor rails + 1 mm foam, rails split for the CardKB cable; screen clamped by a slim retainer ring on four bezel posts.
+- Viewer: added a Side view (the profile is the point of this revision).
+**Mistakes/Challenges:**
+- First v0.3 render: the back sloped in one straight line from the stack all the way to the bottom edge, so the keyboard section was nearly full depth. Cause: I built the body with `hull()` of a thick slab and a thin slab — hull is always convex and cannot make the concave "thin, then step up" corner. Fix: body is now a side-profile polygon extruded across the width, intersected with the rounded plan outline. The Side view caught it immediately.
+**Improvements/Decisions:**
+- Kept the screen landscape (wider text lines) — portrait would save ~5 mm of width but halve line length on a text device.
+- Didn't swap the Pi active cooler for a passive heatsink to save height: Phase 1 measured 70 °C at full load *with* the fan; losing it risks throttling during inference.
+**Hardware/Tools used:** None physical.
+**Next:** Measure the real stack height and screen connector clearance when parts arrive — those two numbers set the final depth.
