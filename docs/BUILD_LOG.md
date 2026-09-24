@@ -260,3 +260,22 @@ Template:
 - journalctl -u survival-llm is now the device's flight recorder (questions, answers, perf lines all land there).
 **Hardware/Tools used:** Pi 5 + full input/display stack (first unattended cold boot of the complete device).
 **Next:** Daily-driver period; Phase 5b/6/7 as hardware arrives (issues #1-#3).
+
+## 2026-09-24 — Phase 7 started early: parametric enclosure draft v0.2
+**Goal:** Design the enclosure before ordering a 3D print, around the parts chosen in the shopping sessions (Waveshare 4.2" e-ink, M5Stack CardKB, Geekworm X1202 + 4× 18650, Pi 5).
+**Done:**
+- enclosure/enclosure.scad: fully parametric OpenSCAD model — rear tub (stack guides, M3 insert bosses, intake/exhaust vents, X1202 USB-C + DC-jack cutouts, lanyard tab, grip grooves, rubber-feet pockets, engraved charging + safety text), front bezel (chamfered screen window, keyboard opening with shallow recess, rivet ring, M3 counterbores, alignment lip, engraved label), retainer plate (raised frames clamp screen + keyboard against the bezel, open centres for cables, notch for the CardKB Grove cable).
+- Outer size 109.4 × 169.9 × 74.3 mm (+7 mm lanyard tab).
+- enclosure/viewer.html: three.js viewer (orbit, explode slider, show/hide parts, ghost electronics) served locally; STLs rendered with OpenSCAD CLI.
+- Two iterations: v0.1 (functional shell) → v0.2 after reviewing renders (edge chamfers, grip grooves, larger label, rear engraving, feet pockets).
+**Mistakes/Challenges:**
+- `brew install --cask openscad` fails: cask disabled 2026-09-01 ("does not pass the macOS Gatekeeper check"). `openscad@snapshot` (2026.09.23) installs and works.
+- First viewer render showed the device lying face-up: I rotated the model -90° about X, but OpenSCAD's axes (X width, Y height, Z out of the face) already match three.js's camera frame. Removed the rotation.
+- Preview server config had to live at the DoomsDay root `.claude/launch.json`, not inside the repo folder.
+- Corrected earlier shopping advice: X1202 needs **unprotected flat-top** 18650s (≤18.5 mm dia, ≤65.3 mm long).
+**Improvements/Decisions:**
+- Engraved the device's safety rule on the back ("reference aid — not a sole authority for medical dosing, structural or electrical decisions"), matching CLAUDE.md.
+- 74 mm depth is driven by the 4-cell X1202 stack (56 mm assumed). Slimming ideas deferred until the real stack is measured.
+- Every datasheet-derived size is tagged VERIFY; STLs are explicitly draft until parts are measured with calipers.
+**Hardware/Tools used:** None physical. OpenSCAD 2026.09.23 snapshot, three.js 0.160 viewer.
+**Next:** When parts arrive: caliper-measure stack height, e-ink module + glass + active area, CardKB thickness, X1202 port positions → update VERIFY params → test-print the bezel only (cheapest fit check) before the full enclosure.

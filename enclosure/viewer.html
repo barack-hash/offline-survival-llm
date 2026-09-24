@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enclosure Viewer</title>
+<style>
+  :root { --bg:#16181b; --panel:#22252a; --ink:#e8e6e1; --muted:#9a968d; --accent:#c9a15b; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font:14px/1.4 ui-sans-serif, system-ui, -apple-system, sans-serif; overflow:hidden; }
+  #ui { position:fixed; top:12px; left:12px; background:var(--panel); padding:12px 14px;
+    border-radius:10px; max-width:260px; box-shadow:0 4px 18px rgba(0,0,0,.35); }
+  h1 { font-size:15px; margin:0 0 4px; letter-spacing:.02em; }
+  .dim { color:var(--muted); font-size:12px; margin-bottom:10px; }
+  button { background:#2e3238; color:var(--ink); border:1px solid #3a3f46; border-radius:6px;
+    padding:6px 9px; margin:3px 3px 0 0; cursor:pointer; font:inherit; font-size:12.5px; }
+  button.on { border-color:var(--accent); color:var(--accent); }
+  label { display:block; font-size:12.5px; margin-top:8px; color:var(--muted); }
+  input[type=range] { width:100%; }
+  .legend span { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+  .legend { font-size:12px; color:var(--muted); margin-top:10px; line-height:1.7; }
+</style>
+</head>
+<body>
+<div id="ui">
+  <h1>Survival Device — Enclosure v0.2</h1>
+  <div class="dim" id="dim">loading…</div>
+  <div>
+    <button data-t="bezel" class="on">Bezel</button>
+    <button data-t="tub" class="on">Rear shell</button>
+    <button data-t="retainer" class="on">Retainer</button>
+    <button data-t="ghost" class="on">Components</button>
+  </div>
+  <label>Explode <input id="explode" type="range" min="0" max="80" value="0"></label>
+  <div>
+    <button id="front">Front</button><button id="back">Back</button><button id="iso">3/4 view</button>
+  </div>
+  <div class="legend">
+    <div><span style="background:#b08d57"></span>Bezel (front)</div>
+    <div><span style="background:#44484f"></span>Rear shell</div>
+    <div><span style="background:#7a7f86"></span>Retainer plate</div>
+    <div><span style="background:#47a86f"></span>Pi 5 + X1202 + 18650s</div>
+    <div><span style="background:#e9e7df"></span>4.2" e-ink</div>
+    <div><span style="background:#26282c"></span>CardKB keyboard</div>
+  </div>
+</div>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(devicePixelRatio);
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x16181b);
+const camera = new THREE.PerspectiveCamera(35, innerWidth/innerHeight, 1, 5000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x303030, 1.1));
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(200, 300, 400); scene.add(key);
+const rim = new THREE.DirectionalLight(0xffe2b0, 0.7); rim.position.set(-300, -200, -150); scene.add(rim);
+const backKey = new THREE.DirectionalLight(0xffffff, 1.2); backKey.position.set(-150, 250, -400); scene.add(backKey);
+
+// OpenSCAD axes already match the viewer: X = width, Y = height (up),
+// Z = out of the front face toward the camera.
+const model = new THREE.Group();
+scene.add(model);
+
+const parts = [
+  { f:'tub',         color:0x44484f, group:'tub',      ex:-1.0 },
+  { f:'bezel',       color:0xb08d57, group:'bezel',    ex: 1.2, metal:0.55 },
+  { f:'retainer',    color:0x7a7f86, group:'retainer', ex: 0.5 },
+  { f:'ghost_stack', color:0x47a86f, group:'ghost',    ex:-0.4, opacity:0.8 },
+  { f:'ghost_eink',  color:0xe9e7df, group:'ghost',    ex: 0.85 },
+  { f:'ghost_kb',    color:0x26282c, group:'ghost',    ex: 0.85 },
+];
+const loader = new STLLoader();
+const meshes = [];
+let bbox = new THREE.Box3();
+
+await Promise.all(parts.map(p => new Promise(res => {
+  loader.load(`stl/${p.f}.stl?v=${Date.now()}`, geo => {
+    geo.computeVertexNormals();
+    const mat = new THREE.MeshStandardMaterial({
+      color:p.color, roughness:p.metal ? 0.35 : 0.7, metalness:p.metal || 0.05,
+      transparent:!!p.opacity, opacity:p.opacity || 1 });
+    const m = new THREE.Mesh(geo, mat);
+    m.userData = p;
+    model.add(m); meshes.push(m);
+    geo.computeBoundingBox(); bbox.union(geo.boundingBox);
+    res();
+  });
+})));
+
+const size = new THREE.Vector3(); bbox.getSize(size);
+const c = new THREE.Vector3(); bbox.getCenter(c);
+model.position.set(-c.x, -c.y, -c.z);
+document.getElementById('dim').textContent =
+  `${size.x.toFixed(0)} × ${size.y.toFixed(0)} × ${size.z.toFixed(0)} mm  (W × H × D, incl. lanyard tab)`;
+
+const R = Math.max(size.x, size.y, size.z) * 2.2;
+const views = {
+  front: [0, 0, R], back: [0, 0, -R], iso: [R*0.62, R*0.35, R*0.72],
+};
+function setView(v) { camera.position.set(...views[v]); controls.target.set(0,0,0); controls.update(); }
+setView('iso');
+['front','back','iso'].forEach(v => document.getElementById(v).onclick = () => setView(v));
+
+const visible = { bezel:true, tub:true, retainer:true, ghost:true };
+document.querySelectorAll('button[data-t]').forEach(b => b.onclick = () => {
+  const t = b.dataset.t; visible[t] = !visible[t]; b.classList.toggle('on', visible[t]);
+  meshes.forEach(m => { if (m.userData.group === t) m.visible = visible[t]; });
+});
+const ex = document.getElementById('explode');
+ex.oninput = () => meshes.forEach(m => { m.position.z = m.userData.ex * ex.value; });
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+(function loop(){ controls.update(); renderer.render(scene, camera); requestAnimationFrame(loop); })();
+</script>
+</body>
+</html>
