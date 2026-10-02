@@ -350,3 +350,19 @@ Template:
 - USB-C charging not extended through a pipe (5 A through an extension is a needless risk).
 **Hardware/Tools used:** None physical.
 **Next:** Unchanged measurement list, plus: confirm the Pi 5 J2 button behaviour with the X1202 attached, and pick I2C accessory modules whose addresses don't clash.
+
+## 2026-10-02 — Cost-down research: boards, models, enclosure printing
+**Goal:** Owner wants to sell the device — find where cost can come down (cheaper boards, Gemma models, voice), and price the enclosure print.
+**Done:**
+- Three parallel research passes (models on cheap boards, current hardware prices, 3D-print services); results with sources in docs/COSTS.md.
+- Measured the v0.6 enclosure STLs: 155 cm³ ≈ 190 g PLA for the full set (rear shell alone 126 g).
+- Key findings: Pi prices up 3× since Dec 2025 (Pi 5 8GB $175, 4GB $110, 2GB $65–78); non-Pi boards no cheaper or unavailable in the US; Gemma 4 (2026-04-02) E2B runs ~7 tok/s on Pi 5 in 3.2 GiB but its audio input isn't dependable in llama.cpp yet; Pi 4 and Zero 2 W are dead ends; NPU HATs slower than the Pi 5 CPU for LLMs.
+- Tiers: current ≈ $330 core, Pi 5 4GB ≈ $265, lean Pi 5 2GB + 1.5B model ≈ $200–215 (+ plumbing).
+- Enclosure: Arlington library PLA $0.05/g ≈ $10/set (local); home A1 ≈ $4–5 filament/set; JLC3DP now carries +40% US duty.
+**Mistakes/Challenges:**
+- Tried to measure the device's LLM-only RAM to settle the 4GB question; the Pi was unreachable (both LAN and Tailscale timed out) — deferred.
+- Research sources disagreed on Pi 5 4GB/8GB prices ($85/$125 Feb-2026 articles vs $110/$175 fetched retailer pages) — used the fetched retailer prices.
+**Improvements/Decisions:**
+- Biggest lever is RAM tier + model size, not board brand. Cheapest safe path to test first: Pi 5 4GB with the current model if it fits.
+**Hardware/Tools used:** None physical.
+**Next:** When the Pi is on: measure LLM-only RSS; benchmark Gemma 4 E2B and Qwen2.5-1.5B through the eval battery; bezel fit-test print.
