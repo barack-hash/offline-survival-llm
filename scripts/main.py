@@ -112,55 +112,62 @@ class KeyboardInput:
 
 
 class SerialKeypadInput:
-    """Talks to the Arduino (keypad_serial.ino). The Arduino buffers the
-    whole question locally (multi-tap decoding, backspace, LCD preview)
-    and sends one finished line per question, so this side just reads
-    lines. display_answer() sends the answer back in short pre-paced
-    pages that the Arduino shows on its 16x2 LCD."""
+    """Talks to the Arduino (ir_remote_serial.ino / keypad_serial.ino).
 
-    LCD_PAGE_CHARS = 32     # one page = both LCD rows
-    PAGE_SECONDS = 3.0      # reading time per page
+    The Arduino buffers the whole question locally (multi-tap decoding,
+    backspace, LCD preview) and sends one finished line per question.
+    Arrow keys arrive as control lines: ^U / ^D scroll the answer one LCD
+    line, ^L / ^R one full screen. The answer is word-wrapped to 16-char
+    lines here and the Pi sends whichever two lines are in view — the
+    Arduino's 2 KB of RAM can't hold a whole answer."""
+
+    LCD_COLS = 16
+    LCD_ROWS = 2
+    SCROLL = {"^U": -1, "^D": 1, "^L": -2, "^R": 2}
 
     def __init__(self, port, baud):
         import serial  # pyserial, installed by setup.sh
         self.ser = serial.Serial(port, baud, timeout=1)
+        self.lines = []
+        self.top = 0
+        self._buf = b""
+
+    def _read_line(self):
+        while b"\n" not in self._buf:
+            self._buf += self.ser.read(64) or b""
+        line, self._buf = self._buf.split(b"\n", 1)
+        return line.decode(errors="ignore").strip()
+
+    def _show(self):
+        rows = [(self.lines[i] if i < len(self.lines) else "").ljust(self.LCD_COLS)
+                for i in range(self.top, self.top + self.LCD_ROWS)]
+        self.ser.write(("".join(rows) + "\n").encode())
+        self.ser.flush()
 
     def get_question(self):
-        buffer = ""
         print("> ", end="", flush=True)
         while True:
-            char = self.ser.read().decode(errors="ignore")
-            if not char:
+            line = self._read_line()
+            if line in self.SCROLL:
+                if self.lines:
+                    last_top = max(len(self.lines) - self.LCD_ROWS, 0)
+                    self.top = min(max(self.top + self.SCROLL[line], 0), last_top)
+                    self._show()
                 continue
-            if char == "\n":
-                print()
-                return buffer
-            if char in ("<", ">"):
-                continue  # navigation, not text input yet
-            buffer += char
-            print(char, end="", flush=True)
+            if line:
+                print(line)
+                return line
 
     def display_answer(self, text, critical=False):
-        import time
-        words = text.split()
+        import textwrap
         if critical:
-            words = ["!CRITICAL! verify vs 2nd source:"] + words
-        pages, page = [], ""
-        for w in words:
-            candidate = (page + " " + w).strip()
-            if len(candidate) <= self.LCD_PAGE_CHARS:
-                page = candidate
-            else:
-                if page:
-                    pages.append(page)
-                page = w[: self.LCD_PAGE_CHARS]
-        if page:
-            pages.append(page)
-        for i, p in enumerate(pages, 1):
-            self.ser.write((p + "\n").encode())
-            self.ser.flush()
-            if i < len(pages):
-                time.sleep(self.PAGE_SECONDS)
+            text = "!CRITICAL! verify vs 2nd source. " + text
+        self.lines = textwrap.wrap(text, self.LCD_COLS, break_long_words=True) + ["-- end --"]
+        self.top = 0
+        # drop arrow presses made while the answer was still generating
+        self.ser.reset_input_buffer()
+        self._buf = b""
+        self._show()
 
 
 def get_input_source():

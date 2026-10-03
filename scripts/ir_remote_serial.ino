@@ -10,7 +10,8 @@
     1 = 1 . , ? ! '     0 = space
     * = backspace       # = SEND question to the Pi
     OK = commit the letter in progress immediately
-    Arrows = reserved for menus later.
+    Down/Up = scroll the answer one line, Right/Left = one full screen
+              (only when nothing is being typed)
   A letter also commits after LETTER_TIMEOUT_MS or when a different
   button is pressed.
 
@@ -120,6 +121,14 @@ void handleKey(char key) {
       if (strlen(opts) == 1) commitPending();  // '0' = instant space
     }
     lastTapMs = millis();
+  } else if (key == 'U' || key == 'D' || key == 'L' || key == 'R') {
+    // arrows scroll the answer on the Pi side; ignored while typing
+    if (qLen == 0 && !pendingKey) {
+      Serial.print('^');
+      Serial.print(key);
+      Serial.print('\n');
+    }
+    return;                            // leave the answer on screen
   } else if (key == 'K') {           // OK: commit letter now
     commitPending();
   } else if (key == '*') {           // backspace
