@@ -366,3 +366,26 @@ Template:
 - Biggest lever is RAM tier + model size, not board brand. Cheapest safe path to test first: Pi 5 4GB with the current model if it fits.
 **Hardware/Tools used:** None physical.
 **Next:** When the Pi is on: measure LLM-only RSS; benchmark Gemma 4 E2B and Qwen2.5-1.5B through the eval battery; bezel fit-test print.
+
+## 2026-10-02/04 — Remote scrolling + Gemma 4 model shoot-out
+**Goal:** (1) Arrow keys on the IR remote scroll answers on the 16×2 LCD; (2) research whether Google's Gemma 4 is better/smarter/faster than the current Qwen2.5-3B.
+**Done:**
+- Scrolling: Pi keeps the word-wrapped answer and sends the 2 lines in view; ▼/▲ one line, ▶/◀ one screen, "-- end --" at the bottom; arrows ignored while typing or while generating. Replaced the 3 s auto-paging. Offline-tested with a fake serial port, then flashed **from the Pi** (installed arduino-cli 1.5.1 + AVR core on the Pi; sketch 36% flash / 49% RAM). Not yet tested by the owner on hardware.
+- Research agent (published evidence) + on-device shoot-out of 4 models with scripts/eval_models.py; full results in docs/benchmarks/2026-10-02-model-shootout/.
+  | Model | Gen tok/s | Median answer | LLM RAM | Score /26 |
+  |---|---|---|---|---|
+  | Qwen2.5-3B (current) | 5.36 | 96 s | 4.2 GB | 21 |
+  | Qwen3-4B-2507 | 3.28 | 188 s | 5.4 GB | 23 |
+  | Gemma 4 E2B | 5.98 | 56 s | 4.1 GB | 21 |
+  | Gemma 4 E4B | 3.10 | 136 s | 6.5 GB | 24 |
+- All four refused all out-of-library questions and got both critical doses numerically right.
+**Mistakes/Challenges:**
+- `git push` → `remote: Permission to barack-hash/offline-survival-llm.git denied to eiQora` (403): the active gh account had switched to eiQora. Fixed per-repo (remote URL with barack-hash username + repo-local credential helper calling `gh auth token -u barack-hash`) instead of `gh auth switch`, which would change the owner's global state.
+- arduino-cli install script on the Pi failed silently: BINDIR ~/.local/bin didn't exist. Created it, reran.
+- **Thermal throttling found:** sustained ~2 h inference reached 84.5 °C with the fan at max (5151 rpm), throttled=0xe0008. Phase 1's 2-minute stress test (70 °C) was too short to show heat soak — a wrong assumption carried since Phase 1. Every shoot-out number is a throttled number (fair across models). Filed as issue #8; affects the enclosure airflow design. (First filed as #7 by mistake from the eiQora gh account — closed as duplicate; gh issue/PR commands for this repo now run with GH_TOKEN=$(gh auth token -u barack-hash).)
+- The research agent's "Gemma 4 E2B ≈ 4 tok/s on Pi 5" didn't hold here (measured 6.0) — on-device measurement beats published numbers.
+- The local SSH launcher for the shoot-out was killed at its 30-min background limit; the run itself was nohup'd on the Pi and unaffected (by design).
+**Improvements/Decisions:**
+- No model switch yet — owner decides. Gemma 4 E2B = same quality, ~1.7× faster answers; E4B = most accurate but needs the 8 GB board and is slower.
+**Hardware/Tools used:** Pi 5 + Arduino UNO (reflashed from the Pi), IR remote, LCD1602.
+**Next:** Owner tests scrolling; decide on model; better cooling before the enclosure.
