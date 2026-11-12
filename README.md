@@ -23,3 +23,15 @@ and you should still cross-check against a second source before acting.
 ## Status
 Phases 0-5a in progress (software brain + keypad input). Awaiting
 hardware for: e-ink display (5b), UPS battery (6), enclosure (7).
+
+## License
+The project's own work — code, documentation, and the enclosure design — is
+released under the [MIT License](LICENSE) © 2026 Yitbarek Tegene. You may use,
+modify and share it, including commercially, as long as the copyright notice
+and license text are kept. It is provided **as is, without warranty**.
+
+Not covered by that license:
+- `corpus/pd/` — public-domain reference texts; their status and sources are
+  recorded in `docs/CORPUS_SOURCES.md`.
+- Freely-distributed (`corpus/free/`) and owned (`corpus/own/`) texts are not
+  included in this repository at all.

@@ -389,3 +389,14 @@ Template:
 - No model switch yet — owner decides. Gemma 4 E2B = same quality, ~1.7× faster answers; E4B = most accurate but needs the 8 GB board and is slower.
 **Hardware/Tools used:** Pi 5 + Arduino UNO (reflashed from the Pi), IR remote, LCD1602.
 **Next:** Owner tests scrolling; decide on model; better cooling before the enclosure.
+
+## 2026-11-12 — Project license: MIT
+**Goal:** Give the public repo a license — attribution, limited liability, clear terms for contributors.
+**Done:**
+- Added `LICENSE` (MIT, © 2026 Yitbarek Tegene) and a License section in README.md stating its scope.
+**Mistakes/Challenges:** None.
+**Improvements/Decisions:**
+- MIT over GPL-3.0: owner's goals were attribution + an "as is" liability shield + low friction for contributors; MIT gives all three and is the most widely accepted license for contributions and reuse. GPL (copyleft — modified versions must stay open) remains a one-file swap if the owner prefers it.
+- Scope made explicit: the MIT license covers the project's own code, docs and enclosure design only. `corpus/pd/` texts are public domain (not ours to license); `corpus/free/` and `corpus/own/` are never committed.
+**Hardware/Tools used:** None.
+**Next:** Unchanged.
