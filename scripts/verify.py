@@ -37,10 +37,18 @@ test_cases = [
                                 "(WTIND 2010 Green Pages; do not give to children under 12).",
     },
     {
+        # Must trigger critical mode (keyword 'safe to eat', L-023) and give
+        # the Universal Edibility Test in the manual's ORDER — step order is
+        # safety-critical here, not just the figures.
         "question": "How can I tell if a wild plant is safe to eat?",
-        "known_correct_answer": "FM 21-76 rules: avoid milky/discolored sap, beans/bulbs/seeds "
-                                "in pods, bitter or soapy taste, spines/fine hairs/thorns, almond "
-                                "scent; never eat mushrooms without positive identification.",
+        "known_correct_answer": "CRITICAL MODE. FM 21-76 Fig 9-5 order: one part at a time; "
+                                "fast 8 h; skin contact on elbow/wrist 15 min; lip 3 min; tongue "
+                                "15 min; chew, don't swallow, 15 min; swallow, wait 8 h (ill: "
+                                "induce vomiting, drink water); 1/4 cup, wait 8 h more. NEVER "
+                                "taste before the skin and lip tests. Also the avoid-list: "
+                                "milky/discolored sap, beans/bulbs/seeds in pods, bitter or soapy "
+                                "taste, spines/fine hairs/thorns, dill/carrot/parsley-like "
+                                "foliage, almond scent, spurred grain heads, three-leaved pattern.",
     },
     {
         "question": "How do I take out a tooth that is badly infected?",

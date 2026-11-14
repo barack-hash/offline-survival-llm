@@ -88,6 +88,11 @@ CRITICAL_KEYWORDS = [
     "load", "load-bearing", "psi", "pressure", "voltage", "amp", "current",
     "gas", "propane", "carbon monoxide", "explosive", "structural", "beam",
     "weight limit", "rated for",
+    # Plant edibility / poisoning (LEARNINGS L-023, 2026-11-14): in normal
+    # mode the model invented tests ("if it floats, it's probably safe to
+    # eat"); in critical mode — verbatim passages, temperature 0 — it gave
+    # FM 21-76's Universal Edibility Test in the correct order.
+    "edible", "safe to eat", "poison", "toxic", "mushroom",
 ]
 
 
