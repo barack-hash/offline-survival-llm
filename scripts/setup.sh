@@ -36,6 +36,9 @@ source venv/bin/activate
 pip install --upgrade pip
 pip install sentence-transformers faiss-cpu pypdf llama-cpp-python pyserial rank-bm25
 
+echo "== Downloading embedding + reranker models (needed once; device runs offline after) =="
+python3 -c "from sentence_transformers import SentenceTransformer, CrossEncoder; SentenceTransformer('all-MiniLM-L6-v2'); CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')"
+
 echo "== Quick test =="
 # -st (single-turn) is REQUIRED: without it, current llama.cpp builds drop
 # into interactive chat mode and hang forever when run non-interactively

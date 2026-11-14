@@ -31,7 +31,7 @@ CHUNKS_PATH = "chunks.pkl"
 # critical mode's 8-chunk prompts (see BUILD_LOG 2026-09-16). Qwen2.5-3B
 # has 32k native context and answered the same prompt correctly.
 MODEL_PATH = "models/Qwen2.5-3B-Instruct-Q4_K_M.gguf"
-TOP_K = 4  # how many chunks to retrieve per question
+TOP_K = 3  # passages per normal question, after reranking (was 4 before L-022)
 CRITICAL_TOP_K = 8  # pull more candidates when checking for corroboration
 
 PLAIN_LANGUAGE_RULES = (
@@ -284,6 +284,39 @@ def retrieve(question, embedder, index, chunks, k=TOP_K):
     return [chunks[i] for i in top]
 
 
+# Reranking (LEARNINGS L-022): hybrid fusion rewards shared keywords, so
+# passages that merely share words ("cold", "shelter") outranked the one
+# holding the answer (shelter build steps came 4th, water purification 6th).
+# A cross-encoder reads question + passage together and reorders the top 20.
+# Measured on the Pi (eval_retrieval passage-level, 34 cases):
+#   hybrid only:   answer passage in top 3 = 31/34, MRR 0.797
+#   + rerank 20:   answer passage in top 3 = 32/34, MRR 0.855, ~2.7 s/question
+# so 3 reranked passages cover what 4 un-reranked ones did, in a ~20% shorter
+# prompt. Critical questions are deliberately NOT reranked yet: their
+# 8-passage verbatim path is unchanged until it has its own safety test.
+RERANK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+RERANK_POOL = 20
+
+
+def load_reranker():
+    from sentence_transformers import CrossEncoder
+    return CrossEncoder(RERANK_MODEL, max_length=512)
+
+
+def select_passages(question, embedder, index, chunks, reranker, critical=None):
+    """Single entry point for choosing the passages the model sees —
+    main loop, verify.py and the eval scripts all call this so they can
+    never drift apart."""
+    if critical is None:
+        critical = is_critical(question)
+    if critical:
+        return retrieve(question, embedder, index, chunks, k=CRITICAL_TOP_K)
+    candidates = retrieve(question, embedder, index, chunks, k=RERANK_POOL)
+    scores = reranker.predict([(question, c["text"]) for c in candidates])
+    order = sorted(range(len(candidates)), key=lambda i: -scores[i])
+    return [candidates[i] for i in order[:TOP_K]]
+
+
 def build_messages(question, retrieved, critical=False):
     """Chat-format messages. Using the model's own chat template (via
     create_chat_completion) instead of a raw completion prompt — raw
@@ -357,6 +390,9 @@ def main():
     print("Loading embedding model...")
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
+    print("Loading reranker...")
+    reranker = load_reranker()
+
     print("Loading local index...")
     index, chunks = load_index()
 
@@ -377,8 +413,8 @@ def main():
 
         t0 = time.monotonic()
         critical = is_critical(question)
-        k = CRITICAL_TOP_K if critical else TOP_K
-        retrieved = retrieve(question, embedder, index, chunks, k=k)
+        retrieved = select_passages(question, embedder, index, chunks,
+                                    reranker, critical=critical)
 
         on_text = None
         first_text = []

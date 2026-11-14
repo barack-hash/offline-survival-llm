@@ -15,7 +15,7 @@ assistant) reading this output — this script does not self-grade.
 import time
 
 from main import (
-    load_index, retrieve, generate_answer, is_critical,
+    load_index, select_passages, load_reranker, generate_answer, is_critical,
     corroboration_check, TOP_K, CRITICAL_TOP_K, MODEL_PATH,
 )
 from sentence_transformers import SentenceTransformer
@@ -40,13 +40,13 @@ QUESTIONS = [
 def main():
     print("Loading models + index...")
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
+    reranker = load_reranker()
     index, chunks = load_index()
     llm = Llama(model_path=MODEL_PATH, n_ctx=4096, n_threads=4, verbose=False)
 
     for i, (category, question) in enumerate(QUESTIONS, 1):
         critical = is_critical(question)
-        k = CRITICAL_TOP_K if critical else TOP_K
-        retrieved = retrieve(question, embedder, index, chunks, k=k)
+        retrieved = select_passages(question, embedder, index, chunks, reranker, critical=critical)
         sources = corroboration_check(retrieved)
 
         t0 = time.time()

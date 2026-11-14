@@ -26,7 +26,7 @@ from sentence_transformers import SentenceTransformer
 
 from eval_questions import QUESTIONS
 from main import (
-    load_index, retrieve, build_messages, is_critical,
+    load_index, select_passages, load_reranker, build_messages, is_critical,
     TOP_K, CRITICAL_TOP_K,
 )
 
@@ -49,6 +49,7 @@ def main(model_path):
     out_path = f"eval_results/{name}.jsonl"
 
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
+    reranker = load_reranker()
     index, chunks = load_index()
     rss_before_llm = peak_rss_mb()
     t0 = time.time()
@@ -61,8 +62,7 @@ def main(model_path):
     with open(out_path, "w") as out:
         for i, (category, question) in enumerate(QUESTIONS + EXTRA, 1):
             critical = is_critical(question)
-            retrieved = retrieve(question, embedder, index, chunks,
-                                 k=CRITICAL_TOP_K if critical else TOP_K)
+            retrieved = select_passages(question, embedder, index, chunks, reranker, critical=critical)
             messages = build_messages(question, retrieved, critical=critical)
 
             start = time.time()

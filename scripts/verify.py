@@ -11,7 +11,7 @@ How to use:
 """
 
 from main import (
-    load_index, retrieve, generate_answer, is_critical,
+    load_index, select_passages, load_reranker, generate_answer, is_critical,
     CRITICAL_TOP_K, TOP_K, MODEL_PATH,
 )
 from sentence_transformers import SentenceTransformer
@@ -58,14 +58,14 @@ test_cases = [
 
 def main():
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
+    reranker = load_reranker()
     index, chunks = load_index()
     llm = Llama(model_path=MODEL_PATH, n_ctx=4096, n_threads=4)
 
     for case in test_cases:
         question = case["question"]
         critical = is_critical(question)
-        k = CRITICAL_TOP_K if critical else TOP_K
-        retrieved = retrieve(question, embedder, index, chunks, k=k)
+        retrieved = select_passages(question, embedder, index, chunks, reranker, critical=critical)
         answer = generate_answer(llm, question, retrieved, critical=critical,
                                  max_tokens=300).strip()
 
