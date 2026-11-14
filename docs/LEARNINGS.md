@@ -66,7 +66,9 @@ How this file relates to the others:
 | L-019 | 2026-11-13 | software | Streaming scrolled the CRITICAL warning off the LCD | Fixed |
 | L-020 | 2026-11-13 | tooling | Unfair A/B test: second run reused the cached prompt | Fixed (method) |
 | L-021 | 2026-11-14 | tooling | Python heredoc over SSH printed nothing (quoting) | Fixed (method) |
-| L-022 | 2026-11-14 | retrieval | Retrieval ranks junk passages above useful ones | Open |
+| L-022 | 2026-11-14 | retrieval | Retrieval ranks junk passages above useful ones | Fixed (partly) |
+| L-023 | 2026-11-14 | model | Edible-plant answer says "taste first" (wrong test order) | Open |
+| L-024 | 2026-11-14 | tooling | Test copies left in the Pi repo blocked `git pull` | Fixed (method) |
 
 ---
 
@@ -299,9 +301,38 @@ How this file relates to the others:
 
 ### L-022 — Retrieval ranks junk passages above useful ones
 - **Date:** 2026-11-14   **Area:** retrieval
-- **Status:** Open   **Severity:** degraded
+- **Status:** Fixed (partly)   **Severity:** degraded
 - **Symptom:** "What kind of shelter should I build to stay warm in a cold forest?": ranks 2 and 3 are unrelated FM 21-76 text (insect bites/diarrhoea, flash-flood site selection). The actual build steps (ridgepole, ribbing) are rank **4**. With TOP_K=3 the answer lost the build steps.
 - **Why:** Hybrid BM25 + vector RRF rewards keyword overlap ("cold", "shelter", "warm"), so passages sharing words but not subject rank high. eval_retrieval only checks that the right **book** is in the top k, not the right **passage**, so this was invisible (34/34 at both k=3 and k=4).
-- **How (fix):** Pending. Candidates: a cross-encoder reranker over the top ~10; a relevance threshold that drops weak passages (shorter prompts as a bonus); passage-level expectations in eval_retrieval.
+- **How (fix):**
+  1. `eval_retrieval.py` now checks passages, not just books: `ANSWER_PATTERNS` per case, reporting passage hit@1–4 and MRR@10.
+  2. `main.select_passages()` reranks the hybrid top 20 with `cross-encoder/ms-marco-MiniLM-L-6-v2` and keeps 3 (TOP_K 4 → 3). Critical questions bypass it (8 passages, unchanged). All callers (main, verify, eval_*) use `select_passages`. Deployed 2026-11-14 10:15 (commit 99da336).
+- **Verified by:**
+  | | hit@1 | hit@3 | MRR@10 |
+  |---|---|---|---|
+  | Before (hybrid) | 23/34 | 31/34 | 0.797 |
+  | After (rerank 20 → 3) | 26/34 | 32/34 | 0.855 |
+  - Shelter answer passage 4 → **1**, river water 6 → **2**. Rerank costs 2.0–4.2 s per question.
+  - Answer A/B (temperature 0, 9 questions): first words 55.6 → 47.4 s, full answer 99.1 → 88.7 s. Quality 3 better / 3 worse / 3 same; see docs/benchmarks/2026-11-14-rerank-ab/.
+  - Reranker and embedder load from cache with `HF_HUB_OFFLINE=1` (12.0 s cold), so it works with no network.
+- **Still open:** soil-before-sowing got worse (2 → 6), and passages that used to sit at #3/#4 (plant avoid-list, wound "<12 h" closing rule) can now be dropped. The patterns marked "broad" in eval_retrieval are lenient and overstate those cases.
 - **Prevention / lesson:** "Right book found" is not "right passage found". Retrieval metrics must check the passage that actually holds the answer.
 - **Links:** BUILD_LOG 2026-11-14, docs/benchmarks/2026-11-14-topk-ab/
+
+### L-023 — Edible-plant answer says "taste first" (wrong test order)
+- **Date:** 2026-11-14   **Area:** model
+- **Status:** Open   **Severity:** safety-adjacent (not a critical-mode topic)
+- **Symptom:** In the rerank A/B (temperature 0), the deployed setup answered "How can I tell if a wild plant is safe to eat?" with step 1 "Crush a small piece of the plant and taste it". FM 21-76's Universal Edibility Test starts with skin contact and only later moves to lips and mouth. The old setup also invented timings ("20 minutes", "30 minutes") but kept contact before taste and the manual's avoid-list.
+- **Why:** Partly passage choice: the avoid-list passage was old #3 and the reranker replaced it with a different FM passage. Mostly the 3B model paraphrasing a multi-step procedure and reordering or inventing steps. The plain-language rule pushes it to rewrite rather than quote.
+- **How (fix):** Pending. Candidates: test the same question on Gemma 4 E2B/E4B; treat edibility and poisoning questions as critical (verbatim passages + temperature 0), which would strengthen the safety rules; add this question to verify.py with the correct order as the expected behaviour.
+- **Prevention / lesson:** Step order matters as much as numbers for safety procedures. Verification should check order, not just figures.
+- **Links:** BUILD_LOG 2026-11-14, docs/benchmarks/2026-11-14-rerank-ab/
+
+### L-024 — Test copies left in the Pi repo blocked `git pull`
+- **Date:** 2026-11-14   **Area:** tooling
+- **Status:** Fixed (method)   **Severity:** dev-only
+- **Symptom:** `error: Your local changes to the following files would be overwritten by merge: scripts/eval_retrieval.py … Aborting`.
+- **Why:** For a quick test I had `scp`'d the new eval_retrieval.py straight into the Pi's repo. The later commit made the same change, so git saw an uncommitted local modification.
+- **How:** `git checkout -- scripts/eval_retrieval.py`, then `git pull --ff-only`.
+- **Prevention / lesson:** Put test copies in a separate folder (as done for `~/rr_test`), never into the live repo or the service's working directory. That also stops a reboot from silently running untested code.
+- **Links:** BUILD_LOG 2026-11-14

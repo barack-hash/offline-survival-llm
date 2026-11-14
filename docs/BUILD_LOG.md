@@ -531,3 +531,24 @@ Template:
 - Options with no quality risk found along the way: (a) warm the system prompt at boot and restore it after critical questions (saves ~9 s on those questions); (b) fix ranking (L-022) so 3 good passages beat 4 mixed ones.
 **Hardware/Tools used:** Pi 5 (A/B runs, 71–76 °C, soft temperature limit flag set).
 **Next:** Owner decision: deploy k=3 now, or fix ranking first (L-022), then shorten.
+
+## 2026-11-14 (cont.) — Ranking fixed with a reranker; 3 passages deployed
+**Goal:** Owner: "Fix ranking first" (L-022), then cut normal questions to 3 passages if the answers held up.
+**Done:**
+- `scripts/eval_retrieval.py`: passage-level checks (answer pattern per case, hit@1–4, MRR@10). Every pattern was checked to match ≥1 passage in its book; 13 are marked "broad" (lenient).
+- Baseline passage hit@1/2/3/4 = 23/28/31/32 of 34, MRR 0.797.
+- Reranker experiment (`cross-encoder/ms-marco-MiniLM-L-6-v2`, 88 MB download on the Pi):
+  - top 10: hit@3 30/34, MRR 0.809, 1.1 s per question
+  - **top 20: hit@3 32/34, hit@1 26/34, MRR 0.855, 2.7 s per question** (chosen)
+- `scripts/main.py`: `select_passages()` (rerank top 20 → TOP_K=3 for normal questions; critical questions unchanged at 8, asserted). verify.py, eval_questions.py and eval_models.py now use it. setup.sh pre-downloads the reranker.
+- Answer A/B (temperature 0, fresh KV, alternating, 9 battery questions): first words 55.6 → 47.4 s (−15%), full answer 99.1 → 88.7 s (−10%); quality 3/3/3. Details in docs/benchmarks/2026-11-14-rerank-ab/.
+- Owner decided: "Deploy it". Offline check: embedder + reranker load with `HF_HUB_OFFLINE=1` in 12.0 s. Committed (99da336), pulled on the Pi, restarted while idle: reranker load 2.1 s, ready at 10:15:25, NRestarts=0, 4.8 GB RAM available, 49.4 °C.
+**Mistakes/Challenges:**
+- L-024: `git pull` on the Pi aborted (`Your local changes … would be overwritten by merge: scripts/eval_retrieval.py`) because of an earlier test copy scp'd into the repo. Discarded and pulled.
+- L-023 (open): the new setup's edible-plant answer says to taste first, the wrong test order. Logged as a model-quality/safety follow-up.
+- Repeat finding: a single-run A/B on 9 questions can't separate small quality differences. Both A/Bs this weekend came out 3/3/3.
+**Improvements/Decisions:**
+- Deployed on a speed gain with quality on par, because retrieval improved across all 34 cases (objective) while the 9-answer verdicts are noisy. The owner made the call with the plant regression on the table.
+- Critical mode deliberately not reranked: changing which verbatim passages a dosing question shows needs its own safety test first.
+**Hardware/Tools used:** Pi 5 (experiments + deploy), soft temperature limit flag set during A/B runs.
+**Next:** L-023: test the edible-plant question on Gemma 4 E2B and/or make edibility a critical topic. Then speed work: Gemma 4 E2B, and pre-loading the system prompt after critical questions/boot (~9 s).
