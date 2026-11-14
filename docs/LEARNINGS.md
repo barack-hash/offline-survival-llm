@@ -63,6 +63,8 @@ How this file relates to the others:
 | L-016 | 2026-11-13 | tooling | Fake-port test could have deleted the real device node | Fixed (method) |
 | L-017 | 2026-11-13 | hardware | "Remote not writing anything" after rewiring | Resolved (cause unconfirmed) |
 | L-018 | 2026-11-13 | software | Journal never shows questions/answers (stdout buffered) | Fixed |
+| L-019 | 2026-11-13 | software | Streaming scrolled the CRITICAL warning off the LCD | Fixed |
+| L-020 | 2026-11-13 | tooling | Unfair A/B test: second run reused the cached prompt | Fixed (method) |
 
 ---
 
@@ -262,3 +264,23 @@ How this file relates to the others:
 - **Side effect:** the restart came while the service was at 47.5% CPU, so it may have cut off an answer in progress. Lesson: check the journal/CPU and ask the owner before restarting a device that's in use.
 - **Prevention / lesson:** For any long-running service, check that its logs appear live (`journalctl -f` while exercising it), not just at startup.
 - **Links:** BUILD_LOG 2026-11-13, L-017
+
+### L-019 — Streaming scrolled the CRITICAL warning off the LCD
+- **Date:** 2026-11-13   **Area:** software
+- **Status:** Fixed   **Severity:** safety (caught in test, never deployed)
+- **Symptom:** In the first streaming test, the critical question "what is the dose of aspirin for an adult" showed `verify vs 2nd   source. The` as its first live LCD update at 132.2 s. The `!CRITICAL!` part of the warning was already off-screen.
+- **Why:** The live view follows the newest two wrapped lines. The warning was added as a text prefix (2 LCD lines). By the first update (throttled to 0.5 s), more text had arrived, so the prefix had scrolled off. The finished-answer view starts at the top, so this had never been a problem before streaming.
+- **How (fix):** In critical mode, `stream_answer` now pins `!CRITICAL!verify` (exactly 16 characters, one full row) to the top row and streams the answer on the bottom row. The finished view is unchanged (it starts at the top with the full warning).
+- **Verified by:** On the Pi, the full critical answer was fed to `stream_answer` one character at a time with the throttle off. **113/113 frames** start with `!CRITICAL!verify`, and all are exactly 32 characters. In the real-model run, live frames read `!CRITICAL!verifyAccording`, `…reference`, `…the`. The finished view still opens with `!CRITICAL!      verify vs 2nd`.
+- **Prevention / lesson:** Any change to how text reaches the screen must be tested with a critical question, and the test must assert that the warning is visible in **every** frame, not just the first or last one.
+- **Links:** BUILD_LOG 2026-11-13
+
+### L-020 — Unfair A/B test: second run reused the cached prompt
+- **Date:** 2026-11-13   **Area:** tooling
+- **Status:** Fixed (method)   **Severity:** dev-only
+- **Symptom:** The streamed and non-streamed critical answers (temperature 0) differed: `CRITICAL stream == non-stream: False`. The non-streamed run took only **7.2 s** against 142.6 s.
+- **Why:** llama-cpp-python reuses the KV cache when a new prompt shares a prefix with the previous one. The second run asked the identical prompt, so it skipped the 8-chunk prompt reading entirely. Prompt reading done in different batch shapes can produce slightly different floating-point results, so even greedy (temperature 0) decoding can diverge. The comparison wasn't like for like.
+- **How (fix):** Call `llm.reset()` before every run, and add a determinism baseline (plain run twice) before comparing streamed against plain.
+- **Result after fixing the method:** plain1 == plain2 (determinism baseline) **True**, and stream == plain1 **True**. Streaming does not change the critical answer.
+- **Prevention / lesson:** In A/B tests, reset all caches between arms and measure the baseline variance (A vs A) before claiming A vs B differs. A suspiciously fast second run is a sign that a cache was used.
+- **Links:** BUILD_LOG 2026-11-13, L-019

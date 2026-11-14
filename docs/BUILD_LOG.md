@@ -472,3 +472,30 @@ Template:
 - Env var in the unit rather than `python -u`: it's documented next to the reason, and it covers any subprocess Python too.
 **Hardware/Tools used:** Pi 5, Arduino + IR remote (owner asked the test question).
 **Next:** Speed work, one change at a time: (1) stream answers to the LCD, (2) Gemma 4 E2B.
+
+## 2026-11-13 (cont.) — Speed work #1: answers stream onto the LCD as they're written
+**Goal:** Owner asked for faster answers that still save battery. The first change (per the one-change-at-a-time rule) is to show words on the LCD while the model writes, instead of after the whole answer.
+**Done:**
+- `scripts/main.py`:
+  - `generate_answer(..., on_text=None)` streams when given a callback. Same messages, temperature and max_tokens, and the non-streaming path (verify.py, eval scripts) is unchanged.
+  - `SerialKeypadInput.stream_answer()` shows the newest two wrapped lines, throttled to 2 updates/s. Critical mode pins `!CRITICAL!verify` on the top row.
+  - The finished answer still switches to the normal scrollable view with `-- end --`.
+  - New journal line: `[timing] first words on LCD X s, full answer Y s`.
+- Tested on the Pi in a separate process, with a fake serial port recording every LCD write:
+  | Question | First words on LCD | Full answer | Before (LCD blank until done) |
+  |---|---|---|---|
+  | "fire making" | **53.1 s** | 116.2 s | 110 s (owner's run, 21:14) |
+  | "what is the dose of aspirin for an adult" (critical) | 131.3 s | 138.0 s | 135.9 s |
+- Consistency at temperature 0 (fresh `llm.reset()` before each run): plain vs plain **identical**, streamed vs plain **identical**.
+- Every-frame check: 113/113 critical frames carry the warning, and all frames are exactly 32 characters.
+- Deployed at 22:03:57 after confirming the service was idle (0% CPU, no question in the last 3 min). NRestarts=0.
+**Mistakes/Challenges:**
+- **L-019 (safety, caught before deploy):** the first test showed `verify vs 2nd   source. The` as the first critical frame. The `!CRITICAL!` prefix had already scrolled off the follow-the-newest-lines view. Fixed by pinning the warning row.
+- **L-020:** the first stream vs non-stream comparison said "differs", but the non-stream run took 7.2 s because llama-cpp-python reused the identical prompt's KV cache. Re-ran with `llm.reset()` plus an A-vs-A baseline, and the answers are identical.
+- The first launch over SSH hung the local command until its 60 s timeout (nohup'd process inherited the SSH session's stdio). Fixed by running it in a subshell with `< /dev/null`.
+- Thermal: `throttled=0x80000` after test 1 and `0xe0000` after test 2 (soft temperature limit + frequency capping/throttling occurred since boot; peak read 78.5 °C). Back-to-back critical prompts reproduce issue #8. Timings above may be slightly throttled.
+**Improvements/Decisions:**
+- Streaming makes no difference for critical questions (first words at 131 s of 138 s): reading the 8-chunk prompt is ~95% of their time. For normal questions it halves the wait to first words. The next lever is prompt length (fewer or shorter chunks), which helps both and saves battery. Critical mode's 8 verbatim chunks stay, per the safety rules; only chunk size could change there.
+- Throttle at 0.5 s: about 2 LCD redraws per second keeps up with ~5.5 tok/s without flicker or overrunning 9600 baud (33 bytes ≈ 34 ms per frame).
+**Hardware/Tools used:** Pi 5 (test runs + deploy).
+**Next:** Owner confirms on the real LCD. Then speed work #2: Gemma 4 E2B or prompt length, measured on its own.
