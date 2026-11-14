@@ -67,8 +67,9 @@ How this file relates to the others:
 | L-020 | 2026-11-13 | tooling | Unfair A/B test: second run reused the cached prompt | Fixed (method) |
 | L-021 | 2026-11-14 | tooling | Python heredoc over SSH printed nothing (quoting) | Fixed (method) |
 | L-022 | 2026-11-14 | retrieval | Retrieval ranks junk passages above useful ones | Fixed (partly) |
-| L-023 | 2026-11-14 | model | Edible-plant answer says "taste first" (wrong test order) | Open |
+| L-023 | 2026-11-14 | corpus | Edible-plant answer says "taste first" (OCR-garbled figure) | Fixed (berries open) |
 | L-024 | 2026-11-14 | tooling | Test copies left in the Pi repo blocked `git pull` | Fixed (method) |
+| L-025 | 2026-11-14 | tooling | Background rebuild never started; waited 9 min for it | Fixed (method) |
 
 ---
 
@@ -120,6 +121,7 @@ How this file relates to the others:
 - **How:** Use exact matches (`pgrep -x` / `pgrep -fx`) or PIDs read from the service.
 - **Prevention / lesson:** Never `kill $(pgrep -f pattern)` when the pattern also appears in your own command line.
 - **Seen again:** 2026-09-16 (watcher script, caught in time) and 2026-09-18 (Mac serial-port cleanup). A habit alone didn't stop it; prefer `systemctl` or a PID file.
+- **Seen again:** 2026-11-14. A wait loop `ssh pi '… pgrep -f "scripts/rag_build.py" …'` matched its own SSH command line, so it never saw the build exit and reported `STILL-RUNNING` after the build had finished (log: `Saved index.faiss … real 8m53.919s`). Harmless here, but the loop waited its full timeout. Fix going forward: record `$!` as a PID file at launch and wait on `kill -0 $PID`.
 - **Links:** BUILD_LOG 2026-09-15, 09-16, 09-18
 
 ### L-006 — Phi-3 output gibberish past ~2k tokens
@@ -320,12 +322,27 @@ How this file relates to the others:
 - **Links:** BUILD_LOG 2026-11-14, docs/benchmarks/2026-11-14-topk-ab/
 
 ### L-023 — Edible-plant answer says "taste first" (wrong test order)
-- **Date:** 2026-11-14   **Area:** model
-- **Status:** Open   **Severity:** safety-adjacent (not a critical-mode topic)
+- **Date:** 2026-11-14   **Area:** corpus (first logged as model)
+- **Status:** Fixed for "is this plant safe to eat"; berries still open   **Severity:** safety
 - **Symptom:** In the rerank A/B (temperature 0), the deployed setup answered "How can I tell if a wild plant is safe to eat?" with step 1 "Crush a small piece of the plant and taste it". FM 21-76's Universal Edibility Test starts with skin contact and only later moves to lips and mouth. The old setup also invented timings ("20 minutes", "30 minutes") but kept contact before taste and the manual's avoid-list.
-- **Why:** Partly passage choice: the avoid-list passage was old #3 and the reranker replaced it with a different FM passage. Mostly the 3B model paraphrasing a multi-step procedure and reordering or inventing steps. The plain-language rule pushes it to rewrite rather than quote.
-- **How (fix):** Pending. Candidates: test the same question on Gemma 4 E2B/E4B; treat edibility and poisoning questions as critical (verbatim passages + temperature 0), which would strengthen the safety rules; add this question to verify.py with the correct order as the expected behaviour.
-- **Prevention / lesson:** Step order matters as much as numbers for safety procedures. Verification should check order, not just figures.
+- **Why (first guess, wrong):** a model problem, i.e. the 3B model reordering a multi-step procedure.
+- **Why (root cause, found by reading the source per L-007):** in our FM 21-76 text the Universal Edibility Test is **Figure 9-5**, an image, and the OCR turned it into garbage, e.g. `1 Test fmly [me pail of a FMlenta^ Jood plant at a bme`, `4 Do r*Ql 6ai tor 5 hcur^ beloffl sta/ling tho test`, `12 y/ait 3 ngur?`. The device never had a readable version of the step order, so every model would guess. Old answers' invented timings ("20 minutes", "30 minutes") came from the same gap.
+- **How (fix):** two separate, measured changes:
+  1. Corpus: add a clean transcription of Figure 9-5 (PD), checked line by line against the OCR, as `corpus/pd/fm21-76-fig9-5-universal-edibility-test.txt`.
+  2. Safety: make edibility/poisoning questions critical (verbatim passages, temperature 0, warning banner). This only strengthens the safety rules.
+  Then add the question to verify.py with the correct order as the expected answer.
+- **Verified by** (Pi, 2026-11-14, rebuilt index of 6,140 chunks, automatic order check skin → lip → tongue → chew → swallow):
+  | Question | Mode | Transcription sent | Result |
+  |---|---|---|---|
+  | Wild plant safe to eat? | normal (change 1 only) | no, the reranker skipped it | ❌ invented "**if it floats, it's probably safe to eat**", tastes first |
+  | Wild plant safe to eat? | **critical** | yes (+ FM 21-76 corroborates) | ✅ all 5 stages in order, 15 min / 3 min / 15 min / 15 min / 8 h / 8 h, full avoid-list. Still adds "wrap in cloth" and omits the 1/4-cup step |
+  | Berries poisonous? | normal | no | ❌ invented "20 minutes" test |
+  | Berries poisonous? | critical | no | ⚠ no procedure invented; general caution only |
+  - Retrieval regression after rebuild: unchanged (book 34/34, passage hit@3 32/34, MRR 0.855).
+  - Keyword check: only the plant/mushroom/berry/toxic questions flip to critical; snake bite, fire and the rest stay normal.
+  - Deployed 10:58:45 (commits 1c3b411 + corpus commit), NRestarts=0.
+- **Still open:** for "berries" the transcription isn't in the hybrid top 8, so the answer is cautious but has no test steps. The critical prompt is written for figures, not step order; a "keep steps in source order" rule would strengthen it further. Other figures in OCR'd manuals may be garbled the same way; a scan for garbage-heavy chunks is worth doing.
+- **Prevention / lesson:** Step order matters as much as numbers for safety procedures; verification should check order, not just figures. Second time (after L-007) that a "model problem" was really a corpus problem, so read the source passage before blaming the model. OCR'd figures and tables are a known blind spot.
 - **Links:** BUILD_LOG 2026-11-14, docs/benchmarks/2026-11-14-rerank-ab/
 
 ### L-024 — Test copies left in the Pi repo blocked `git pull`
@@ -335,4 +352,13 @@ How this file relates to the others:
 - **Why:** For a quick test I had `scp`'d the new eval_retrieval.py straight into the Pi's repo. The later commit made the same change, so git saw an uncommitted local modification.
 - **How:** `git checkout -- scripts/eval_retrieval.py`, then `git pull --ff-only`.
 - **Prevention / lesson:** Put test copies in a separate folder (as done for `~/rr_test`), never into the live repo or the service's working directory. That also stops a reboot from silently running untested code.
+- **Links:** BUILD_LOG 2026-11-14
+
+### L-025 — Background rebuild never started; waited 9 min for it
+- **Date:** 2026-11-14   **Area:** tooling
+- **Status:** Fixed (method)   **Severity:** dev-only (lost ~9 min)
+- **Symptom:** The index rebuild was launched as `nohup bash -c "… /usr/bin/time -v venv/bin/python scripts/rag_build.py" &`, and a wait loop watched the log for "Elapsed (wall". After 9 minutes the index files were still dated Sep 16. The log contained only `bash: line 1: /usr/bin/time: No such file or directory`.
+- **Why:** GNU `time` isn't installed on Raspberry Pi OS (only the shell keyword `time` exists). The launch command printed "launched" because the `nohup … &` wrapper itself succeeded. The wait loop only checked for success text, never for failure or "process gone".
+- **How:** Relaunched with the bash `time` keyword, and checked `pgrep` 15 s after launch: `RUNNING`.
+- **Prevention / lesson:** After any background launch, check within seconds that the process exists and the log has started. Wait loops must also exit when the process is gone, not only when success text appears.
 - **Links:** BUILD_LOG 2026-11-14

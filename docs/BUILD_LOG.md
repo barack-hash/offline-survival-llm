@@ -552,3 +552,28 @@ Template:
 - Critical mode deliberately not reranked: changing which verbatim passages a dosing question shows needs its own safety test first.
 **Hardware/Tools used:** Pi 5 (experiments + deploy), soft temperature limit flag set during A/B runs.
 **Next:** L-023: test the edible-plant question on Gemma 4 E2B and/or make edibility a critical topic. Then speed work: Gemma 4 E2B, and pre-loading the system prompt after critical questions/boot (~9 s).
+
+## 2026-11-14 (cont.) — L-023 fixed: plant edibility answers follow the manual's order
+**Goal:** Owner: "Yes, fix L-023" (the deployed setup told users to taste a wild plant first).
+**Done:**
+- Root cause found by reading FM 21-76: the Universal Edibility Test is **Figure 9-5**, and its OCR is garbage (`4 Do r*Ql 6ai tor 5 hcur^ beloffl sta/ling tho test`). The device never had a readable step order.
+- **Change 1 (corpus):** `corpus/pd/fm21-76-fig9-5-universal-edibility-test.txt`, a clean transcription with each of the 13 steps checked against its OCR line. Ambiguous digits resolved by the manual's own cross-references (step 4 "5 hcur" = 8 h because step 5 says "During the 8 hours"; "?5 cv^p" = 1/4 cup). Avoid-list checked word for word against p. 103. My one-line summary is labelled as not the manual's words. CORPUS_SOURCES row added.
+- Index rebuilt on the Pi: **6,140 chunks** (+4), 8 min 54 s (user 31 m 35 s). Old index backed up to ~/index_backup_2026-11-14/. eval_retrieval unchanged: book 34/34, passage hit@3 32/34, MRR 0.855.
+- **Change 2 (safety):** CRITICAL_KEYWORDS += edible, safe to eat, poison, toxic, mushroom. A dry run over all eval questions showed only plant/berry/mushroom/toxic questions flip.
+- Answer test (temperature 0 for critical, the device's normal settings otherwise):
+  | | Normal mode | Critical mode |
+  |---|---|---|
+  | Wild plant safe to eat? | ❌ "if it floats, it's probably safe to eat" | ✅ skin 15 min → lip 3 min → tongue 15 min → chew 15 min → swallow, wait 8 h → wait 8 h more; full avoid-list (178.6 s) |
+  | Berries poisonous? | ❌ invented "20 minutes" test | ⚠ cautious, no procedure (142.7 s) |
+- verify.py's plant case now expects critical mode and the Fig 9-5 order.
+- Deployed: Pi pulled 1c3b411, restarted while idle, ready at 10:58:45, NRestarts=0, 4.9 GB RAM available, 52.1 °C.
+**Mistakes/Challenges:**
+- First diagnosis ("the 3B model reorders steps") was wrong. Reading the source passage found the real cause, the second time after L-007.
+- L-025: `/usr/bin/time: No such file or directory`, so the first rebuild never ran and a wait loop spent ~9 min watching for it. Relaunched with the bash `time` keyword and checked `pgrep` 15 s after launch.
+- L-005 seen again: a `pgrep -f "scripts/rag_build.py"` wait loop over SSH matched its own command line and reported STILL-RUNNING after the build had finished. The next wait used a PID file + `kill -0`, which worked.
+- The corpus file copied to the Pi for the rebuild would have blocked `git pull` (L-024 pattern). Removed it first; checksums before/after identical (753f5ac5…).
+**Improvements/Decisions:**
+- Critical mode is now the device's standard for anything where a wrong *procedure* can hurt, not only a wrong number. This only strengthens the safety rules.
+- Change 1 alone was not enough: in normal mode the reranker didn't select the transcription. Both changes are kept: the corpus fix supplies correct text, and critical mode makes sure it's shown verbatim.
+**Hardware/Tools used:** Pi 5 (rebuild, tests, deploy).
+**Next:** L-023 leftovers: berries retrieval, a "keep steps in source order" rule for the critical prompt, and a scan of OCR'd manuals for other garbled figures. Then the Gemma 4 E2B speed test.
