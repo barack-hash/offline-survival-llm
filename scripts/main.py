@@ -104,6 +104,32 @@ def is_critical(question: str) -> bool:
 INPUT_MODE = "serial"
 SERIAL_PORT = "/dev/ttyACM0"
 SERIAL_BAUD = 9600
+SERIAL_RETRY_S = 2          # how often to look for the Arduino
+SERIAL_WAIT_LOG_S = 60      # how often to log "still waiting" (keeps the journal quiet)
+
+
+def wait_for_serial(port, baud):
+    """Open the Arduino's serial port, waiting for it if it isn't there yet.
+
+    Done in-process, before any model is loaded: a missing Arduino used to
+    crash main.py *after* the ~1 min model load, and systemd's Restart=always
+    turned that into a reload-every-19-s loop (LEARNINGS L-014)."""
+    import time
+    import serial  # pyserial, installed by setup.sh
+
+    waited, last_log = 0, None
+    while True:
+        try:
+            ser = serial.Serial(port, baud, timeout=1)
+            if waited:
+                print(f"Serial port {port} found after {waited} s.", flush=True)
+            return ser
+        except serial.SerialException as e:
+            if last_log is None or waited - last_log >= SERIAL_WAIT_LOG_S:
+                print(f"Waiting for the Arduino on {port} (plug it in): {e}", flush=True)
+                last_log = waited
+            time.sleep(SERIAL_RETRY_S)
+            waited += SERIAL_RETRY_S
 
 
 class KeyboardInput:
@@ -126,8 +152,7 @@ class SerialKeypadInput:
     SCROLL = {"^U": -1, "^D": 1, "^L": -2, "^R": 2}
 
     def __init__(self, port, baud):
-        import serial  # pyserial, installed by setup.sh
-        self.ser = serial.Serial(port, baud, timeout=1)
+        self.ser = wait_for_serial(port, baud)
         self.lines = []
         self.top = 0
         self._buf = b""
@@ -279,6 +304,11 @@ def print_answer(answer, critical=False, sources=None, raw_chunks=None):
 
 
 def main():
+    # Input device first: it's the cheap, likely-to-be-missing resource.
+    # In serial mode this blocks until the Arduino is plugged in, so the
+    # expensive model loads below happen once, not on every retry (L-014).
+    input_source = get_input_source()
+
     print("Loading embedding model...")
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -291,7 +321,6 @@ def main():
     # (3470) exceed context window of 2048" in the Phase 4 eval).
     llm = Llama(model_path=MODEL_PATH, n_ctx=4096, n_threads=4)
 
-    input_source = get_input_source()
     print("\nOffline reference assistant ready. Type a question, or 'quit' to exit.\n")
 
     while True:
