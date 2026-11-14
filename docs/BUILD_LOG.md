@@ -499,3 +499,14 @@ Template:
 - Throttle at 0.5 s: about 2 LCD redraws per second keeps up with ~5.5 tok/s without flicker or overrunning 9600 baud (33 bytes ≈ 34 ms per frame).
 **Hardware/Tools used:** Pi 5 (test runs + deploy).
 **Next:** Owner confirms on the real LCD. Then speed work #2: Gemma 4 E2B or prompt length, measured on its own.
+
+## 2026-11-13 (cont.) — Streaming confirmed on the real LCD
+**Goal:** Owner hardware check of speed work #1.
+**Done:**
+- Owner asked "fly" on the IR remote at 22:18:55 and confirmed: "Yes, words stream".
+- Journal (new `[timing]` line working): **first words on LCD 52.7 s, full answer 86.8 s**. Prompt 1380 tokens in 51.9 s (26.6 tok/s), generation 186 tokens in 33.8 s (5.50 tok/s). Matches the bench test (53.1 s).
+- Temperature after: 59.8 °C. `throttled=0xe0000` is the sticky since-boot flag from the earlier back-to-back tests.
+**Mistakes/Challenges:** None.
+**Improvements/Decisions:** Speed work #1 accepted on hardware.
+**Hardware/Tools used:** Pi 5, Arduino Uno + IR remote + LCD1602.
+**Next:** Speed work #2, one change only: shorter prompt (chunk size/count for normal mode) or Gemma 4 E2B. Measure the first-words time and run eval_retrieval / the question battery for quality.
