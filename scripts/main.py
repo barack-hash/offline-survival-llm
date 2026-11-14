@@ -17,6 +17,7 @@ Run:
 
 import pickle
 import re
+import time
 
 import faiss
 from rank_bm25 import BM25Okapi
@@ -183,10 +184,39 @@ class SerialKeypadInput:
                 print(line)
                 return line
 
+    STREAM_MIN_INTERVAL_S = 0.5  # LCD refresh cap while streaming (~2/s)
+    CRITICAL_PREFIX = "!CRITICAL! verify vs 2nd source. "
+    CRITICAL_PIN = "!CRITICAL!verify"  # exactly 16 chars: one full LCD row
+
+    def stream_answer(self, text, critical=False):
+        """Live view while the model is still writing: show the newest two
+        wrapped lines, so the first words appear right after prompt reading
+        instead of after the whole answer. Throttled so 9600 baud and the
+        LCD's clear+redraw keep up."""
+        import textwrap
+        import time
+        now = time.monotonic()
+        if now - getattr(self, "_last_stream", 0.0) < self.STREAM_MIN_INTERVAL_S:
+            return
+        self._last_stream = now
+        lines = textwrap.wrap(text, self.LCD_COLS, break_long_words=True)
+        if critical:
+            # Safety rule: the warning must stay visible while the answer is
+            # being written. Following the newest lines scrolled a text
+            # prefix off-screen on the first update (LEARNINGS L-019), so it
+            # is pinned to the top row and the answer streams on the bottom.
+            self.lines = [self.CRITICAL_PIN, lines[-1] if lines else ""]
+            self.top = 0
+        else:
+            self.lines = lines
+            self.top = max(len(lines) - self.LCD_ROWS, 0)
+        self._show()
+
     def display_answer(self, text, critical=False):
         import textwrap
+        self._last_stream = 0.0
         if critical:
-            text = "!CRITICAL! verify vs 2nd source. " + text
+            text = self.CRITICAL_PREFIX + text
         self.lines = textwrap.wrap(text, self.LCD_COLS, break_long_words=True) + ["-- end --"]
         self.top = 0
         # drop arrow presses made while the answer was still generating
@@ -269,16 +299,31 @@ def build_messages(question, retrieved, critical=False):
     ]
 
 
-def generate_answer(llm, question, retrieved, critical=False, max_tokens=400):
+def generate_answer(llm, question, retrieved, critical=False, max_tokens=400,
+                    on_text=None):
     """Single entry point for generation — main loop, verify.py and
-    eval_questions.py all call this so they can never drift apart."""
+    eval_questions.py all call this so they can never drift apart.
+
+    on_text: optional callback, called with the answer-so-far as tokens
+    arrive (streaming). Same messages, temperature and token limit either
+    way, so streaming changes only *when* text is seen, not what is said."""
     messages = build_messages(question, retrieved, critical=critical)
-    output = llm.create_chat_completion(
+    params = dict(
         messages=messages,
         max_tokens=max_tokens,
         temperature=0.0 if critical else 0.3,
     )
-    return output["choices"][0]["message"]["content"]
+    if on_text is None:
+        output = llm.create_chat_completion(**params)
+        return output["choices"][0]["message"]["content"]
+
+    text = ""
+    for chunk in llm.create_chat_completion(stream=True, **params):
+        piece = chunk["choices"][0]["delta"].get("content")
+        if piece:
+            text += piece
+            on_text(text)
+    return text
 
 
 def corroboration_check(retrieved):
@@ -330,10 +375,26 @@ def main():
         if not question:
             continue
 
+        t0 = time.monotonic()
         critical = is_critical(question)
         k = CRITICAL_TOP_K if critical else TOP_K
         retrieved = retrieve(question, embedder, index, chunks, k=k)
-        answer = generate_answer(llm, question, retrieved, critical=critical)
+
+        on_text = None
+        first_text = []
+        if isinstance(input_source, SerialKeypadInput):
+            def on_text(text):
+                if not first_text:
+                    first_text.append(time.monotonic() - t0)
+                input_source.stream_answer(text, critical=critical)
+        answer = generate_answer(llm, question, retrieved, critical=critical,
+                                 on_text=on_text)
+        total = time.monotonic() - t0
+        if first_text:
+            print(f"[timing] first words on LCD {first_text[0]:.1f} s, "
+                  f"full answer {total:.1f} s")
+        else:
+            print(f"[timing] full answer {total:.1f} s")
 
         sources = corroboration_check(retrieved) if critical else None
         print_answer(answer, critical=critical, sources=sources, raw_chunks=retrieved if critical else None)
