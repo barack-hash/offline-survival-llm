@@ -62,7 +62,7 @@ How this file relates to the others:
 | L-015 | 2026-11-13 | ops | `ssh pi` timed out: Tailscale off on the Mac | Workaround |
 | L-016 | 2026-11-13 | tooling | Fake-port test could have deleted the real device node | Fixed (method) |
 | L-017 | 2026-11-13 | hardware | "Remote not writing anything" after rewiring | Resolved (cause unconfirmed) |
-| L-018 | 2026-11-13 | software | Journal never shows questions/answers (stdout buffered) | Open |
+| L-018 | 2026-11-13 | software | Journal never shows questions/answers (stdout buffered) | Fixed |
 
 ---
 
@@ -252,9 +252,13 @@ How this file relates to the others:
 
 ### L-018 — Journal never shows questions/answers (stdout buffered)
 - **Date:** 2026-11-13   **Area:** software
-- **Status:** Open   **Severity:** degraded (no flight recorder)
+- **Status:** Fixed   **Severity:** degraded (no flight recorder)
 - **Symptom:** The owner asked questions successfully after 20:58:57, but `journalctl -u survival-llm` showed no `> question`, no answer and no `llama_perf` lines. Only output from before the first `flush=True` ever appeared.
 - **Why:** When Python's stdout goes to a pipe (systemd → journal) rather than a terminal, Python buffers output in large blocks. The unit sets no `PYTHONUNBUFFERED`, and most `print()` calls in main.py don't flush. Questions and answers therefore stay in memory, and a crash or power loss loses them. The 2026-09-18 decision ("journalctl is the device's flight recorder") silently doesn't work for most output.
-- **How (fix):** Proposed: add `Environment=PYTHONUNBUFFERED=1` to `scripts/survival-llm.service` (or run `python -u`), reinstall, restart, then confirm a question appears in the journal within a second.
+- **How (fix):** Added `Environment=PYTHONUNBUFFERED=1` to `scripts/survival-llm.service`, copied it to `/etc/systemd/system/`, then `daemon-reload` + restart (21:12). Confirmed in `/proc/<pid>/environ`.
+- **Verified by:**
+  - Startup lines now carry distinct timestamps (21:12:19.97 → 21:12:21.26 → 21:12:26.89). Before, all were stamped 20:58:57, the moment the buffer was written out at once.
+  - Owner asked "fire making" on the remote: `> fire making` was logged at **21:14:12.0**, and the answer plus `llama_perf` lines at 21:16:02.9, both live. Timings: prompt 1371 tok in 51.7 s (26.5 tok/s), generation 317 tok in 58.1 s (5.46 tok/s), total 110 s.
+- **Side effect:** the restart came while the service was at 47.5% CPU, so it may have cut off an answer in progress. Lesson: check the journal/CPU and ask the owner before restarting a device that's in use.
 - **Prevention / lesson:** For any long-running service, check that its logs appear live (`journalctl -f` while exercising it), not just at startup.
 - **Links:** BUILD_LOG 2026-11-13, L-017

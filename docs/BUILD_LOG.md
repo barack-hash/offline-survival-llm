@@ -452,3 +452,23 @@ Template:
 - Raw serial capture is now the first diagnostic after any rewiring (recorded in L-017).
 **Hardware/Tools used:** Arduino Uno R3, IR receiver + remote, LCD1602 (I2C): the owner's rewired bench.
 **Next:** Fix L-018 (`PYTHONUNBUFFERED=1` in the unit). Then the speed work: stream answers to the LCD, and Gemma 4 E2B. Each change measured separately.
+
+## 2026-11-13 (cont.) — L-018 fixed: questions and answers now reach the journal live
+**Goal:** Make the journal a working flight recorder (owner: "Yes, fix it").
+**Done:**
+- `scripts/survival-llm.service`: added `Environment=PYTHONUNBUFFERED=1`. Installed to /etc/systemd/system, daemon-reload, restart at 21:12; env confirmed in /proc.
+- Verified with a real remote question: `> fire making` logged at 21:14:12, answer + perf at 21:16:02.
+  | Measure | Value |
+  |---|---|
+  | Prompt | 1371 tokens, 51.7 s, 26.5 tok/s |
+  | Generation | 317 tokens, 58.1 s, 5.46 tok/s |
+  | Total | 110 s |
+  | Temp after answer | 47.7 °C (idle again) |
+- Note for the speed work: reading the prompt is 47% of total time, before the first word is ready. That confirms passage length and live text on the LCD as the first levers.
+**Mistakes/Challenges:**
+- Restarted the service while it was at 47.5% CPU, possibly cutting off an answer the owner was waiting for. Should have checked first (recorded in L-018).
+- The background `journalctl -f | grep | head` watcher over SSH captured nothing, even though the lines were in the journal. Likely output buffering in the remote pipe. Checked the journal directly instead.
+**Improvements/Decisions:**
+- Env var in the unit rather than `python -u`: it's documented next to the reason, and it covers any subprocess Python too.
+**Hardware/Tools used:** Pi 5, Arduino + IR remote (owner asked the test question).
+**Next:** Speed work, one change at a time: (1) stream answers to the LCD, (2) Gemma 4 E2B.
