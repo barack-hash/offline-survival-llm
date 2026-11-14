@@ -21,14 +21,27 @@ documented build journal as it is a device.
    Mistakes are not embarrassing — they are the most valuable content in
    this log. Never omit or sanitize them.
 
-2. **docs/HARDWARE.md** — the moment any tool, board, cable, or component
+2. **docs/LEARNINGS.md** — every hiccup, error, wrong assumption or
+   failure gets an entry, no matter how small (a device crash, a flaky
+   SSH connection, a bad CLI flag, a design flaw caught in review). Each
+   entry records the exact error text, **WHY** it happened (the real
+   root cause, not just the symptom), **HOW** it was fixed (file or
+   commit), how the fix was verified with a measurement, and what
+   **prevents** it recurring. Follow the template and rules at the top
+   of that file. Write the entry before or while fixing, not afterwards.
+   If a problem comes back, add a "Seen again" line to the existing
+   entry instead of a duplicate. The goal: each problem is solved once
+   and makes the device better. (BUILD_LOG's Mistakes/Challenges is the
+   diary; LEARNINGS is the lesson. Every problem goes in both.)
+
+3. **docs/HARDWARE.md** — the moment any tool, board, cable, or component
    is used for the first time, add it: name, model, source, cost if known,
    what it's used for.
 
-3. **docs/CORPUS_SOURCES.md** — every document added to corpus/ gets a
+4. **docs/CORPUS_SOURCES.md** — every document added to corpus/ gets a
    row: filename, origin URL, edition/date, license (PD/FREE/OWN).
 
-4. **Git discipline:**
+5. **Git discipline:**
    - One logical change per commit, descriptive message
      (e.g. "phase3: index FM 21-76, 412 chunks" not "update").
    - Commit + push at the end of every session, always including the
@@ -37,7 +50,7 @@ documented build journal as it is a device.
      (copyrighted scans stay local only — this is a legal requirement,
      not a preference).
 
-5. **Benchmarks are log entries too:** tokens/sec, RAM usage, temperatures,
+6. **Benchmarks are log entries too:** tokens/sec, RAM usage, temperatures,
    battery runtimes — always record actual measured numbers, never just
    "it works".
 
@@ -45,7 +58,10 @@ documented build journal as it is a device.
 - Follow IMPLEMENTATION_PLAN.md phase order. Do not skip acceptance
   criteria — check each one explicitly before declaring a phase done.
 - When something fails (URL 404, library conflict, wiring issue): fix it,
-  but ALWAYS log the failure + fix as a Mistakes/Challenges entry first.
+  but ALWAYS log the failure + fix as a Mistakes/Challenges entry first,
+  and add (or update) its docs/LEARNINGS.md entry with the why and how.
+- Before debugging anything, search docs/LEARNINGS.md for the symptom.
+  It may already be solved, and a repeat means the prevention failed.
 - One tuning change at a time during Phase 4 evaluation, so cause and
   effect stay traceable in the log.
 - For hardware steps you cannot perform (physical wiring, photographing),
