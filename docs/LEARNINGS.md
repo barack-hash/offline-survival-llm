@@ -70,6 +70,7 @@ How this file relates to the others:
 | L-023 | 2026-11-14 | corpus | Edible-plant answer says "taste first" (OCR-garbled figure) | Fixed (berries open) |
 | L-024 | 2026-11-14 | tooling | Test copies left in the Pi repo blocked `git pull` | Fixed (method) |
 | L-025 | 2026-11-14 | tooling | Background rebuild never started; waited 9 min for it | Fixed (method) |
+| L-026 | 2026-11-14 | corpus | More FM 21-76 figures are OCR garbage (water, signals) | Open |
 
 ---
 
@@ -362,3 +363,13 @@ How this file relates to the others:
 - **How:** Relaunched with the bash `time` keyword, and checked `pgrep` 15 s after launch: `RUNNING`.
 - **Prevention / lesson:** After any background launch, check within seconds that the process exists and the log has started. Wait loops must also exit when the process is gone, not only when success text appears.
 - **Links:** BUILD_LOG 2026-11-14
+
+### L-026 — More FM 21-76 figures are OCR garbage (water, signals)
+- **Date:** 2026-11-14   **Area:** corpus
+- **Status:** Open   **Severity:** degraded / safety-adjacent (water)
+- **Symptom:** A corpus-wide garbage scan (`scripts/scan_ocr_garbage.py`, 6,140 passages, 42 flagged, all reviewed by hand) found more figures that are unreadable, like Figure 9-5 was. Example, Fig 6-2 "effects of substitute fluids": `Is about 4 percent sart. H tshes a^>oul 2 rfer? r/ bc-^ty f.ui:^^`. Example, Fig 13-2 water-needs graph: `water requirements … will be approximately ?5 liters`.
+- **Why:** archive.org's OCR handles running text well but fails on figures, tables and graphs. FM 21-76 puts much of its most practical content (water sources, substitute fluids, water needs, signal codes) in figures. Project Gutenberg texts are human-proofread and came out clean.
+- **How (fix):** Pending. Ranked list in docs/corpus-ocr-scan-2026-11-14.md: (1) Fig 6-2 substitute fluids, (2) Fig 6-1 water sources, (3) Fig 13-2 daily water needs, (4) Fig 19-6/19-7 ground-to-air codes. Transcribe from the scanned PDF's page images (same archive.org item), checked against the image as was done for Fig 9-5. Separately: drop ~10 index-page passages from the steel book.
+- **Verified by:** The scan found Fig 9-5 (score 0.29) unprompted, so the method catches the known case.
+- **Prevention / lesson:** Run `scan_ocr_garbage.py` after adding any OCR'd book, and review figures and tables first. Prefer human-proofread texts (Gutenberg) where an edition exists.
+- **Links:** docs/corpus-ocr-scan-2026-11-14.md, L-023, BUILD_LOG 2026-11-14

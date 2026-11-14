@@ -577,3 +577,18 @@ Template:
 - Change 1 alone was not enough: in normal mode the reranker didn't select the transcription. Both changes are kept: the corpus fix supplies correct text, and critical mode makes sure it's shown verbatim.
 **Hardware/Tools used:** Pi 5 (rebuild, tests, deploy).
 **Next:** L-023 leftovers: berries retrieval, a "keep steps in source order" rule for the critical prompt, and a scan of OCR'd manuals for other garbled figures. Then the Gemma 4 E2B speed test.
+
+## 2026-11-14 (cont.) — Corpus OCR scan: which figures are unreadable
+**Goal:** Owner: "Yes, scan them". Find other passages garbled like FM 21-76 Fig 9-5 (L-023).
+**Done:**
+- Scored all 6,140 passages on the Pi for OCR garbage. 42 scored above 0.15; all 42 reviewed by hand. The method found Fig 9-5 (0.29) without being pointed at it.
+- Clean: all Project Gutenberg texts and the 1943 first-aid manual (0 flagged). Problems are in archive.org OCR scans: FM 21-76 (19 flagged), the steel book (13), WTIND (6, all false alarms), WTIND-dentist (3, false alarms).
+- Real garbled content, by safety value: Fig 6-2 substitute fluids (seawater/urine/blood/alcohol), Fig 6-1 water sources, Fig 13-2 daily water-needs graph, Fig 19-6/19-7 ground-to-air codes, Fig 7-4 fire materials, steel-book conversion tables. Plus ~10 steel-book index pages that are pure noise.
+- New `scripts/scan_ocr_garbage.py` (repeatable; results file gitignored); reproduced the same 42 on the Pi. Report: docs/corpus-ocr-scan-2026-11-14.md. LEARNINGS L-026 (open).
+**Mistakes/Challenges:**
+- Building scan_ocr_garbage.py by concatenating a header heredoc with sed output lost the docstring's closing `"""`: `SyntaxError: unterminated triple-quoted string literal (detected at line 39)`. Caught by `py_compile` before use; fixed with a direct edit.
+- First reading of the flags overcounted: name lists, Latin snake names and book indexes score high without being harmful. Manual review is required; the score is a pointer, not a verdict.
+**Improvements/Decisions:**
+- No transcriptions made from OCR alone for items 2–4: they're too garbled (or are drawings/graphs) to transcribe reliably. They need the scanned PDF's page images, which takes a download from the same archive.org item; owner to approve.
+**Hardware/Tools used:** Pi 5 (scan).
+**Next:** With owner approval: fetch the FM 21-76 scanned PDF, transcribe Fig 6-2, 6-1, 13-2, 19-6/19-7 from the page images, rebuild the index, re-run eval_retrieval + verify. Drop the steel-book index pages.

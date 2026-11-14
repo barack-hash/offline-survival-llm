@@ -19,3 +19,4 @@ __pycache__/
 
 # macOS noise
 .DS_Store
+ocr_scan_results.json
