@@ -510,3 +510,24 @@ Template:
 **Improvements/Decisions:** Speed work #1 accepted on hardware.
 **Hardware/Tools used:** Pi 5, Arduino Uno + IR remote + LCD1602.
 **Next:** Speed work #2, one change only: shorter prompt (chunk size/count for normal mode) or Gemma 4 E2B. Measure the first-words time and run eval_retrieval / the question battery for quality.
+
+## 2026-11-14 — Speed work #2 (measured, not deployed): 3 passages instead of 4
+**Goal:** Owner chose "shorter prompt" as the next speed change. One change only: TOP_K 4 → 3 for normal questions (critical stays at 8).
+**Done:**
+- Token breakdown (Qwen tokenizer): system prompt 289 tokens (critical 344); passages mean 285 tokens (median 266, max 676). Mean prompt: k=4 1439, **k=3 1163**, k=2 877, k=1 594.
+- Retrieval suite: 34/34 at k=3 and k=4, 31/34 at k=2, 28/34 at k=1.
+- Answer A/B on the Pi (9 non-critical battery questions, fresh KV each run, alternating order). Full table and raw answers in docs/benchmarks/2026-11-14-topk-ab/.
+  - First words 55.0 → **43.6 s (−21%)**. Full answer 99.5 → **79.6 s (−20%)**.
+  - Quality: k=4 better on 3 (shelter, deep cut, tooth), k=3 better on 3 (water, plants, knife), same on 3.
+- Passage dump (L-007 rule): tooth steps are passage #1 in both arms, so that loss is sampling noise. Shelter build steps are passage #4, ranked below two junk passages, so that loss is real (L-022).
+- System-prompt reuse measured: a normal question right after another normal one reads its prompt in 42.4 s vs 51.7 s fresh (−9.3 s, no quality risk). Lost after a critical question (53.7 s) and on the first question after boot.
+- Pi had rebooted overnight (uptime 1:31 at 09:21). The service came back on its own (new PID 740), as appliance mode should.
+**Mistakes/Challenges:**
+- L-021: a Python heredoc over SSH printed nothing (quoting + `2>/dev/null` hid the SyntaxError). Same root cause as Phase 3; the lesson wasn't searchable until now.
+- L-022: eval_retrieval's 34/34 hid that the right *passage* can rank 4th behind junk. Book-level metrics overstate retrieval quality.
+- Single-sample A/B at temperature 0.3 is noisy (tooth case). A quality verdict needs either temperature 0 for the A/B or several samples per question.
+**Improvements/Decisions:**
+- **Not deployed.** A 21% speed-up with a mixed quality result (one real information loss) is a trade-off for the owner to decide, not a free win. TOP_K stays 4 for now.
+- Options with no quality risk found along the way: (a) warm the system prompt at boot and restore it after critical questions (saves ~9 s on those questions); (b) fix ranking (L-022) so 3 good passages beat 4 mixed ones.
+**Hardware/Tools used:** Pi 5 (A/B runs, 71–76 °C, soft temperature limit flag set).
+**Next:** Owner decision: deploy k=3 now, or fix ranking first (L-022), then shorten.

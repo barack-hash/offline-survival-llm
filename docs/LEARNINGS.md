@@ -65,6 +65,8 @@ How this file relates to the others:
 | L-018 | 2026-11-13 | software | Journal never shows questions/answers (stdout buffered) | Fixed |
 | L-019 | 2026-11-13 | software | Streaming scrolled the CRITICAL warning off the LCD | Fixed |
 | L-020 | 2026-11-13 | tooling | Unfair A/B test: second run reused the cached prompt | Fixed (method) |
+| L-021 | 2026-11-14 | tooling | Python heredoc over SSH printed nothing (quoting) | Fixed (method) |
+| L-022 | 2026-11-14 | retrieval | Retrieval ranks junk passages above useful ones | Open |
 
 ---
 
@@ -284,3 +286,22 @@ How this file relates to the others:
 - **Result after fixing the method:** plain1 == plain2 (determinism baseline) **True**, and stream == plain1 **True**. Streaming does not change the critical answer.
 - **Prevention / lesson:** In A/B tests, reset all caches between arms and measure the baseline variance (A vs A) before claiming A vs B differs. A suspiciously fast second run is a sign that a cache was used.
 - **Links:** BUILD_LOG 2026-11-13, L-019
+
+### L-021 — Python heredoc over SSH printed nothing (quoting)
+- **Date:** 2026-11-14   **Area:** tooling
+- **Status:** Fixed (method)   **Severity:** dev-only
+- **Symptom:** A chunk-dump script sent as `ssh pi '… python - <<EOF … f"{r[\"source\"]}" … EOF'` produced **no output at all**. The error was hidden because the command also ran with `2>/dev/null`.
+- **Why:** Three layers of quoting (local shell → single-quoted SSH command → unquoted heredoc → Python f-string with escaped quotes) mangled the f-string into a SyntaxError, and stderr was thrown away.
+- **How:** Wrote the script to a file in the scratchpad, copied it with `scp`, ran it, then deleted it. Output appeared at once.
+- **Prevention / lesson:** For anything beyond a one-liner, write a file and `scp` it. Never use `2>/dev/null` on a command you haven't seen succeed yet.
+- **Seen before:** 2026-09-15 Phase 3 had the same root cause (`SyntaxError: unexpected character after line continuation character`), and the same lesson was in the build log but not in this file, so it wasn't searchable. Now it is.
+- **Links:** BUILD_LOG 2026-09-15 Phase 3, 2026-11-14
+
+### L-022 — Retrieval ranks junk passages above useful ones
+- **Date:** 2026-11-14   **Area:** retrieval
+- **Status:** Open   **Severity:** degraded
+- **Symptom:** "What kind of shelter should I build to stay warm in a cold forest?": ranks 2 and 3 are unrelated FM 21-76 text (insect bites/diarrhoea, flash-flood site selection). The actual build steps (ridgepole, ribbing) are rank **4**. With TOP_K=3 the answer lost the build steps.
+- **Why:** Hybrid BM25 + vector RRF rewards keyword overlap ("cold", "shelter", "warm"), so passages sharing words but not subject rank high. eval_retrieval only checks that the right **book** is in the top k, not the right **passage**, so this was invisible (34/34 at both k=3 and k=4).
+- **How (fix):** Pending. Candidates: a cross-encoder reranker over the top ~10; a relevance threshold that drops weak passages (shorter prompts as a bonus); passage-level expectations in eval_retrieval.
+- **Prevention / lesson:** "Right book found" is not "right passage found". Retrieval metrics must check the passage that actually holds the answer.
+- **Links:** BUILD_LOG 2026-11-14, docs/benchmarks/2026-11-14-topk-ab/
