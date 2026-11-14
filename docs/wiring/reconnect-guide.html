@@ -1,0 +1,322 @@
+<title>Survival Device Wiring</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout: one bench sheet — the wiring drawing on top, numbered steps below
+     that highlight their wire in the drawing, then the remote cheat sheet. */
+  :root {
+    --bg: #eef1ef;
+    --panel: #ffffff;
+    --fg: #1d2421;
+    --muted: #5d6863;
+    --line: #d5dcd8;
+    --accent: #a8541f;          /* copper, from the device's trim */
+    --w-gnd: #2b302e;
+    --w-5v: #d12f2f;
+    --w-ioref: #e8862a;
+    --w-sda: #2f6fd1;
+    --w-scl: #d9b21c;
+    --w-sig: #2f9b55;
+    --w-usb: #8a9590;
+    --ok: #2f8a4f;
+    --font-display: "Barlow Semi Condensed", "Arial Narrow", sans-serif;
+    --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121615; --panel: #1b201e; --fg: #e4eae7; --muted: #9aa6a0; --line: #2d3532;
+      --accent: #e08a4e; --w-gnd: #c9d0cc; --w-usb: #7c8883; --ok: #5cc27f; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121615; --panel: #1b201e; --fg: #e4eae7; --muted: #9aa6a0; --line: #2d3532;
+    --accent: #e08a4e; --w-gnd: #c9d0cc; --w-usb: #7c8883; --ok: #5cc27f; color-scheme: dark;
+  }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 48px; display: grid; gap: 28px; }
+  h1, h2 { font-family: var(--font-display); letter-spacing: .01em; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.05; }
+  h2 { font-size: 22px; }
+  .lede { color: var(--muted); max-width: 64ch; margin: 6px 0 0; }
+  .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  .kit { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+  .kit li { font-size: 13px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); }
+
+  .board { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+  .board-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; margin: 0 4px 8px; }
+  .board-head p { margin: 0; font-size: 13px; color: var(--muted); }
+  .scroll { overflow-x: auto; }
+  svg { display: block; width: 100%; min-width: 680px; height: auto; }
+  .lbl { fill: var(--fg); font-family: var(--font-body); font-size: 13px; font-weight: 600; }
+  .sub { fill: var(--muted); font-family: var(--font-body); font-size: 11px; }
+  .pin { font-family: var(--font-mono); font-size: 8.5px; fill: #f1f6f4; }
+  .pinlbl { font-family: var(--font-mono); font-size: 10px; font-weight: 600; fill: var(--fg); }
+  .halo { fill: none; stroke: var(--panel); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+  .wire { fill: none; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; transition: opacity .2s; }
+  .wg { transition: opacity .2s; }
+  svg.focus .wg:not(.on) { opacity: .12; }
+  svg.focus .wg.on .wire { stroke-width: 6; }
+  .target { transition: r .2s; }
+
+  .steps { display: grid; gap: 10px; margin: 12px 0 0; padding: 0; list-style: none; counter-reset: s; }
+  .step { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; cursor: pointer; }
+  .step:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .step.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+  .num { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--accent); width: 1.6em; text-align: center; font-variant-numeric: tabular-nums; }
+  .step.done .num { color: var(--ok); }
+  .body { min-width: 0; }
+  .what { font-weight: 600; }
+  .conn { font-family: var(--font-mono); font-size: 13px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px; }
+  .sw { width: 22px; height: 6px; border-radius: 3px; flex: none; }
+  .hint { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .chk { width: 22px; height: 22px; accent-color: var(--ok); cursor: pointer; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  button { font: 600 13px var(--font-body); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .two { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+  .card h2 { margin-bottom: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  td.k { font-family: var(--font-mono); font-weight: 600; white-space: nowrap; }
+  .fix { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .fix b { display: block; }
+  .fix span { color: var(--muted); font-size: 14px; }
+  .warn { border-left: 4px solid var(--w-5v); padding: 10px 14px; background: var(--panel); border-radius: 0 8px 8px 0; font-size: 14px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Offline survival reference · bench setup</p>
+    <h1>Reconnect the remote, screen and Arduino</h1>
+    <p class="lede">Seven jumper wires and one USB cable. The IR receiver and the LCD screen both plug into the Arduino, and the Arduino plugs into the Pi. The Arduino still has its program on it, so nothing needs flashing.</p>
+    <ul class="kit" aria-label="What you need">
+      <li>Arduino UNO</li><li>LCD1602 with I2C backpack</li><li>IR receiver (pins G R Y)</li><li>IR remote</li>
+      <li>7 female-to-male jumper wires</li><li>USB-A to USB-B cable</li><li>Raspberry Pi 5 + its power supply</li>
+    </ul>
+  </header>
+
+  <div class="warn"><b>Keep everything unplugged while you wire.</b> Pi power off, Arduino USB cable out. Female end of each jumper goes onto the module's pin, male end into the Arduino's socket.</div>
+
+  <section class="board" aria-label="Wiring diagram">
+    <div class="board-head">
+      <h2>Wiring diagram</h2>
+      <p>Tap a step below to highlight its wire. Wire colours are suggestions; any colour works.</p>
+    </div>
+    <div class="scroll"><svg id="dia" viewBox="0 0 800 600" role="img" aria-label="Wiring: LCD and IR receiver to Arduino UNO, Arduino to Raspberry Pi by USB"></svg></div>
+  </section>
+
+  <section aria-label="Steps">
+    <div class="board-head">
+      <h2>Steps, in order</h2>
+      <div class="tools"><button id="all" type="button">Show all wires</button><button id="reset" type="button">Clear checkmarks</button></div>
+    </div>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
+  <div class="two">
+    <section class="card">
+      <h2>Using the remote</h2>
+      <table>
+        <thead><tr><th>Button</th><th>Does</th></tr></thead>
+        <tbody>
+          <tr><td class="k">2 – 9</td><td>Letters, tapped like an old phone: 2 = a b c, 3 = d e f … 9 = w x y z. Pause about a second to lock a letter in.</td></tr>
+          <tr><td class="k">OK</td><td>Lock in the current letter right away (for double letters, like “ll”)</td></tr>
+          <tr><td class="k">0</td><td>Space</td></tr>
+          <tr><td class="k">1</td><td>1 . , ? ! '</td></tr>
+          <tr><td class="k">*</td><td>Backspace</td></tr>
+          <tr><td class="k">#</td><td>Send the question to the Pi</td></tr>
+          <tr><td class="k">▼ ▲</td><td>Scroll the answer one line</td></tr>
+          <tr><td class="k">▶ ◀</td><td>Scroll the answer one screen</td></tr>
+        </tbody>
+      </table>
+      <p class="hint">Test word: <b>fire</b> = 3 3 3 · 4 4 4 · 7 7 7 · 3 3 · then #</p>
+    </section>
+
+    <section class="card">
+      <h2>If something's off</h2>
+      <ul class="fix">
+        <li><b>Screen lights up but shows no text</b><span>Turn the small blue screw on the back of the LCD slowly until letters appear. That's the contrast.</span></li>
+        <li><b>Screen stays dark</b><span>Check the LCD's VCC is on 5V and GND on GND. Swapped power wires are the usual cause.</span></li>
+        <li><b>Garbled or blank text after start-up</b><span>SDA and SCL are probably swapped: SDA goes to A4, SCL to A5.</span></li>
+        <li><b>Remote does nothing</b><span>The receiver's small LED should blink on every press. If not: pull the clear plastic tab out of the remote's battery drawer, aim at the black dome from arm's length, and check the R wire is in IOREF.</span></li>
+        <li><b>Typing works but no answer comes</b><span>Give the Pi a full minute after power-on to load. If it still says “Thinking…” forever, ask Claude to check the Pi's service.</span></li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("dia");
+  const el = (tag, attrs = {}, parent = svg, text) => {
+    const n = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+    if (text != null) n.textContent = text;
+    parent.appendChild(n);
+    return n;
+  };
+
+  // ---------- Raspberry Pi 5 ----------
+  el("rect", { x: 20, y: 40, width: 215, height: 160, rx: 10, fill: "#2f7d4a" });
+  el("circle", { cx: 95, cy: 115, r: 30, fill: "#1d2a24" });
+  el("circle", { cx: 95, cy: 115, r: 22, fill: "none", stroke: "#4a5a52", "stroke-width": 3 });
+  el("text", { x: 34, y: 62, class: "pin", style: "font-size:12px;font-weight:600" }, svg, "Raspberry Pi 5");
+  el("text", { x: 70, y: 160, class: "pin" }, svg, "cooling fan");
+  for (const y of [70, 120]) {
+    el("rect", { x: 200, y, width: 42, height: 40, rx: 3, fill: "#c9d1cd", stroke: "#8f9a95" });
+    el("rect", { x: 210, y: y + 9, width: 28, height: 8, rx: 1, fill: "#2c55a8" });
+    el("rect", { x: 210, y: y + 23, width: 28, height: 8, rx: 1, fill: "#2c55a8" });
+  }
+  el("text", { x: 247, y: 66, class: "sub" }, svg, "USB ports");
+  el("rect", { x: 40, y: 192, width: 26, height: 14, rx: 4, fill: "#c9d1cd", stroke: "#8f9a95" });
+  el("text", { x: 66, y: 232, class: "sub" }, svg, "USB-C power: plug in last");
+
+  // ---------- Arduino UNO ----------
+  const B = { x: 330, y: 200, w: 400, h: 220 };
+  el("rect", { x: B.x, y: B.y, width: B.w, height: B.h, rx: 10, fill: "#127a8a" });
+  el("rect", { x: 310, y: 230, width: 44, height: 44, rx: 3, fill: "#c9d1cd", stroke: "#8f9a95" });   // USB-B
+  el("rect", { x: 316, y: 240, width: 20, height: 24, rx: 2, fill: "#6d7873" });
+  el("rect", { x: 312, y: 352, width: 40, height: 40, rx: 4, fill: "#1a1c1b" });                       // barrel jack
+  el("rect", { x: 500, y: 300, width: 150, height: 30, rx: 2, fill: "#1a1c1b" });                      // chip
+  el("text", { x: 380, y: 318, class: "pin", style: "font-size:20px;font-weight:600" }, svg, "UNO");
+  el("text", { x: 590, y: 287, class: "pin" }, svg, "DIGITAL");
+  el("text", { x: 610, y: 351, class: "pin" }, svg, "ANALOG IN");
+  el("text", { x: 506, y: 351, class: "pin" }, svg, "POWER");
+  el("text", { x: 312, y: 193, class: "sub" }, svg, "square USB port");
+
+  const pins = {};
+  const header = (names, x0, gapAfter, y, labelDy, rot) => {
+    let x = x0;
+    names.forEach((n, i) => {
+      if (n !== null) {
+        el("rect", { x: x - 5, y: y - 5, width: 10, height: 10, fill: "#151716" });
+        el("rect", { x: x - 2, y: y - 2, width: 4, height: 4, fill: "#6f7a75" });
+        const t = el("text", { x, y: y + labelDy, class: "pin", transform: `rotate(${rot} ${x} ${y + labelDy})`, "text-anchor": "start", "dominant-baseline": "middle" }, svg, n);
+        pins[n + "@" + y] = { x, y };
+      }
+      x += 15 + (i === gapAfter ? 8 : 0);
+    });
+  };
+  // Top row, USB on the left: SCL SDA AREF GND 13 … 8 | 7 … 2 TX RX
+  header(["SCL", "SDA", "AREF", "GND", "13", "12", "~11", "~10", "~9", "8", "7", "~6", "~5", "4", "~3", "2", "TX 1", "RX 0"], 440, 9, 222, 9, 90);
+  // Bottom row: power header | analog header
+  header([null, "IOREF", "RESET", "3.3V", "5V", "GND", "GND", "VIN", "A0", "A1", "A2", "A3", "A4", "A5"], 500, 7, 400, -9, -90);
+  const P = (name, row) => pins[name + "@" + (row === "top" ? 222 : 400)];
+
+  // ---------- LCD1602 + backpack ----------
+  el("rect", { x: 40, y: 462, width: 240, height: 108, rx: 8, fill: "#1f6a4d" });
+  el("rect", { x: 58, y: 482, width: 204, height: 56, rx: 3, fill: "#8fbf3f" });
+  el("text", { x: 68, y: 504, style: "font: 600 15px var(--font-mono); fill:#203512" }, svg, "Survival ref.");
+  el("text", { x: 68, y: 526, style: "font: 600 15px var(--font-mono); fill:#203512" }, svg, "Type & press #");
+  el("text", { x: 40, y: 590, class: "sub" }, svg, "LCD1602 · its 4 pins are on the backpack, on the back");
+  const lcdPins = { GND: 482, VCC: 502, SDA: 522, SCL: 542 };
+  for (const [n, y] of Object.entries(lcdPins)) {
+    el("rect", { x: 280, y: y - 3, width: 16, height: 6, fill: "#c9a227" });
+    el("text", { x: 300, y: y + 1, class: "pinlbl", "dominant-baseline": "middle" }, svg, n);
+  }
+
+  // ---------- IR receiver ----------
+  el("rect", { x: 630, y: 40, width: 120, height: 80, rx: 6, fill: "#20262a" });
+  el("circle", { cx: 690, cy: 75, r: 20, fill: "#0b0c0d" });
+  el("ellipse", { cx: 684, cy: 68, rx: 7, ry: 5, fill: "#3a4045" });
+  el("circle", { cx: 735, cy: 54, r: 3, fill: "#e53b3b" });
+  el("text", { x: 638, y: 32, class: "lbl" }, svg, "IR receiver");
+  const irPins = { G: 660, R: 690, Y: 720 };
+  for (const [n, x] of Object.entries(irPins)) {
+    el("rect", { x: x - 3, y: 120, width: 6, height: 16, fill: "#c9a227" });
+    el("text", { x: x + 6, y: 133, class: "pinlbl" }, svg, n);
+  }
+
+  // ---------- wires (halo underneath so crossings read as over/under) ----------
+  const steps = [
+    { what: "Screen ground", from: "LCD GND", to: "Arduino GND", note: "Power row (bottom row), either of the two GND pins.", color: "--w-gnd",
+      pts: [[P("GND", "bot").x, 400], [P("GND", "bot").x, 482], [296, 482]] },
+    { what: "Screen power", from: "LCD VCC", to: "Arduino 5V", note: "Power row, just left of GND.", color: "--w-5v",
+      pts: [[P("5V", "bot").x, 400], [P("5V", "bot").x, 502], [296, 502]] },
+    { what: "Screen data", from: "LCD SDA", to: "Arduino A4", note: "Analog row, second from the right end.", color: "--w-sda",
+      pts: [[P("A4", "bot").x, 400], [P("A4", "bot").x, 522], [296, 522]] },
+    { what: "Screen clock", from: "LCD SCL", to: "Arduino A5", note: "Analog row, the very last pin.", color: "--w-scl",
+      pts: [[P("A5", "bot").x, 400], [P("A5", "bot").x, 542], [296, 542]] },
+    { what: "Receiver ground", from: "IR G", to: "Arduino GND", note: "Top row, the GND next to pin 13.", color: "--w-gnd",
+      pts: [[660, 136], [660, 160], [P("GND", "top").x, 160], [P("GND", "top").x, 222]] },
+    { what: "Receiver power", from: "IR R", to: "Arduino IOREF", note: "Power row, the first labelled pin. It also carries 5 V; the 5V socket is taken by the screen.", color: "--w-ioref",
+      pts: [[690, 136], [690, 148], [296, 148], [296, 440], [P("IOREF", "bot").x, 440], [P("IOREF", "bot").x, 400]] },
+    { what: "Receiver signal", from: "IR Y", to: "Arduino pin 2", note: "Top row, near the right end (labelled 2).", color: "--w-sig",
+      pts: [[720, 136], [720, 175], [P("2", "top").x, 175], [P("2", "top").x, 222]] },
+    { what: "Arduino to Pi", from: "Arduino square USB port", to: "any Pi USB port", note: "USB-A to USB-B cable. Any of the Pi's four USB ports works.", color: "--w-usb", usb: true },
+    { what: "Power up the Pi", from: "Pi power supply", to: "Pi USB-C port", note: "Last. Check the fan spins. After about a minute the LCD shows “Survival ref. / Type & press #”.", color: "--ok", power: true },
+    { what: "Test it", from: "remote", to: "type fire, then #", note: "3 3 3 · 4 4 4 · 7 7 7 · 3 3 · #. The LCD shows “Thinking…”, then the answer. Scroll with ▼ ▲.", color: "--accent", test: true },
+  ];
+
+  const groups = steps.map((s, i) => {
+    const g = el("g", { class: "wg", "data-i": i });
+    const col = `var(${s.color})`;
+    if (s.usb) {
+      const d = "M242 140 C 285 140, 270 252, 312 252";
+      el("path", { d, class: "halo", style: "stroke-width:16" }, g);
+      el("path", { d, class: "wire", stroke: col, style: "stroke-width:9" }, g);
+      el("text", { x: 248, y: 128, class: "sub" }, g, "USB cable");
+    } else if (s.power) {
+      el("path", { d: "M53 206 L53 250", class: "wire", stroke: col, "stroke-dasharray": "6 5" }, g);
+    } else if (s.test) {
+      el("rect", { x: 56, y: 480, width: 208, height: 60, rx: 4, fill: "none", stroke: col, "stroke-width": 3 }, g);
+    } else {
+      const pts = s.pts.map(p => p.join(",")).join(" ");
+      el("polyline", { points: pts, class: "halo" }, g);
+      el("polyline", { points: pts, class: "wire", stroke: col }, g);
+      const end = s.pts[s.pts.length - 1], start = s.pts[0];
+      const ard = s.from.startsWith("IR") ? end : start;
+      el("circle", { cx: ard[0], cy: ard[1], r: 5, fill: col, stroke: "var(--panel)", "stroke-width": 1.5, class: "target" }, g);
+    }
+    return g;
+  });
+
+  // ---------- step list ----------
+  const KEY = "survival-wiring-done";
+  let done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { done = {}; }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {} };
+
+  const list = document.getElementById("steps");
+  let active = null;
+  const focus = (i) => {
+    active = active === i ? null : i;
+    svg.classList.toggle("focus", active !== null);
+    groups.forEach((g, j) => g.classList.toggle("on", j === active));
+    [...list.children].forEach((li, j) => li.classList.toggle("on", j === active));
+  };
+  steps.forEach((s, i) => {
+    const li = document.createElement("li");
+    li.className = "step" + (done[i] ? " done" : "");
+    li.tabIndex = 0;
+    li.innerHTML = `
+      <div class="num">${i + 1}</div>
+      <div class="body">
+        <div class="what">${s.what}</div>
+        <div class="conn"><span class="sw" style="background:var(${s.color})"></span><span>${s.from}</span><span aria-hidden="true">→</span><span>${s.to}</span></div>
+        <div class="hint">${s.note}</div>
+      </div>
+      <input class="chk" type="checkbox" id="chk-${i}" aria-label="Mark step ${i + 1} done" ${done[i] ? "checked" : ""}>`;
+    li.addEventListener("click", (e) => { if (e.target.tagName !== "INPUT") focus(i); });
+    li.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); focus(i); } });
+    li.querySelector("input").addEventListener("change", (e) => {
+      done[i] = e.target.checked; li.classList.toggle("done", e.target.checked); save();
+    });
+    list.appendChild(li);
+  });
+  document.getElementById("all").addEventListener("click", () => { active = 0; focus(0); });
+  document.getElementById("reset").addEventListener("click", () => {
+    done = {}; save();
+    list.querySelectorAll("input").forEach(c => { c.checked = false; });
+    [...list.children].forEach(li => li.classList.remove("done"));
+  });
+})();
+</script>

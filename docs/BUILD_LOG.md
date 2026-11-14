@@ -400,3 +400,13 @@ Template:
 - Scope made explicit: the MIT license covers the project's own code, docs and enclosure design only. `corpus/pd/` texts are public domain (not ours to license); `corpus/free/` and `corpus/own/` are never committed.
 **Hardware/Tools used:** None.
 **Next:** Unchanged.
+
+## 2026-11-13 — Reconnection guide for the bench setup
+**Goal:** Owner disconnected every wire (IR receiver, LCD, Arduino, Pi) and needs an easy visual guide to put the Phase 5a setup back together.
+**Done:**
+- Built an interactive bench guide (docs/wiring/reconnect-guide.html, also published as a private claude.ai artifact): pin-accurate UNO header drawing, every wire colour-coded, 10 ordered steps that highlight their own wire, remote cheat sheet, troubleshooting from past sessions.
+- Wiring taken from the current sketch (scripts/ir_remote_serial.ino) and the 2026-09-18 log: LCD GND→GND, VCC→5V, SDA→A4, SCL→A5; IR G→GND (top row), R→IOREF, Y→D2; Arduino USB-B → any Pi USB-A; Pi power last. No reflash needed (sketch stays in flash).
+**Mistakes/Challenges:** None on hardware. In the drawing, bottom-row pin labels were first drawn over the pins (wrong text-anchor after rotation) — fixed before publishing.
+**Improvements/Decisions:** The guide is the reconnection reference from now on; update it when the e-ink screen or CardKB replaces the LCD/IR remote.
+**Hardware/Tools used:** None this session (guide only; owner rewires).
+**Next:** Owner rewires, powers up, tests "fire". Then the outstanding items from 2026-10-04: test arrow-key scrolling, choose the model, improve cooling (issue #8).
