@@ -410,3 +410,31 @@ Template:
 **Improvements/Decisions:** The guide is the reconnection reference from now on; update it when the e-ink screen or CardKB replaces the LCD/IR remote.
 **Hardware/Tools used:** None this session (guide only; owner rewires).
 **Next:** Owner rewires, powers up, tests "fire". Then the outstanding items from 2026-10-04: test arrow-key scrolling, choose the model, improve cooling (issue #8).
+
+## 2026-11-13 — Health check: service crash loop fixed + LEARNINGS.md introduced
+**Goal:** Owner asked whether the Pi is OK and running well. Then: create a lessons file (every error, with why and how), make it a rule in CLAUDE.md, and fix and log the problem found.
+**Done:**
+- Health check over SSH (LAN): Pi 5, idle 45 °C, `throttled=0x0`, 7.2 / 7.9 GB RAM available, SD 31% used (78 GB free), no failed units, no `-p err` journal entries in 24 h, all 6 models + index.faiss + chunks.pkl + venv + llama.cpp present.
+- **Found:** `survival-llm.service` crash-looping: 27 restarts in 9 min, `SerialException: could not open port /dev/ttyACM0` because no Arduino was attached (`lsusb` showed only root hubs). Each cycle reloaded the ~1.8 GB LLM first.
+- New **docs/LEARNINGS.md**: template, rules and index, seeded with 13 past lessons pulled from this log (L-001…L-013), plus today's L-014…L-016.
+- **CLAUDE.md** (repo + DoomsDay root copy): new mandatory item 2 (LEARNINGS.md: exact error, why, how, verification, prevention) and two working-style rules (log in LEARNINGS when something fails; search LEARNINGS before debugging). Later items renumbered 3–6.
+- **scripts/main.py:** new `wait_for_serial()`. The serial port is now opened **before** any model loads and waited for in-process (2 s polls, one log line per minute). The model load moved after the input device. `survival-llm.service` is unchanged.
+- Deployed to the Pi (scp, then restart) and measured:
+  | | Before | After (no Arduino) |
+  |---|---|---|
+  | Restarts | 27 / 9 min | 0 / 2.5 min |
+  | Temp | 51.6 °C, fan on | 46.6 °C, fan off |
+  | Load avg 1 min | 0.73 | 0.06 |
+  - Simulated port (pty → /dev/ttyACM0): found after 164 s, ready 7 s later.
+  - Owner plugged in the real Arduino Uno at 20:52:42 → ready at 20:52:57, service holding /dev/ttyACM0. After: 45.0 °C, `throttled=0x0`, 4.8 GB RAM available with the model loaded.
+**Mistakes/Challenges:**
+- `ssh pi` → `ssh: connect to host 100.123.242.97 port 22: Operation timed out`. Tailscale was stopped on the Mac (`Tailscale is stopped.`), and the Pi was fine. Used `yitbarek@raspberrypi.local` instead (L-015).
+- Root design flaw (L-014): the 2026-09-18 appliance-mode test only covered "Arduino present". With it absent, `Restart=always` retried the most expensive step (the model load) every ~19 s.
+- My first Python patch of CLAUDE.md silently skipped the working-style edit: the match string had 3-space indentation and the file uses 2. Caught by reading the result and redone with a direct edit.
+- Near miss (L-016): the fake-port test's cleanup `sudo rm -f /dev/ttyACM0` ran 2 s after the owner plugged in the real Arduino. The real node survived, but the method was unsafe.
+- Unplug-while-running still costs one restart + model reload (`SerialException: device reports readiness to read but returned no data`, NRestarts=1). Logged as a known limitation in L-014.
+**Improvements/Decisions:**
+- Wait in-process instead of tuning systemd (e.g. `RestartSec`, `ConditionPathExists`): a condition would skip the start rather than wait, and longer restart delays still reload models. Waiting before the expensive work fixes the cause. `Restart=always` stays as a safety net.
+- LEARNINGS.md is separate from BUILD_LOG on purpose: the log is chronological, while learnings are searchable by symptom and track repeats ("Seen again").
+**Hardware/Tools used:** Pi 5 over SSH (LAN); Arduino Uno R3 (owner re-connected it during the session).
+**Next:** Owner: type a question on the IR remote to confirm end-to-end after the fix. Optional: in-process serial reconnect (L-014 limitation). Optional: `Storage=persistent` journald so crash history survives reboots (no previous-boot logs were available today).
