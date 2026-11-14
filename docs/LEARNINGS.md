@@ -61,6 +61,8 @@ How this file relates to the others:
 | L-014 | 2026-11-13 | software | Service crash-looped with the Arduino unplugged | Fixed |
 | L-015 | 2026-11-13 | ops | `ssh pi` timed out: Tailscale off on the Mac | Workaround |
 | L-016 | 2026-11-13 | tooling | Fake-port test could have deleted the real device node | Fixed (method) |
+| L-017 | 2026-11-13 | hardware | "Remote not writing anything" after rewiring | Resolved (cause unconfirmed) |
+| L-018 | 2026-11-13 | software | Journal never shows questions/answers (stdout buffered) | Open |
 
 ---
 
@@ -233,3 +235,26 @@ How this file relates to the others:
 - **How:** Nothing was broken. For future tests, don't put fakes at real `/dev` paths. Either point `SERIAL_PORT` at a pty path for the test run, or delete only if it's still our symlink (`[ -L /dev/ttyACM0 ] && rm`).
 - **Prevention / lesson:** Never `rm -f` a path that the system or a user can recreate as something real. Check that it is still your file first. Also tell the owner before simulating hardware they might be handling at the same time.
 - **Links:** BUILD_LOG 2026-11-13
+
+### L-017 — "Remote not writing anything" after rewiring
+- **Date:** 2026-11-13   **Area:** hardware
+- **Status:** Resolved, cause unconfirmed   **Severity:** device-down (input)
+- **Symptom:** After rewiring the whole bench, the owner reported that the remote was "not writing anything". The service had been ready and holding `/dev/ttyACM0` since 20:53:03, and no question line reached the Pi between then and 20:55.
+- **Diagnostics so far:**
+  - Paused the service and opened the port directly from the Pi (20:55:44). Sent a 32-character test line to the LCD, then listened for 180 s.
+  - Received `^U` (▲) at 20:55:58 and `bd` + newline (a typed question sent with `#`) at 20:56:08. So the remote, IR receiver, sketch and serial link to the Pi were all working at that point.
+- **Why:** Unknown. Suspected (to confirm with the owner's observations of the LCD and the "L" LED): a loose IR or LCD jumper that settled during handling, typing never being sent with `#` (the Pi only sees whole questions and arrows), or the LCD not showing typing (contrast or I2C wiring).
+- **Observability gap found:** the Pi can't see letters until `#` is pressed, and main.py ignores arrows when there's no answer to scroll, without logging them. "Nothing arrived" therefore can't be told apart from "keys arrived but weren't logged". Possible fix: log every received serial line (including arrows) to the journal.
+- **How (fix):** No change was made on the Pi side. It worked from the diagnostic run onwards (20:55), and the owner confirmed "Yes, it works" with the service running after 20:58:57. The service process then used about 5 min of CPU time (answering) and the SoC reached 76.8 °C. The exact cause wasn't pinned down; the likeliest is a jumper that settled or a question not sent with `#`.
+- **Verified by:** Raw serial capture (`^U`, `bd`) plus the owner's confirmation.
+- **Prevention / lesson:** After any rewiring, run the raw serial capture first. It splits "Arduino/IR side" from "Pi side" in one minute. Note that the journal could not confirm what happened, because of L-018.
+- **Links:** BUILD_LOG 2026-11-13, L-018
+
+### L-018 — Journal never shows questions/answers (stdout buffered)
+- **Date:** 2026-11-13   **Area:** software
+- **Status:** Open   **Severity:** degraded (no flight recorder)
+- **Symptom:** The owner asked questions successfully after 20:58:57, but `journalctl -u survival-llm` showed no `> question`, no answer and no `llama_perf` lines. Only output from before the first `flush=True` ever appeared.
+- **Why:** When Python's stdout goes to a pipe (systemd → journal) rather than a terminal, Python buffers output in large blocks. The unit sets no `PYTHONUNBUFFERED`, and most `print()` calls in main.py don't flush. Questions and answers therefore stay in memory, and a crash or power loss loses them. The 2026-09-18 decision ("journalctl is the device's flight recorder") silently doesn't work for most output.
+- **How (fix):** Proposed: add `Environment=PYTHONUNBUFFERED=1` to `scripts/survival-llm.service` (or run `python -u`), reinstall, restart, then confirm a question appears in the journal within a second.
+- **Prevention / lesson:** For any long-running service, check that its logs appear live (`journalctl -f` while exercising it), not just at startup.
+- **Links:** BUILD_LOG 2026-11-13, L-017

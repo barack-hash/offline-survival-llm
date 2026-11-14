@@ -438,3 +438,17 @@ Template:
 - LEARNINGS.md is separate from BUILD_LOG on purpose: the log is chronological, while learnings are searchable by symptom and track repeats ("Seen again").
 **Hardware/Tools used:** Pi 5 over SSH (LAN); Arduino Uno R3 (owner re-connected it during the session).
 **Next:** Owner: type a question on the IR remote to confirm end-to-end after the fix. Optional: in-process serial reconnect (L-014 limitation). Optional: `Storage=persistent` journald so crash history survives reboots (no previous-boot logs were available today).
+
+## 2026-11-13 (cont.) — Remote "not writing anything" after rewiring
+**Goal:** Owner reported that the IR remote wasn't typing after reconnecting the bench.
+**Done:**
+- Journal showed no question since the service became ready (20:53:03).
+- Paused the service and ran a raw serial capture from the Pi (180 s). Sent an LCD test line and received `^U` at 20:55:58 and the question `bd` at 20:56:08. That proves the remote, IR receiver, sketch and USB link all work. Service restarted and was ready at 20:58:57.
+- Owner confirmed: "Yes, it works". The process then used ~5 min CPU answering, the SoC reached 76.8 °C, and `throttled=0x0`.
+- LEARNINGS: L-017 (resolved, cause unconfirmed) and L-018 (open: journal output buffered).
+**Mistakes/Challenges:**
+- Couldn't see what the owner typed: letters stay on the Arduino until `#`, unscrolled arrows aren't logged, and (L-018) stdout to the journal is block-buffered, so even answered questions never showed up. The device's "flight recorder" has been mostly empty since 2026-09-18 without anyone noticing.
+**Improvements/Decisions:**
+- Raw serial capture is now the first diagnostic after any rewiring (recorded in L-017).
+**Hardware/Tools used:** Arduino Uno R3, IR receiver + remote, LCD1602 (I2C): the owner's rewired bench.
+**Next:** Fix L-018 (`PYTHONUNBUFFERED=1` in the unit). Then the speed work: stream answers to the LCD, and Gemma 4 E2B. Each change measured separately.
