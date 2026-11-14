@@ -14,6 +14,10 @@ Type=simple
 User=yitbarek
 WorkingDirectory=/home/yitbarek/offline-survival-llm
 ExecStart=/home/yitbarek/offline-survival-llm/venv/bin/python scripts/main.py
+# Write output to the journal immediately. Without this, Python buffers stdout
+# when it isn't a terminal, so questions/answers never reached the journal
+# and would be lost on a crash (LEARNINGS L-018).
+Environment=PYTHONUNBUFFERED=1
 # If the Arduino isn't enumerated yet at boot (or gets unplugged),
 # main.py exits on the serial open — keep retrying until it's there.
 Restart=always
