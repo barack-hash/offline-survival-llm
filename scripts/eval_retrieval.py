@@ -11,9 +11,11 @@ Built for issue #4 (query-phrasing sensitivity). Run before and after
 any retrieval change; paste both scores into the BUILD_LOG entry.
 """
 
+import re
+
 from sentence_transformers import SentenceTransformer
 
-from main import load_index, retrieve, TOP_K
+from main import load_index, retrieve, select_passages, load_reranker, TOP_K, RERANK_POOL
 
 # (query, source file that must appear in top TOP_K)
 CASES = [
@@ -60,13 +62,97 @@ CASES = [
 ]
 
 
+# Passage-level expectations (added 2026-11-14, LEARNINGS L-022): finding the
+# right *book* is not enough — the passage that actually holds the answer
+# must rank high. A retrieved passage counts as the answer passage when it
+# comes from the expected source AND matches this pattern (case-insensitive).
+ANSWER_PATTERNS = {
+    "How do I start a fire when all the wood around me is wet?": r"tepee|wet wood|damp",
+    "How can I make dirty water from a river safe to drink?": r"purif|boil",
+    "What kind of shelter should I build to stay warm in a cold forest?": r"ridgepole|lean-to|debris hut|tree-pit|snow cave",
+    "How can I tell if a wild plant is safe to eat?": r"edibility test",
+    "How should I clean and cover a deep cut so it does not get infected?": r"(wash|clean)\w*.{0,60}(wound|cut)",
+    "How do I take out a tooth that is badly infected?": r"take out a tooth|extract",
+    "How deep should I plant large seeds like beans compared to small seeds?": r"depth|deep",
+    "How do I harden the edge of a knife I forged so it stays sharp?": r"cherry red|knife|blade",
+    "What is the correct dose of aspirin for an adult with fever?": r"aspirin.{0,300}(mg|tablet)",
+    "how to temper a steel blade after forging it": r"temper",
+    "how do I weld two pieces of iron together in a forge": r"weld",
+    "my tooth hurts and my gums are swollen, what do I do": r"abscess|swollen|gum",
+    "when should seedlings be moved from the seed bed to the field": r"transplant",
+    "what should the soil be like before sowing seeds": r"seed.?bed|mellow|fine",
+    "how to treat a snake bite": r"snake ?bite",
+    "signs that a person is dehydrated and how to rehydrate them": r"dehydrat",
+    "what knot should I use to join two ropes of different sizes": r"sheet bend|becket|weaver",
+    "how do I splice the ends of a rope together so it holds": r"splice",
+    "how can I find my latitude using the sun or stars": r"latitude",
+    "how do I use a compass and correct for its errors when navigating": r"deviation|variation",
+    "how is soap made from fat and lye": r"soap",
+    "how can I make lime by burning limestone and what is it good for": r"lime",
+    "how should I carry a wounded person who cannot walk": r"carr(y|ied|ying)|litter|stretcher",
+    "what should I do for a sucking chest wound": r"chest",
+    "how do I can vegetables so they keep through the winter": r"vegetable",
+    "what is the cold-pack method of canning food": r"cold.?pack",
+    "how can I build a windmill to generate power": r"dynamo|generat|electric",
+    "what size windmill do I need to pump water": r"pump",
+    "what joint should I use to join two boards at a corner": r"corner|mitre|miter|dovetail",
+    "how do I cut a mortise and tenon joint": r"mortise",
+    "how can I make a simple electric battery at home": r"\bcells?\b|battery",
+    "how do I wind a coil to make an electromagnet": r"electro.?magnet|coil",
+    "how do I build a simple radio receiver": r"receiv",
+    "what kind of antenna do I need to receive radio signals": r"antenna|aerial",
+}
+
+
+def is_answer_passage(chunk, expected_source, query):
+    pat = ANSWER_PATTERNS.get(query)
+    return (chunk["source"] == expected_source and pat is not None
+            and re.search(pat, chunk["text"], re.I | re.S) is not None)
+
+
+def passage_rank(retrieved, expected_source, query):
+    """1-based rank of the first answer passage, or None."""
+    for i, c in enumerate(retrieved, 1):
+        if is_answer_passage(c, expected_source, query):
+            return i
+    return None
+
+
+def passage_report(retrieve_fn, embedder, index, chunks, depth=10, verbose=True):
+    """Passage hit@1..4 and MRR@depth for any retrieve function."""
+    ranks = []
+    for q, expected in CASES:
+        rank = passage_rank(retrieve_fn(q, embedder, index, chunks, k=depth), expected, q)
+        ranks.append(rank)
+        if verbose:
+            print(f"  rank {rank if rank else '>' + str(depth):>4}  {q}")
+    n = len(CASES)
+    for k in (1, 2, 3, 4):
+        print(f"passage hit@{k}: {sum(1 for r in ranks if r and r <= k)}/{n}")
+    print(f"passage MRR@{depth}: {sum(1 / r for r in ranks if r) / n:.3f}")
+    return ranks
+
+
+def select_passages_ranked(q, embedder, index, chunks, reranker, k):
+    """Same ordering as select_passages, but returns k passages so the
+    rank of the answer passage beyond TOP_K is visible."""
+    import main as m
+    saved = m.TOP_K
+    try:
+        m.TOP_K = k
+        return m.select_passages(q, embedder, index, chunks, reranker)
+    finally:
+        m.TOP_K = saved
+
+
 def main():
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
+    reranker = load_reranker()
     index, chunks = load_index()
 
     hits = 0
     for q, expected in CASES:
-        retrieved = retrieve(q, embedder, index, chunks, k=TOP_K)
+        retrieved = select_passages(q, embedder, index, chunks, reranker)
         sources = [r["source"] for r in retrieved]
         hit = expected in sources
         hits += hit
@@ -74,6 +160,16 @@ def main():
         print(f"[{mark}] {q[:60]:<60} want={expected.split('.')[0][:28]:<28} got={sorted(set(sources))}")
 
     print(f"\nhit@{TOP_K}: {hits}/{len(CASES)} = {hits/len(CASES):.0%}")
+
+    print("\nPassage-level, hybrid only (no rerank), for comparison:")
+    passage_report(retrieve, embedder, index, chunks, verbose=False)
+
+    # What the device actually uses: rerank the top RERANK_POOL (critical
+    # questions bypass reranking inside select_passages).
+    def device_order(q, e, ix, ch, k):
+        return select_passages_ranked(q, e, ix, ch, reranker, k)
+    print(f"\nPassage-level, device path (rerank top {RERANK_POOL}):")
+    passage_report(device_order, embedder, index, chunks)
 
 
 if __name__ == "__main__":
