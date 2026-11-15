@@ -72,6 +72,7 @@ How this file relates to the others:
 | L-025 | 2026-11-14 | tooling | Background rebuild never started; waited 9 min for it | Fixed (method) |
 | L-026 | 2026-11-14 | corpus | More FM 21-76 figures are OCR garbage (water, signals) | In progress |
 | L-027 | 2026-11-15 | tooling | Index backup overwritten by reusing a dated backup folder | Fixed (method) |
+| L-028 | 2026-11-15 | docs | Wiring guide hid the LCD pin labels under the wires | Fixed |
 
 ---
 
@@ -385,4 +386,14 @@ How this file relates to the others:
 - **Why:** A copy-paste of the earlier backup line, aimed at a folder that already held a different, older backup.
 - **How:** No restore needed: the index is fully rebuildable from the committed corpus with `rag_build.py`, and the Sep 16 → Nov 14 difference was a single added file. Both backup folders now hold the 6,140-chunk index.
 - **Prevention / lesson:** Backups go into a new folder named with date **and time**, never into an existing one. Make the copy no-clobber (`cp -n`) so a mistake fails loudly instead of overwriting.
+- **Links:** BUILD_LOG 2026-11-15
+
+### L-028 — Wiring guide hid the LCD pin labels under the wires
+- **Date:** 2026-11-15   **Area:** docs (hardware guide)
+- **Status:** Fixed   **Severity:** degraded (could cause a mis-wire, e.g. swapped GND/VCC)
+- **Symptom:** Owner: "the lcd pins gnd, vcc are not showing in the html wiring diagram". In docs/wiring/reconnect-guide.html the LCD labels GND/VCC/SDA/SCL were invisible.
+- **Why:** The labels were drawn at x=300, just right of the pin stubs (x 280–296). The four LCD wires start at x=296 at the same y values and run right along those rows. Wires are drawn **after** the labels with a 10 px panel-coloured halo, which painted over the text. The IR receiver's labels survived because its wires leave downwards.
+- **How:** Narrowed the LCD screen graphic (204 → 168 px wide) and moved the labels onto the board, right-aligned at x=274, left of the pins, in light text (the old `--fg` colour would have been dark-on-green in light mode). The "test it" highlight box was resized to match. The published artifact (claude.ai/artifact/LdsT98esL2tDxtSdYSRY1c) was republished as version 2.
+- **Verified by:** In the browser, all four label boxes sit at x 254–274, clear of both the screen (ends at x 226) and the wires (start at x 296), with computed fill rgb(241, 246, 244). The screen text still fits (ends at x 194). A screenshot shows GND/VCC/SDA/SCL next to their pins.
+- **Prevention / lesson:** In layered SVG, anything drawn later wins. Put labels where no later layer goes (or draw labels last), and check a diagram by actually looking at it after rendering, not only from the code. The guide's own publish step had a similar overlap bug (bottom-row labels) that was caught then; this one slipped through.
 - **Links:** BUILD_LOG 2026-11-15

@@ -213,14 +213,17 @@
 
   // ---------- LCD1602 + backpack ----------
   el("rect", { x: 40, y: 462, width: 240, height: 108, rx: 8, fill: "#1f6a4d" });
-  el("rect", { x: 58, y: 482, width: 204, height: 56, rx: 3, fill: "#8fbf3f" });
+  el("rect", { x: 58, y: 482, width: 168, height: 56, rx: 3, fill: "#8fbf3f" });   // narrower: leaves room for pin labels
   el("text", { x: 68, y: 504, style: "font: 600 15px var(--font-mono); fill:#203512" }, svg, "Survival ref.");
   el("text", { x: 68, y: 526, style: "font: 600 15px var(--font-mono); fill:#203512" }, svg, "Type & press #");
   el("text", { x: 40, y: 590, class: "sub" }, svg, "LCD1602 · its 4 pins are on the backpack, on the back");
   const lcdPins = { GND: 482, VCC: 502, SDA: 522, SCL: 542 };
   for (const [n, y] of Object.entries(lcdPins)) {
     el("rect", { x: 280, y: y - 3, width: 16, height: 6, fill: "#c9a227" });
-    el("text", { x: 300, y: y + 1, class: "pinlbl", "dominant-baseline": "middle" }, svg, n);
+    // Label sits ON the board, left of the pin. It used to be at x=300, where the
+    // wires start (x=296) — their halo painted over GND/VCC/SDA/SCL.
+    el("text", { x: 274, y: y + 1, class: "pin", "text-anchor": "end", "dominant-baseline": "middle",
+                 style: "font-size:11px;font-weight:600" }, svg, n);
   }
 
   // ---------- IR receiver ----------
@@ -267,7 +270,7 @@
     } else if (s.power) {
       el("path", { d: "M53 206 L53 250", class: "wire", stroke: col, "stroke-dasharray": "6 5" }, g);
     } else if (s.test) {
-      el("rect", { x: 56, y: 480, width: 208, height: 60, rx: 4, fill: "none", stroke: col, "stroke-width": 3 }, g);
+      el("rect", { x: 56, y: 480, width: 172, height: 60, rx: 4, fill: "none", stroke: col, "stroke-width": 3 }, g);
     } else {
       const pts = s.pts.map(p => p.join(",")).join(" ");
       el("polyline", { points: pts, class: "halo" }, g);

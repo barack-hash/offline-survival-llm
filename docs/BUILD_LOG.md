@@ -614,3 +614,15 @@ Template:
 - New finding (L-026): the PDF has a clean text layer for body text, so FM 21-76 could be re-extracted from it to replace the OCR file altogether. Separate future change.
 **Hardware/Tools used:** Owner's Mac (download, rendering). Pi unreachable.
 **Next:** Owner turns Tailscale on (Mac). Then: confirm/redo the rebuild on the Pi, run eval_retrieval, test seawater / desert-water / ground-signal answers, and deploy if they hold. Remove the 4 scp'd files before `git pull` (L-024).
+
+## 2026-11-15 (cont.) — Wiring guide: LCD pin labels were hidden
+**Goal:** Owner: "the lcd pins gnd, vcc are not showing in the html wiring diagram".
+**Done:**
+- Cause: the labels at x=300 sat exactly where the four LCD wires start (x=296), and the wires' halo, drawn later, covered them (L-028).
+- docs/wiring/reconnect-guide.html: LCD screen graphic 204 → 168 px; GND/VCC/SDA/SCL labels moved onto the board at x=274 (right-aligned, light text, 11 px); test highlight box resized to match.
+- Verified in the browser pane: label boxes x 254–274, clear of the screen (ends 226) and the wires (start 296); screenshot shows all four labels.
+- Republished the private artifact https://claude.ai/artifact/LdsT98esL2tDxtSdYSRY1c (version 2) so the shared link matches the repo.
+**Mistakes/Challenges:** The bug shipped in the original guide (2026-11-13) even though that session fixed a similar overlap; that check only covered the Arduino's bottom-row labels.
+**Improvements/Decisions:** Labels on the module itself (like on the real backpack) rather than out in the wiring area.
+**Hardware/Tools used:** None.
+**Next:** Unchanged: owner turns Tailscale on so the figure transcriptions can be indexed and tested on the Pi.
