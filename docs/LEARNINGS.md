@@ -70,7 +70,8 @@ How this file relates to the others:
 | L-023 | 2026-11-14 | corpus | Edible-plant answer says "taste first" (OCR-garbled figure) | Fixed (berries open) |
 | L-024 | 2026-11-14 | tooling | Test copies left in the Pi repo blocked `git pull` | Fixed (method) |
 | L-025 | 2026-11-14 | tooling | Background rebuild never started; waited 9 min for it | Fixed (method) |
-| L-026 | 2026-11-14 | corpus | More FM 21-76 figures are OCR garbage (water, signals) | Open |
+| L-026 | 2026-11-14 | corpus | More FM 21-76 figures are OCR garbage (water, signals) | In progress |
+| L-027 | 2026-11-15 | tooling | Index backup overwritten by reusing a dated backup folder | Fixed (method) |
 
 ---
 
@@ -233,6 +234,7 @@ How this file relates to the others:
 - **Symptom:** `ssh: connect to host 100.123.242.97 port 22: Operation timed out`.
 - **Why:** `tailscale status` on the Mac returned "Tailscale is stopped." The `pi` SSH alias points at the Tailscale IP, so it only works while Tailscale is running on the Mac. The Pi itself was up and on the tailnet.
 - **How:** On the home network, connect directly with `ssh yitbarek@raspberrypi.local` (10.0.0.228).
+- **Seen again:** 2026-11-15, mid-task. The Mac moved to another network (`192.168.1.9`, gateway `192.168.1.1`) while an SSH command to the Pi was running. That command hung, then `raspberrypi.local` stopped resolving and `10.0.0.228` timed out, with Tailscale still stopped on the Mac. Off the home network, Tailscale on the Mac is the **only** way in, so it should stay on whenever remote work is planned.
 - **Prevention / lesson:** If `ssh pi` fails, first check `tailscale status` on **both** ends, then try `raspberrypi.local`. Don't assume the Pi is down.
 - **Links:** BUILD_LOG 2026-11-13
 
@@ -369,7 +371,18 @@ How this file relates to the others:
 - **Status:** Open   **Severity:** degraded / safety-adjacent (water)
 - **Symptom:** A corpus-wide garbage scan (`scripts/scan_ocr_garbage.py`, 6,140 passages, 42 flagged, all reviewed by hand) found more figures that are unreadable, like Figure 9-5 was. Example, Fig 6-2 "effects of substitute fluids": `Is about 4 percent sart. H tshes a^>oul 2 rfer? r/ bc-^ty f.ui:^^`. Example, Fig 13-2 water-needs graph: `water requirements … will be approximately ?5 liters`.
 - **Why:** archive.org's OCR handles running text well but fails on figures, tables and graphs. FM 21-76 puts much of its most practical content (water sources, substitute fluids, water needs, signal codes) in figures. Project Gutenberg texts are human-proofread and came out clean.
-- **How (fix):** Pending. Ranked list in docs/corpus-ocr-scan-2026-11-14.md: (1) Fig 6-2 substitute fluids, (2) Fig 6-1 water sources, (3) Fig 13-2 daily water needs, (4) Fig 19-6/19-7 ground-to-air codes. Transcribe from the scanned PDF's page images (same archive.org item), checked against the image as was done for Fig 9-5. Separately: drop ~10 index-page passages from the steel book.
+- **Progress 2026-11-15:** Downloaded the archive.org PDF (FM21-76_SurvivalManual.pdf, 3,023,620 bytes, MD5 269fbbb0264b20aafe5951749b68dfc4 = archive.org's listed MD5). Rendered pages with a PDFKit Swift script (no poppler on the Mac) and transcribed Fig 6-1 (pp. 53-55), 6-2 (p. 56), 13-2 (p. 136, graph values read by eye and marked approximate ±1 L except the 2 stated values) and 19-6/19-7 (p. 206, postures described from drawings) into 4 corpus files. Index rebuild + tests are pending; the Pi became unreachable when the Mac changed networks (L-015).
+- **Finding:** the PDF is a digital document. Body text is real text and only figures are images, so the PDF's own text layer is probably far cleaner than archive.org's OCR of it. Re-extracting FM 21-76 from the PDF text layer could replace the OCR file entirely (separate change, needs its own retrieval/answer check).
+- **How (fix):** Ranked list in docs/corpus-ocr-scan-2026-11-14.md: (1) Fig 6-2 substitute fluids, (2) Fig 6-1 water sources, (3) Fig 13-2 daily water needs, (4) Fig 19-6/19-7 ground-to-air codes. Transcribe from the scanned PDF's page images (same archive.org item), checked against the image as was done for Fig 9-5. Separately: drop ~10 index-page passages from the steel book.
 - **Verified by:** The scan found Fig 9-5 (score 0.29) unprompted, so the method catches the known case.
 - **Prevention / lesson:** Run `scan_ocr_garbage.py` after adding any OCR'd book, and review figures and tables first. Prefer human-proofread texts (Gutenberg) where an edition exists.
 - **Links:** docs/corpus-ocr-scan-2026-11-14.md, L-023, BUILD_LOG 2026-11-14
+
+### L-027 — Index backup overwritten by reusing a dated backup folder
+- **Date:** 2026-11-15   **Area:** tooling
+- **Status:** Fixed (method)   **Severity:** dev-only (recoverable)
+- **Symptom:** Before the second rebuild I ran `cp index.faiss chunks.pkl ~/index_backup_2026-11-14/` and then made `~/index_backup_2026-11-15/`. The first `cp` overwrote the 2026-11-14 backup, which held the **original** (Sep 16, 6,136-chunk) index, with the current 6,140-chunk one.
+- **Why:** A copy-paste of the earlier backup line, aimed at a folder that already held a different, older backup.
+- **How:** No restore needed: the index is fully rebuildable from the committed corpus with `rag_build.py`, and the Sep 16 → Nov 14 difference was a single added file. Both backup folders now hold the 6,140-chunk index.
+- **Prevention / lesson:** Backups go into a new folder named with date **and time**, never into an existing one. Make the copy no-clobber (`cp -n`) so a mistake fails loudly instead of overwriting.
+- **Links:** BUILD_LOG 2026-11-15

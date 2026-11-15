@@ -592,3 +592,25 @@ Template:
 - No transcriptions made from OCR alone for items 2–4: they're too garbled (or are drawings/graphs) to transcribe reliably. They need the scanned PDF's page images, which takes a download from the same archive.org item; owner to approve.
 **Hardware/Tools used:** Pi 5 (scan).
 **Next:** With owner approval: fetch the FM 21-76 scanned PDF, transcribe Fig 6-2, 6-1, 13-2, 19-6/19-7 from the page images, rebuild the index, re-run eval_retrieval + verify. Drop the steel-book index pages.
+
+## 2026-11-15 — FM 21-76 figures transcribed from the PDF (indexing pending)
+**Goal:** Owner: "Yes, download it". Transcribe the garbled FM 21-76 figures (L-026) from page images.
+**Done:**
+- Downloaded `FM21-76_SurvivalManual.pdf` from the same archive.org item into its own scratch folder: 3,023,620 bytes, MD5 269fbbb0264b20aafe5951749b68dfc4, matching archive.org's listing.
+- `pdftoppm` missing on the Mac, so pages were rendered with a small PDFKit Swift script instead of installing poppler. Located figure pages via the PDF text: 6-2 → p. 55/56, 13-2 → p. 135/136, 19-6/19-7 → p. 206.
+- New corpus files (each with a provenance header; CORPUS_SOURCES rows added):
+  - fm21-76-fig6-1-water-sources.txt: full table, frigid / at sea / beach / desert (691 words)
+  - fm21-76-fig6-2-substitute-fluids.txt: alcohol, urine (~2% salt), blood, seawater (~4% salt, ~2 L body fluid per 1 L) (171 words)
+  - fm21-76-fig13-2-daily-water-requirements.txt: 2 stated values (25 L at 50 °C hard work; 19 L at 43 °C), others read by eye and marked ±1 L, plus the 0.5 L/h below 38 °C / 1 L/h above / do-not-ration text (418 words)
+  - fm21-76-fig19-6-19-7-ground-to-air-signals.txt: V / X / N / Y / arrow with 1 m × 6 m (1:6) sizing; 11 body signals, postures described from the drawings (386 words)
+- Owner also asked to open the wiring guide: docs/wiring/reconnect-guide.html sent to the side panel.
+**Mistakes/Challenges:**
+- L-015 seen again: the Mac moved to another network mid-command (192.168.1.9), the SSH session hung, `raspberrypi.local` stopped resolving, `10.0.0.228` timed out, and Tailscale was stopped on the Mac. The rebuild launch on the Pi is unconfirmed.
+- L-027: my `cp` into the existing `~/index_backup_2026-11-14/` overwrote the original-index backup. Recoverable (index rebuildable from the corpus).
+- `timeout: command not found` on macOS when wrapping the Swift render; ran without it.
+**Improvements/Decisions:**
+- Graph values are labelled approximate rather than presented as exact figures. Only the manual's two stated numbers are exact.
+- Body-signal postures are described, not invented: captions exact, descriptions say "as drawn".
+- New finding (L-026): the PDF has a clean text layer for body text, so FM 21-76 could be re-extracted from it to replace the OCR file altogether. Separate future change.
+**Hardware/Tools used:** Owner's Mac (download, rendering). Pi unreachable.
+**Next:** Owner turns Tailscale on (Mac). Then: confirm/redo the rebuild on the Pi, run eval_retrieval, test seawater / desert-water / ground-signal answers, and deploy if they hold. Remove the 4 scp'd files before `git pull` (L-024).
