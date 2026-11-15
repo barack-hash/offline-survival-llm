@@ -1,0 +1,22 @@
+FM 21-76 US ARMY SURVIVAL MANUAL, Chapter 13 (Desert Survival), Figure 13-2: Daily water requirements for three levels of activity (page 136)
+
+[Transcription note: in the archive.org OCR text of FM 21-76 (June 1992 reprint, file fm21-76-survival-manual.txt) this figure is an image and its OCR is garbled. Transcribed 2026-11-15 from the page image of the same archive.org item's PDF (FM21-76_SurvivalManual.pdf, MD5 269fbbb0264b20aafe5951749b68dfc4). Public domain (U.S. Army work).]
+[Figure 13-2 is a GRAPH. The manual states exactly two values (marked STATED). All other values were read off the curves by eye from the page image and are APPROXIMATE, about plus or minus 1 liter.]
+
+The graph shows water needs, in liters per day, for men at three activity levels in relation to the daily mean air temperature (degrees C, 15 to 50).
+Curve A: Hard work in sun (creeping and crawling with equipment on).
+Curve B: Moderate work in sun (cleaning weapons and equipment).
+Curve C: Rest in shade.
+
+STATED in the caption: if one is doing 8 hours of hard work in the sun (curve A) when the average temperature for the day is 50 degrees C, one's water requirement for the day will be approximately 25 liters.
+STATED in the text (page 135): a person performing hard work in the sun at 43 degrees C requires 19 liters of water daily.
+
+APPROXIMATE values read from the graph (liters per day):
+At 20 degrees C: hard work in sun about 5; moderate work in sun about 4; rest in shade about 3.
+At 30 degrees C: hard work in sun about 9; moderate work in sun about 7.5; rest in shade about 6.
+At 40 degrees C: hard work in sun about 16; moderate work in sun about 13; rest in shade about 10.
+At 50 degrees C: hard work in sun about 25 (stated); moderate work in sun about 20; rest in shade about 15.
+
+Source of the graph as printed: Technical Report E-P118, Southwest Asia: Environment and Its Relationship to Military Activities, July 1959.
+
+From the same pages (text, page 136): Thirst is not a reliable guide for your need for water. A person who uses thirst as a guide will drink only two-thirds of his daily water requirement. At temperatures below 38 degrees C, drink 0.5 liter of water every hour. At temperatures above 38 degrees C, drink 1 liter of water every hour. Do not ration your water! If you try to ration water, you stand a good chance of becoming a heat casualty.

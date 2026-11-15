@@ -1,0 +1,24 @@
+FM 21-76 US ARMY SURVIVAL MANUAL, Chapter 19 (Signaling Techniques), Figure 19-6: Ground-to-air emergency code (pattern signals) and Figure 19-7: Body signals (page 206)
+
+[Transcription note: in the archive.org OCR text of FM 21-76 (June 1992 reprint, file fm21-76-survival-manual.txt) this figure is an image and its OCR is garbled. Transcribed 2026-11-15 from the page image of the same archive.org item's PDF (FM21-76_SurvivalManual.pdf, MD5 269fbbb0264b20aafe5951749b68dfc4). Public domain (U.S. Army work).]
+[Figure 19-6 symbols are simple letters/shapes and are transcribed exactly. Figure 19-7 is drawings of body positions: the captions are exact, the posture descriptions describe what each drawing shows.]
+
+GROUND-TO-AIR EMERGENCY CODE (Figure 19-6). This code is five definite, meaningful symbols. Make these symbols a minimum of 1 meter wide and 6 meters long. If you make them larger, keep the same 1:6 ratio. Ensure the signal contrasts greatly with the ground it is on. Place it in an open area easily spotted from the air.
+1. Require assistance - symbol V
+2. Require medical assistance - symbol X
+3. No or negative - symbol N
+4. Yes or affirmative - symbol Y
+5. Proceed in this direction - symbol arrow (pointing the way to go)
+
+BODY SIGNALS (Figure 19-7). When an aircraft is close enough for the pilot to see you clearly, use body movements or positions to convey a message. Captions exact; postures as drawn:
+- Can proceed shortly; wait if practicable: standing, one arm stretched straight out to the side.
+- Land here (point in direction of landing): crouching, both arms pointing forward in the direction of landing.
+- Need mechanical help or parts; long delay: standing, both arms stretched straight out to the sides.
+- All OK; do not wait: standing, one arm raised straight up.
+- Do not attempt to land here: standing, both arms raised and waved back and forth over the head.
+- Pick us up; aircraft abandoned: standing, both arms raised straight up.
+- Use drop message: leaning to one side, one arm swung in an arc toward the ground.
+- Affirmative (yes): standing, waving a cloth up and down beside the body.
+- Negative (no): standing, waving a cloth from side to side across the body.
+- Our receiver is operating: standing, both hands cupped over the ears.
+- Need medical assistance urgently: lying flat on the ground.
